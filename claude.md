@@ -4,8 +4,8 @@
 - **项目名称**: JLPT N2 学习平台
 - **开发模式**: 并行开发（Phase 1 → Phase 2-4 并行 → Phase 5 集成）
 - **GitHub 仓库**: https://github.com/yongsinfok/jlpt-n2-learning.git
-- **最后更新**: [自动更新]
-- **当前状态**: 初始化
+- **最后更新**: 2026-01-11
+- **当前状态**: Phase 1 进行中
 
 ---
 
@@ -13,7 +13,7 @@
 
 | Phase | 模块 | 分支 | 状态 | 进度 |
 |-------|------|------|------|------|
-| Phase 1 | 项目骨架 | main | ⏳ 进行中 | 0% |
+| Phase 1 | 项目骨架 | main | ⏳ 进行中 | 30% |
 | Phase 2 | 学习功能 | feature/study | ⏸️ 未开始 | 0% |
 | Phase 3 | 练习功能 | feature/practice | ⏸️ 未开始 | 0% |
 | Phase 4 | 复习统计 | feature/review-stats | ⏸️ 未开始 | 0% |
@@ -24,35 +24,35 @@
 ## Phase 1: 项目骨架 (main 分支)
 
 ### 功能清单
-- [ ] **1.1 项目初始化**
-  - [ ] 创建 Vite + React + TypeScript 项目
-  - [ ] 初始化 Git 仓库
+- [x] **1.1 项目初始化**
+  - [x] 创建 Vite + React + TypeScript 项目
+  - [x] 初始化 Git 仓库
   - [ ] 创建 README.md
-  - [ ] 推送到 GitHub
-  - 提交: [commit hash]
+  - [x] 推送到 GitHub
+  - 提交: bc558f9
 
-- [ ] **1.2 依赖安装**
-  - [ ] 安装核心依赖 (react-router-dom, zustand, dexie, papaparse)
-  - [ ] 安装 UI 依赖 (lucide-react)
-  - [ ] 安装开发依赖 (tailwindcss, typescript)
-  - 提交: [commit hash]
+- [x] **1.2 依赖安装**
+  - [x] 安装核心依赖 (react-router-dom, zustand, dexie, papaparse)
+  - [x] 安装 UI 依赖 (lucide-react)
+  - [x] 安装开发依赖 (tailwindcss, typescript)
+  - 提交: bc558f9
 
-- [ ] **1.3 Tailwind CSS 配置**
-  - [ ] 初始化 tailwind.config.js
-  - [ ] 配置 postcss.config.js
-  - [ ] 修改 src/index.css
-  - [ ] 添加自定义颜色和样式
-  - 提交: [commit hash]
+- [x] **1.3 Tailwind CSS 配置**
+  - [x] 初始化 tailwind.config.js
+  - [x] 配置 postcss.config.js
+  - [x] 修改 src/index.css
+  - [x] 添加自定义颜色和样式
+  - 提交: bc558f9
 
-- [ ] **1.4 项目结构搭建**
-  - [ ] 创建 src/components/ 目录结构
-  - [ ] 创建 src/pages/ 目录结构
-  - [ ] 创建 src/hooks/ 目录
-  - [ ] 创建 src/stores/ 目录
-  - [ ] 创建 src/utils/ 目录
-  - [ ] 创建 src/types/ 目录
-  - [ ] 创建 src/db/ 目录
-  - 提交: [commit hash]
+- [x] **1.4 项目结构搭建**
+  - [x] 创建 src/components/ 目录结构
+  - [x] 创建 src/pages/ 目录结构
+  - [x] 创建 src/hooks/ 目录
+  - [x] 创建 src/stores/ 目录
+  - [x] 创建 src/utils/ 目录
+  - [x] 创建 src/types/ 目录
+  - [x] 创建 src/db/ 目录
+  - 提交: bc558f9
 
 - [ ] **1.5 类型定义**
   - [ ] src/types/sentence.ts
@@ -126,11 +126,18 @@
 
 ### 文件清单
 
-#### 新增文件（[总数]/[预计总数]）
+#### 新增文件（3/预计总数）
 **配置文件**:
-- [ ] tailwind.config.js
-- [ ] postcss.config.js
-- [ ] vite.config.ts
+- [x] tailwind.config.js
+- [x] postcss.config.js
+- [x] vite.config.ts
+- [x] tsconfig.json
+- [x] tsconfig.node.json
+- [x] package.json
+- [x] index.html
+- [x] src/index.css
+- [x] src/main.tsx
+- [x] src/App.tsx
 
 **类型定义（0/6）**:
 - [ ] src/types/sentence.ts
@@ -188,7 +195,7 @@
 
 ### 测试记录
 
-[测试时间]: [测试内容] - [结果]
+2026-01-11: npm run dev 启动测试 - 成功 (http://localhost:5173)
 
 ### 遇到的问题
 [问题描述]
@@ -201,12 +208,13 @@
 ---
 
 ## 提交历史
-[commit hash] - [时间] - [提交信息]
+bc558f9 - 2026-01-11 - feat: 初始化项目
+676ae75 - 2026-01-10 - init: 项目初始化
 
 ---
 
 ## 重要节点
 
-- 项目创建: [日期]
-- Phase 1 开始: [日期]
+- 项目创建: 2026-01-10
+- Phase 1 开始: 2026-01-11
 - Phase 1 完成: [日期]
