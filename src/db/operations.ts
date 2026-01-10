@@ -171,8 +171,8 @@ export async function upsertDailyGoal(goal: DailyGoal): Promise<void> {
 /**
  * 更新每日目标进度
  */
-export async function updateDailyGoalProgress(date: string, updates: Partial<DailyGoal>): Promise<void> {
-  await db.dailyGoals.update(date, updates);
+export async function updateDailyGoalProgress(id: string, updates: Partial<DailyGoal>): Promise<void> {
+  await db.dailyGoals.update(id, updates);
 }
 
 // ==================== 错题本操作 ====================
@@ -188,7 +188,7 @@ export async function getAllWrongAnswers(): Promise<WrongAnswer[]> {
  * 获取未解决的错题
  */
 export async function getUnresolvedWrongAnswers(): Promise<WrongAnswer[]> {
-  return await db.wrongAnswers.where('resolved').equals(false).toArray();
+  return await db.wrongAnswers.filter(item => !item.resolved).toArray();
 }
 
 /**
@@ -258,7 +258,7 @@ export async function getAllAchievements(): Promise<Achievement[]> {
  * 获取已解锁的成就
  */
 export async function getUnlockedAchievements(): Promise<Achievement[]> {
-  return await db.achievements.where('isUnlocked').equals(true).toArray();
+  return await db.achievements.filter(item => item.isUnlocked).toArray();
 }
 
 /**

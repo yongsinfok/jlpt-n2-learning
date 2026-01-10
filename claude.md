@@ -13,7 +13,7 @@
 
 | Phase | 模块 | 分支 | 状态 | 进度 |
 |-------|------|------|------|------|
-| Phase 1 | 项目骨架 | main | ⏳ 进行中 | 30% |
+| Phase 1 | 项目骨架 | main | ⏳ 进行中 | 55% |
 | Phase 2 | 学习功能 | feature/study | ⏸️ 未开始 | 0% |
 | Phase 3 | 练习功能 | feature/practice | ⏸️ 未开始 | 0% |
 | Phase 4 | 复习统计 | feature/review-stats | ⏸️ 未开始 | 0% |
@@ -54,29 +54,29 @@
   - [x] 创建 src/db/ 目录
   - 提交: bc558f9
 
-- [ ] **1.5 类型定义**
-  - [ ] src/types/sentence.ts
-  - [ ] src/types/lesson.ts
-  - [ ] src/types/grammar.ts
-  - [ ] src/types/progress.ts
-  - [ ] src/types/quiz.ts
-  - [ ] src/types/achievement.ts
-  - [ ] 添加 index.ts 导出所有类型
-  - 提交: [commit hash]
+- [x] **1.5 类型定义**
+  - [x] src/types/sentence.ts
+  - [x] src/types/lesson.ts
+  - [x] src/types/grammar.ts
+  - [x] src/types/progress.ts
+  - [x] src/types/quiz.ts
+  - [x] src/types/achievement.ts
+  - [x] 添加 index.ts 导出所有类型
+  - 提交: bafbe32
 
-- [ ] **1.6 IndexedDB 配置**
-  - [ ] src/db/schema.ts (Dexie 配置)
-  - [ ] 定义 8 张表的 Schema
+- [x] **1.6 IndexedDB 配置**
+  - [x] src/db/schema.ts (Dexie 配置)
+  - [x] 定义 8 张表的 Schema
   - [ ] 测试数据库连接
-  - 提交: [commit hash]
+  - 提交: bafbe32
 
-- [ ] **1.7 CSV 解析器**
-  - [ ] src/utils/csvParser.ts
-  - [ ] 实现 loadCSVData() 函数
-  - [ ] 实现 generateLessonsAndGrammar() 函数
-  - [ ] 实现 initializeUserProgress() 函数
-  - [ ] 实现 initializeAchievements() 函数
-  - 提交: [commit hash]
+- [x] **1.7 CSV 解析器**
+  - [x] src/utils/csvParser.ts
+  - [x] 实现 loadCSVData() 函数
+  - [x] 实现 generateLessonsAndGrammar() 函数
+  - [x] 实现 initializeUserProgress() 函数
+  - [x] 实现 initializeAchievements() 函数
+  - 提交: bafbe32
 
 - [ ] **1.8 路由配置**
   - [ ] src/router.tsx
@@ -126,7 +126,7 @@
 
 ### 文件清单
 
-#### 新增文件（3/预计总数）
+#### 新增文件（20/预计总数）
 **配置文件**:
 - [x] tailwind.config.js
 - [x] postcss.config.js
@@ -139,24 +139,26 @@
 - [x] src/main.tsx
 - [x] src/App.tsx
 
-**类型定义（0/6）**:
-- [ ] src/types/sentence.ts
-- [ ] src/types/lesson.ts
-- [ ] src/types/grammar.ts
-- [ ] src/types/progress.ts
-- [ ] src/types/quiz.ts
-- [ ] src/types/achievement.ts
+**类型定义（8/8）**:
+- [x] src/types/sentence.ts
+- [x] src/types/lesson.ts
+- [x] src/types/grammar.ts
+- [x] src/types/progress.ts
+- [x] src/types/quiz.ts
+- [x] src/types/achievement.ts
+- [x] src/types/wrongAnswer.ts
+- [x] src/types/index.ts
 
-**数据库（0/2）**:
-- [ ] src/db/schema.ts
-- [ ] src/db/operations.ts
+**数据库（2/2）**:
+- [x] src/db/schema.ts
+- [x] src/db/operations.ts
 
-**工具函数（0/5）**:
-- [ ] src/utils/csvParser.ts
-- [ ] src/utils/constants.ts
-- [ ] src/utils/reviewAlgorithm.ts
-- [ ] src/utils/quizGenerator.ts
-- [ ] src/utils/dateHelper.ts
+**工具函数（5/5）**:
+- [x] src/utils/csvParser.ts
+- [x] src/utils/constants.ts
+- [x] src/utils/reviewAlgorithm.ts
+- [x] src/utils/quizGenerator.ts
+- [x] src/utils/dateHelper.ts
 
 **路由（0/1）**:
 - [ ] src/router.tsx
@@ -208,6 +210,7 @@
 ---
 
 ## 提交历史
+bafbe32 - 2026-01-11 - feat: 添加类型定义和数据库配置
 bc558f9 - 2026-01-11 - feat: 初始化项目
 676ae75 - 2026-01-10 - init: 项目初始化
 
