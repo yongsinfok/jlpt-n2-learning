@@ -13,7 +13,7 @@
 
 | Phase | 模块 | 分支 | 状态 | 进度 |
 |-------|------|------|------|------|
-| Phase 1 | 项目骨架 | main | ⏳ 进行中 | 55% |
+| Phase 1 | 项目骨架 | main | ⏳ 进行中 | 90% |
 | Phase 2 | 学习功能 | feature/study | ⏸️ 未开始 | 0% |
 | Phase 3 | 练习功能 | feature/practice | ⏸️ 未开始 | 0% |
 | Phase 4 | 复习统计 | feature/review-stats | ⏸️ 未开始 | 0% |
@@ -78,37 +78,37 @@
   - [x] 实现 initializeAchievements() 函数
   - 提交: bafbe32
 
-- [ ] **1.8 路由配置**
-  - [ ] src/router.tsx
-  - [ ] 配置所有页面路由
-  - [ ] 测试路由跳转
-  - 提交: [commit hash]
+- [x] **1.8 路由配置**
+  - [x] src/router.tsx
+  - [x] 配置所有页面路由
+  - [x] 测试路由跳转
+  - 提交: bcfa7bd
 
-- [ ] **1.9 基础 Stores**
-  - [ ] src/stores/userStore.ts (骨架)
-  - [ ] src/stores/studyStore.ts (骨架)
-  - [ ] src/stores/quizStore.ts (骨架)
-  - [ ] src/stores/settingsStore.ts (骨架)
-  - 提交: [commit hash]
+- [x] **1.9 基础 Stores**
+  - [x] src/stores/userStore.ts (骨架)
+  - [x] src/stores/studyStore.ts (骨架)
+  - [x] src/stores/quizStore.ts (骨架)
+  - [x] src/stores/settingsStore.ts (骨架)
+  - 提交: bcfa7bd
 
-- [ ] **1.10 通用 UI 组件**
-  - [ ] src/components/common/Button.tsx
-  - [ ] src/components/common/ProgressBar.tsx
-  - [ ] src/components/common/Modal.tsx
-  - [ ] src/components/common/LoadingSpinner.tsx
-  - [ ] src/components/common/EmptyState.tsx
-  - 提交: [commit hash]
+- [x] **1.10 通用 UI 组件**
+  - [x] src/components/common/Button.tsx
+  - [x] src/components/common/ProgressBar.tsx
+  - [x] src/components/common/Modal.tsx
+  - [x] src/components/common/LoadingSpinner.tsx
+  - [x] src/components/common/EmptyState.tsx
+  - 提交: bcfa7bd
 
-- [ ] **1.11 页面占位组件**
-  - [ ] 创建所有 pages/*.tsx 空组件
-  - [ ] 创建所有 components/**/*.tsx 空组件
-  - 提交: [commit hash]
+- [x] **1.11 页面占位组件**
+  - [x] 创建所有 pages/*.tsx 空组件 (13个)
+  - [x] 创建所有 components/**/*.tsx 空组件
+  - 提交: bcfa7bd
 
-- [ ] **1.12 App.tsx 和 main.tsx**
-  - [ ] 实现 App.tsx (数据加载逻辑)
-  - [ ] 实现 main.tsx (路由注入)
-  - [ ] 添加 Header 和 Footer 组件
-  - 提交: [commit hash]
+- [x] **1.12 App.tsx 和 main.tsx**
+  - [x] 实现 App.tsx (数据加载逻辑)
+  - [x] 实现 main.tsx (路由注入)
+  - [x] 添加 Header 和 Footer 组件
+  - 提交: bcfa7bd
 
 - [ ] **1.13 数据文件配置**
   - [ ] 复制 notes.csv 到 public/data/
@@ -126,7 +126,7 @@
 
 ### 文件清单
 
-#### 新增文件（20/预计总数）
+#### 新增文件（53/预计总数）
 **配置文件**:
 - [x] tailwind.config.js
 - [x] postcss.config.js
@@ -153,21 +153,22 @@
 - [x] src/db/schema.ts
 - [x] src/db/operations.ts
 
-**工具函数（5/5）**:
+**工具函数（6/6）**:
 - [x] src/utils/csvParser.ts
 - [x] src/utils/constants.ts
 - [x] src/utils/reviewAlgorithm.ts
 - [x] src/utils/quizGenerator.ts
 - [x] src/utils/dateHelper.ts
+- [x] src/utils/cn.ts
 
-**路由（0/1）**:
-- [ ] src/router.tsx
+**路由（1/1）**:
+- [x] src/router.tsx
 
-**Stores（0/4）**:
-- [ ] src/stores/userStore.ts
-- [ ] src/stores/studyStore.ts
-- [ ] src/stores/quizStore.ts
-- [ ] src/stores/settingsStore.ts
+**Stores（4/4）**:
+- [x] src/stores/userStore.ts
+- [x] src/stores/studyStore.ts
+- [x] src/stores/quizStore.ts
+- [x] src/stores/settingsStore.ts
 
 **Hooks（0/6）**:
 - [ ] src/hooks/useAudio.ts
@@ -177,27 +178,41 @@
 - [ ] src/hooks/useQuiz.ts
 - [ ] src/hooks/useIndexedDB.ts
 
-**通用组件（0/5）**:
-- [ ] src/components/common/Button.tsx
-- [ ] src/components/common/ProgressBar.tsx
-- [ ] src/components/common/Modal.tsx
-- [ ] src/components/common/LoadingSpinner.tsx
-- [ ] src/components/common/EmptyState.tsx
+**通用组件（5/5）**:
+- [x] src/components/common/Button.tsx
+- [x] src/components/common/ProgressBar.tsx
+- [x] src/components/common/Modal.tsx
+- [x] src/components/common/LoadingSpinner.tsx
+- [x] src/components/common/EmptyState.tsx
 
-**布局组件（0/3）**:
-- [ ] src/components/layout/Header.tsx
-- [ ] src/components/layout/Footer.tsx
+**布局组件（2/3）**:
+- [x] src/components/layout/Header.tsx
+- [x] src/components/layout/Footer.tsx
 - [ ] src/components/layout/Sidebar.tsx
 
 **学习组件（0/5）**: 空占位
 **练习组件（0/4）**: 空占位
 **进度组件（0/6）**: 空占位
 
-**页面（0/13）**: 空占位
+**页面（13/13）**: 空占位
+- [x] src/pages/HomePage.tsx
+- [x] src/pages/OnboardingPage.tsx
+- [x] src/pages/LessonListPage.tsx
+- [x] src/pages/LessonDetailPage.tsx
+- [x] src/pages/StudyPage.tsx
+- [x] src/pages/GrammarDetailPage.tsx
+- [x] src/pages/PracticePage.tsx
+- [x] src/pages/QuizPage.tsx
+- [x] src/pages/ReviewPage.tsx
+- [x] src/pages/ProgressPage.tsx
+- [x] src/pages/WrongAnswersPage.tsx
+- [x] src/pages/AchievementsPage.tsx
+- [x] src/pages/SettingsPage.tsx
 
 ### 测试记录
 
 2026-01-11: npm run dev 启动测试 - 成功 (http://localhost:5173)
+2026-01-11: npm run build 构建测试 - 成功
 
 ### 遇到的问题
 [问题描述]
@@ -210,6 +225,7 @@
 ---
 
 ## 提交历史
+bcfa7bd - 2026-01-11 - feat: 添加路由配置、Stores、通用组件和页面占位
 bafbe32 - 2026-01-11 - feat: 添加类型定义和数据库配置
 bc558f9 - 2026-01-11 - feat: 初始化项目
 676ae75 - 2026-01-10 - init: 项目初始化

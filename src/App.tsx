@@ -1,32 +1,86 @@
+/**
+ * 应用根组件
+ * 负责数据加载和全局状态初始化
+ */
+
+import { useEffect, useState } from 'react';
+import { useUserStore } from './stores/userStore';
+import { initDatabase } from './db/schema';
+import { loadCSVData } from './utils/csvParser';
+import { LoadingSpinner } from './components/common/LoadingSpinner';
+import { AppRouter } from './router';
+import { ROUTES } from './utils/constants';
+import { useNavigate } from 'react-router-dom';
+
+/**
+ * App 组件
+ */
 function App() {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold text-gray-900">JLPT N2 学习平台</h1>
-          <p className="text-sm text-gray-600 mt-1">系统化学习日语 N2 语法</p>
-        </div>
-      </header>
+  const navigate = useNavigate();
+  const { isFirstVisit, markVisited } = useUserStore();
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-xl shadow-md p-8 text-center">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            项目初始化完成！
-          </h2>
-          <p className="text-gray-600">
-            Phase 1: 项目骨架搭建中...
-          </p>
-        </div>
-      </main>
+  useEffect(() => {
+    async function initializeApp() {
+      try {
+        // 1. 初始化数据库
+        await initDatabase();
 
-      <footer className="bg-white border-t mt-auto">
-        <div className="max-w-7xl mx-auto px-4 py-4 text-center text-sm text-gray-600">
-          <p>本网站使用的学习数据来自 shin-kanzen N2 grammar 项目</p>
-          <p>数据许可: CC BY-NC 4.0 | 仅供个人学习使用，严禁商业用途</p>
+        // 2. 加载 CSV 数据
+        await loadCSVData();
+
+        // 3. 检查是否首次访问
+        if (isFirstVisit) {
+          markVisited();
+          navigate(ROUTES.ONBOARDING);
+        }
+
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to initialize app:', error);
+        setLoadError(error instanceof Error ? error.message : '未知错误');
+        setIsLoading(false);
+      }
+    }
+
+    initializeApp();
+  }, [isFirstVisit, markVisited, navigate]);
+
+  // 加载状态
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <LoadingSpinner size="lg" text="正在加载学习数据..." />
+      </div>
+    );
+  }
+
+  // 加载错误
+  if (loadError) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
+          <div className="text-red-500 mb-4">
+            <svg className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">加载失败</h2>
+          <p className="text-gray-600 mb-6">{loadError}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-lg font-medium"
+          >
+            重新加载
+          </button>
         </div>
-      </footer>
-    </div>
-  )
+      </div>
+    );
+  }
+
+  // 应用就绪
+  return <AppRouter />;
 }
 
-export default App
+export default App;
