@@ -5,7 +5,7 @@
 - **负责人**: Claude Code #3
 - **依赖**: Phase 1 必须完成
 - **最后更新**: [自动更新]
-- **当前状态**: ⏳ 进行中
+- **当前状态**: ✅ 已完成
 
 ---
 
@@ -41,56 +41,56 @@
 - 提交: [commit hash]
 
 ### 4.5 HomePage (src/pages/HomePage.tsx)
-- [ ] 页面布局
-- [ ] 显示连续学习天数
-- [ ] 显示今日学习建议
-- [ ] 显示今日目标
-- [ ] 显示复习提醒
-- [ ] 显示总体进度
-- [ ] 快速操作按钮
-- [ ] 测试页面
-- 提交: [commit hash]
+- [x] 页面布局
+- [x] 显示连续学习天数
+- [x] 显示今日学习建议
+- [x] 显示今日目标
+- [x] 显示复习提醒
+- [x] 显示总体进度
+- [x] 快速操作按钮
+- [x] 测试页面
+- 提交: 572af96
 
 ### 4.6 ReviewPage (src/pages/ReviewPage.tsx)
-- [ ] 页面布局
-- [ ] 显示需要复习的项目
-- [ ] 选择复习模式
-- [ ] 快速浏览模式
-- [ ] 测试模式
-- [ ] 复习完成统计
-- [ ] 测试页面
-- 提交: [commit hash]
+- [x] 页面布局
+- [x] 显示需要复习的项目
+- [x] 选择复习模式
+- [x] 快速浏览模式
+- [x] 测试模式
+- [x] 复习完成统计
+- [x] 测试页面
+- 提交: 572af96
 
 ### 4.7 ProgressPage (src/pages/ProgressPage.tsx)
-- [ ] 页面布局
-- [ ] 总体进度展示
-- [ ] 学习时长统计
-- [ ] 练习统计
-- [ ] 本周学习图表
-- [ ] 掌握程度分布
-- [ ] 薄弱知识点分析
-- [ ] 测试页面
-- 提交: [commit hash]
+- [x] 页面布局
+- [x] 总体进度展示
+- [x] 学习时长统计
+- [x] 练习统计
+- [x] 本周学习图表
+- [x] 掌握程度分布
+- [x] 薄弱知识点分析
+- [x] 测试页面
+- 提交: 572af96
 
 ### 4.8 AchievementsPage (src/pages/AchievementsPage.tsx)
-- [ ] 页面布局
-- [ ] 显示所有成就
-- [ ] 已解锁成就
-- [ ] 未解锁成就
-- [ ] 成就分类
-- [ ] 测试页面
-- 提交: [commit hash]
+- [x] 页面布局
+- [x] 显示所有成就
+- [x] 已解锁成就
+- [x] 未解锁成就
+- [x] 成就分类
+- [x] 测试页面
+- 提交: 572af96
 
 ### 4.9 SettingsPage (src/pages/SettingsPage.tsx)
-- [ ] 页面布局
-- [ ] 学习设置
-- [ ] 复习设置
-- [ ] 音频设置
-- [ ] 显示设置
-- [ ] 数据管理（导出/导入/重置）
-- [ ] 关于信息
-- [ ] 测试页面
-- 提交: [commit hash]
+- [x] 页面布局
+- [x] 学习设置
+- [x] 复习设置
+- [x] 音频设置
+- [x] 显示设置
+- [x] 数据管理（导出/导入/重置）
+- [x] 关于信息
+- [x] 测试页面
+- 提交: 572af96
 
 ### 4.10 所有进度组件
 - [x] DailyGoal.tsx
@@ -135,4 +135,5 @@
 ## 提交历史
 
 ae76974 - 2026-01-11 - feat(review): add progress components - StudyStreak, DailyGoal, ReviewReminder, AchievementBadge, WeeklyChart, ProgressDashboard
+572af96 - 2026-01-11 - feat(review): implement all pages - HomePage, ReviewPage, ProgressPage, AchievementsPage, SettingsPage
 
