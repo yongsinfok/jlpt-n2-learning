@@ -5,7 +5,7 @@
 - **负责人**: Claude Code #3
 - **依赖**: Phase 1 必须完成
 - **最后更新**: [自动更新]
-- **当前状态**: ⏸️ 未开始
+- **当前状态**: ⏳ 进行中
 
 ---
 
@@ -93,13 +93,13 @@
 - 提交: [commit hash]
 
 ### 4.10 所有进度组件
-- [ ] DailyGoal.tsx
-- [ ] WeeklyChart.tsx
-- [ ] ReviewReminder.tsx
-- [ ] StudyStreak.tsx
-- [ ] AchievementBadge.tsx
-- [ ] ProgressDashboard.tsx
-- 提交: [commit hash]
+- [x] DailyGoal.tsx
+- [x] WeeklyChart.tsx
+- [x] ReviewReminder.tsx
+- [x] StudyStreak.tsx
+- [x] AchievementBadge.tsx
+- [x] ProgressDashboard.tsx
+- 提交: ae76974
 
 ### 4.11 成就系统逻辑
 - [ ] checkAchievements()
@@ -134,5 +134,5 @@
 
 ## 提交历史
 
-[commit hash] - [时间] - feat(review): [提交信息]
+ae76974 - 2026-01-11 - feat(review): add progress components - StudyStreak, DailyGoal, ReviewReminder, AchievementBadge, WeeklyChart, ProgressDashboard
 
