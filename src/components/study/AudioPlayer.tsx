@@ -3,7 +3,7 @@
  */
 
 import { useAudio } from '@/hooks/useAudio';
-import { Play, Pause, FastForward } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
 
 export interface AudioPlayerProps {
   /** 音频文件路径 */

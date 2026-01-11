@@ -105,18 +105,7 @@ export function QuizPage() {
   }, [quizType, grammarPoint, lessonId, count]);
 
   // 处理完成测试
-  const handleComplete = (quizResult: {
-    totalQuestions: number;
-    correctCount: number;
-    accuracy: number;
-    timeSpent: number;
-    results: Array<{
-      questionId: string;
-      isCorrect: boolean;
-      userAnswer: string;
-      correctAnswer: string;
-    }>;
-  }) => {
+  const handleComplete = () => {
     finishQuiz();
 
     // 保存练习记录到 IndexedDB

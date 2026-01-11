@@ -31,7 +31,6 @@ export function StudyPage() {
     currentSentences,
     currentSentenceIndex,
     setCurrentSentences,
-    goToSentence,
     nextSentence,
     previousSentence,
     resetStudy,

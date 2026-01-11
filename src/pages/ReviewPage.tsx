@@ -5,7 +5,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/stores/userStore';
-import { getUserProgress, updateUserProgress, getSentencesByGrammarPoint } from '@/db/operations';
+import { getUserProgress, getSentencesByGrammarPoint } from '@/db/operations';
 import { getDueReviews, calculateNextReview } from '@/utils/reviewAlgorithm';
 import { CheckCircle2, BookOpen, Brain, ArrowRight } from 'lucide-react';
 
@@ -399,7 +399,7 @@ export function ReviewPage() {
       {/* 复习列表 */}
       <div className="bg-white rounded-xl border border-gray-200 mb-6 overflow-hidden">
         <div className="divide-y divide-gray-200">
-          {reviewItems.map((item, index) => (
+          {reviewItems.map((item) => (
             <div key={item.grammarId} className="p-4 flex items-center justify-between hover:bg-gray-50">
               <div className="flex-1">
                 <p className="font-medium text-gray-900">{item.grammarPoint}</p>

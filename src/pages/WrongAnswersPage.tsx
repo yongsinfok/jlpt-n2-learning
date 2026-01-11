@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   RotateCcw,
   Filter,
-  X,
 } from 'lucide-react';
 import { db } from '@/db/schema';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
@@ -120,8 +119,6 @@ export function WrongAnswersPage() {
 
   // 开始复习全部错题
   const handleReviewAll = () => {
-    // 生成包含所有错题语法点的练习
-    const grammarPoints = groupedWrongAnswers.map(g => g.grammarPoint);
     // 这里可以通过后端或前端生成题目
     navigate(`/practice`);
   };

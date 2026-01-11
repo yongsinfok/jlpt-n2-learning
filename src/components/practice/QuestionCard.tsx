@@ -34,7 +34,6 @@ export function QuestionCard({
 
   // 判断答案是否正确
   const isCorrect = userAnswer === question.correctAnswer;
-  const isSelected = (option: string) => userAnswer === option;
 
   // 处理选项选择
   const handleSelectOption = (option: string) => {
@@ -67,13 +66,6 @@ export function QuestionCard({
     }
 
     return baseClasses + 'border-gray-200 bg-gray-100 text-gray-500';
-  };
-
-  // 格式化用时
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (

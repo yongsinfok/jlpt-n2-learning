@@ -23,7 +23,6 @@ export function DailyGoal({
   targetSentences,
   completedGrammarPoints,
   targetGrammarPoints,
-  isCompleted = false,
 }: DailyGoalProps) {
   const sentenceProgress = Math.min((completedSentences / targetSentences) * 100, 100);
   const grammarProgress = Math.min((completedGrammarPoints / targetGrammarPoints) * 100, 100);

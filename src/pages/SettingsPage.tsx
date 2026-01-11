@@ -11,7 +11,6 @@ import {
   Bell,
   Volume2,
   Palette,
-  Type,
   Download,
   Upload,
   RotateCcw,

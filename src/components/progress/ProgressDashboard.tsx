@@ -222,7 +222,7 @@ export function ProgressDashboard({
             薄弱知识点
           </h2>
           <div className="space-y-2 mb-4">
-            {weakGrammarPoints.slice(0, 5).map((item, index) => (
+            {weakGrammarPoints.slice(0, 5).map((item) => (
               <div
                 key={item.grammarId}
                 className="flex items-center justify-between bg-red-50 rounded-lg p-3 border border-red-100"

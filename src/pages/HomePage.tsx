@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/stores/userStore';
 import { getUserProgress, getTodayGoal } from '@/db/operations';
 import { getDueReviews } from '@/utils/reviewAlgorithm';
-import { getWeekDates } from '@/utils/dateHelper';
 import { StudyStreak } from '@/components/progress/StudyStreak';
 import { DailyGoal } from '@/components/progress/DailyGoal';
 import { ReviewReminder } from '@/components/progress/ReviewReminder';
@@ -24,7 +23,6 @@ export function HomePage() {
   const navigate = useNavigate();
   const { userProgress, settings, setUserProgress, setDailyGoal, dailyGoal } = useUserStore();
   const [reviewItems, setReviewItems] = useState<ReviewItem[]>([]);
-  const [weeklyData, setWeeklyData] = useState<Array<{ date: Date; grammarCount: number; isToday: boolean }>>([]);
 
   useEffect(() => {
     loadUserData();
@@ -68,17 +66,6 @@ export function HomePage() {
     if (todayGoal) {
       setDailyGoal(todayGoal);
     }
-
-    // 生成本周数据（占位，实际需要从数据库获取）
-    const weekDates = getWeekDates();
-    const today = new Date();
-    setWeeklyData(
-      weekDates.map((date) => ({
-        date,
-        grammarCount: 0, // TODO: 从数据库统计
-        isToday: date.toDateString() === today.toDateString(),
-      }))
-    );
   };
 
   const handleContinueLearning = () => {
