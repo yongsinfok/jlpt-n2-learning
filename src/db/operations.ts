@@ -1,5 +1,6 @@
 /**
- * 数据库操作封装
+ * IndexedDB 数据库操作
+ * 提供对数据库的增删改查操作
  */
 
 import { db } from './schema';
@@ -9,6 +10,7 @@ import type {
   GrammarPoint,
   UserProgress,
   DailyGoal,
+  ExerciseRecord,
   WrongAnswer,
   Achievement,
 } from '@/types';
@@ -23,7 +25,7 @@ export async function getAllSentences(): Promise<Sentence[]> {
 }
 
 /**
- * 根据课号获取例句
+ * 根据课程号获取例句
  */
 export async function getSentencesByLesson(lessonNumber: number): Promise<Sentence[]> {
   return await db.sentences.where('lessonNumber').equals(lessonNumber).toArray();
@@ -37,10 +39,10 @@ export async function getSentencesByGrammarPoint(grammarPoint: string): Promise<
 }
 
 /**
- * 获取单个例句
+ * 批量添加例句
  */
-export async function getSentence(id: string): Promise<Sentence | undefined> {
-  return await db.sentences.get(id);
+export async function addSentences(sentences: Sentence[]): Promise<void> {
+  await db.sentences.bulkAdd(sentences);
 }
 
 // ==================== 课程操作 ====================
@@ -53,24 +55,34 @@ export async function getAllLessons(): Promise<Lesson[]> {
 }
 
 /**
- * 获取单个课程
+ * 根据 ID 获取课程
  */
-export async function getLesson(id: number): Promise<Lesson | undefined> {
+export async function getLessonById(id: number): Promise<Lesson | undefined> {
   return await db.lessons.get(id);
 }
 
 /**
  * 更新课程状态
  */
-export async function updateLesson(id: number, updates: Partial<Lesson>): Promise<void> {
+export async function updateLessonStatus(
+  id: number,
+  updates: Partial<Pick<Lesson, 'isUnlocked' | 'isCompleted' | 'completionRate'>>
+): Promise<void> {
   await db.lessons.update(id, updates);
 }
 
 /**
  * 批量添加课程
  */
-export async function bulkAddLessons(lessons: Lesson[]): Promise<void> {
+export async function addLessons(lessons: Lesson[]): Promise<void> {
   await db.lessons.bulkAdd(lessons);
+}
+
+/**
+ * 获取课程（别名函数，用于兼容）
+ */
+export async function getLesson(id: number): Promise<Lesson | undefined> {
+  return await getLessonById(id);
 }
 
 // ==================== 语法点操作 ====================
@@ -83,24 +95,34 @@ export async function getAllGrammarPoints(): Promise<GrammarPoint[]> {
 }
 
 /**
- * 根据课号获取语法点
+ * 根据课程号获取语法点
  */
 export async function getGrammarPointsByLesson(lessonNumber: number): Promise<GrammarPoint[]> {
   return await db.grammarPoints.where('lessonNumber').equals(lessonNumber).toArray();
 }
 
 /**
- * 获取单个语法点
+ * 根据 ID 获取语法点
  */
-export async function getGrammarPoint(id: string): Promise<GrammarPoint | undefined> {
+export async function getGrammarPointById(id: string): Promise<GrammarPoint | undefined> {
   return await db.grammarPoints.get(id);
 }
 
 /**
  * 更新语法点学习状态
  */
-export async function updateGrammarPoint(id: string, updates: Partial<GrammarPoint>): Promise<void> {
+export async function updateGrammarPointStatus(
+  id: string,
+  updates: Partial<Pick<GrammarPoint, 'isLearned'>>
+): Promise<void> {
   await db.grammarPoints.update(id, updates);
+}
+
+/**
+ * 批量添加语法点
+ */
+export async function addGrammarPoints(grammarPoints: GrammarPoint[]): Promise<void> {
+  await db.grammarPoints.bulkAdd(grammarPoints);
 }
 
 // ==================== 用户进度操作 ====================
@@ -109,21 +131,21 @@ export async function updateGrammarPoint(id: string, updates: Partial<GrammarPoi
  * 获取用户进度
  */
 export async function getUserProgress(): Promise<UserProgress | undefined> {
-  return await db.userProgress.get('user_progress');
-}
-
-/**
- * 创建用户进度
- */
-export async function createUserProgress(progress: UserProgress): Promise<void> {
-  await db.userProgress.add(progress);
+  return await db.userProgress.get('user-progress');
 }
 
 /**
  * 更新用户进度
  */
 export async function updateUserProgress(updates: Partial<UserProgress>): Promise<void> {
-  await db.userProgress.update('user_progress', updates);
+  await db.userProgress.put({ id: 'user-progress', ...updates } as UserProgress);
+}
+
+/**
+ * 初始化用户进度
+ */
+export async function initializeUserProgress(progress: UserProgress): Promise<void> {
+  await db.userProgress.put(progress);
 }
 
 /**
@@ -131,11 +153,11 @@ export async function updateUserProgress(updates: Partial<UserProgress>): Promis
  */
 export async function addLearnedSentence(sentenceId: string): Promise<void> {
   const progress = await getUserProgress();
-  if (progress) {
-    if (!progress.learnedSentences.includes(sentenceId)) {
-      progress.learnedSentences.push(sentenceId);
-      await updateUserProgress({ learnedSentences: progress.learnedSentences });
-    }
+  if (!progress) return;
+
+  if (!progress.learnedSentences.includes(sentenceId)) {
+    progress.learnedSentences.push(sentenceId);
+    await updateUserProgress(progress);
   }
 }
 
@@ -144,35 +166,83 @@ export async function addLearnedSentence(sentenceId: string): Promise<void> {
  */
 export async function addCompletedLesson(lessonId: number): Promise<void> {
   const progress = await getUserProgress();
-  if (progress) {
-    if (!progress.completedLessons.includes(lessonId)) {
-      progress.completedLessons.push(lessonId);
-      await updateUserProgress({ completedLessons: progress.completedLessons });
-    }
+  if (!progress) return;
+
+  if (!progress.completedLessons.includes(lessonId)) {
+    progress.completedLessons.push(lessonId);
+    await updateUserProgress(progress);
   }
 }
 
 // ==================== 每日目标操作 ====================
 
 /**
- * 获取某日的目标
+ * 获取指定日期的每日目标
  */
 export async function getDailyGoal(date: string): Promise<DailyGoal | undefined> {
   return await db.dailyGoals.get(date);
 }
 
 /**
- * 创建或更新每日目标
+ * 获取今日目标
  */
-export async function upsertDailyGoal(goal: DailyGoal): Promise<void> {
+export async function getTodayGoal(): Promise<DailyGoal | undefined> {
+  const today = new Date().toISOString().split('T')[0];
+  return await getDailyGoal(today);
+}
+
+/**
+ * 更新每日目标
+ */
+export async function updateDailyGoal(goal: DailyGoal): Promise<void> {
   await db.dailyGoals.put(goal);
 }
 
 /**
- * 更新每日目标进度
+ * 获取最近 N 天的目标记录
  */
-export async function updateDailyGoalProgress(id: string, updates: Partial<DailyGoal>): Promise<void> {
-  await db.dailyGoals.update(id, updates);
+export async function getRecentGoals(days: number): Promise<DailyGoal[]> {
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+
+  return await db.dailyGoals
+    .where('date')
+    .between(startDate.toISOString().split('T')[0], endDate.toISOString().split('T')[0], true, true)
+    .toArray();
+}
+
+// ==================== 练习历史操作 ====================
+
+/**
+ * 添加练习记录
+ */
+export async function addExerciseRecord(record: ExerciseRecord): Promise<void> {
+  await db.exerciseHistory.add(record);
+}
+
+/**
+ * 获取指定语法点的练习历史
+ */
+export async function getExerciseHistoryByGrammarPoint(grammarPoint: string): Promise<ExerciseRecord[]> {
+  return await db.exerciseHistory.where('grammarPoint').equals(grammarPoint).toArray();
+}
+
+/**
+ * 获取最近的练习记录
+ */
+export async function getRecentExerciseRecords(limit: number = 50): Promise<ExerciseRecord[]> {
+  return await db.exerciseHistory.orderBy('timestamp').reverse().limit(limit).toArray();
+}
+
+/**
+ * 获取指定日期范围内的练习记录
+ */
+export async function getExerciseRecordsByDateRange(startDate: Date, endDate: Date): Promise<ExerciseRecord[]> {
+  return await db.exerciseHistory
+    .where('timestamp')
+    .between(startDate.getTime(), endDate.getTime())
+    .toArray();
 }
 
 // ==================== 错题本操作 ====================
@@ -188,61 +258,35 @@ export async function getAllWrongAnswers(): Promise<WrongAnswer[]> {
  * 获取未解决的错题
  */
 export async function getUnresolvedWrongAnswers(): Promise<WrongAnswer[]> {
-  return await db.wrongAnswers.filter(item => !item.resolved).toArray();
+  return await db.wrongAnswers.filter((item) => !item.resolved).toArray();
 }
 
 /**
  * 根据语法点获取错题
  */
-export async function getWrongAnswersByGrammar(grammarPoint: string): Promise<WrongAnswer[]> {
+export async function getWrongAnswersByGrammarPoint(grammarPoint: string): Promise<WrongAnswer[]> {
   return await db.wrongAnswers.where('grammarPoint').equals(grammarPoint).toArray();
 }
 
 /**
- * 添加或更新错题
+ * 添加错题
  */
-export async function upsertWrongAnswer(wrongAnswer: WrongAnswer): Promise<void> {
-  await db.wrongAnswers.put(wrongAnswer);
+export async function addWrongAnswer(answer: WrongAnswer): Promise<void> {
+  await db.wrongAnswers.add(answer);
 }
 
 /**
- * 记录答错
+ * 标记错题为已解决
  */
-export async function recordWrongAnswer(sentenceId: string, grammarPoint: string): Promise<void> {
-  const existing = await db.wrongAnswers.get(sentenceId);
-  if (existing) {
-    await db.wrongAnswers.update(sentenceId, {
-      wrongCount: existing.wrongCount + 1,
-      lastWrongDate: new Date(),
-      correctStreak: 0,
-      resolved: false,
-    });
-  } else {
-    await db.wrongAnswers.add({
-      id: sentenceId,
-      sentenceId,
-      grammarPoint,
-      wrongCount: 1,
-      lastWrongDate: new Date(),
-      resolved: false,
-      correctStreak: 0,
-    });
-  }
+export async function resolveWrongAnswer(id: string): Promise<void> {
+  await db.wrongAnswers.update(id, { resolved: true });
 }
 
 /**
- * 记录答对（用于错题消除）
+ * 删除错题记录
  */
-export async function recordCorrectAnswer(sentenceId: string): Promise<void> {
-  const existing = await db.wrongAnswers.get(sentenceId);
-  if (existing && !existing.resolved) {
-    const newStreak = existing.correctStreak + 1;
-    const resolved = newStreak >= 3;
-    await db.wrongAnswers.update(sentenceId, {
-      correctStreak: newStreak,
-      resolved,
-    });
-  }
+export async function deleteWrongAnswer(id: string): Promise<void> {
+  await db.wrongAnswers.delete(id);
 }
 
 // ==================== 成就操作 ====================
@@ -258,50 +302,72 @@ export async function getAllAchievements(): Promise<Achievement[]> {
  * 获取已解锁的成就
  */
 export async function getUnlockedAchievements(): Promise<Achievement[]> {
-  return await db.achievements.filter(item => item.isUnlocked).toArray();
+  return await db.achievements.filter((item) => item.isUnlocked).toArray();
+}
+
+/**
+ * 根据 ID 获取成就
+ */
+export async function getAchievementById(id: string): Promise<Achievement | undefined> {
+  return await db.achievements.get(id);
 }
 
 /**
  * 解锁成就
  */
-export async function unlockAchievement(achievementId: string): Promise<void> {
-  await db.achievements.update(achievementId, {
-    isUnlocked: true,
-    unlockedDate: new Date(),
-  });
+export async function unlockAchievement(id: string): Promise<void> {
+  await db.achievements.update(id, { isUnlocked: true, unlockedDate: new Date() });
 }
 
 /**
  * 批量添加成就
  */
-export async function bulkAddAchievements(achievements: Achievement[]): Promise<void> {
+export async function addAchievements(achievements: Achievement[]): Promise<void> {
   await db.achievements.bulkAdd(achievements);
 }
 
-// ==================== 数据统计 ====================
+// ==================== 通用操作 ====================
+
+/**
+ * 清空所有表（用于重置）
+ */
+export async function clearAllTables(): Promise<void> {
+  await db.sentences.clear();
+  await db.lessons.clear();
+  await db.grammarPoints.clear();
+  await db.userProgress.clear();
+  await db.dailyGoals.clear();
+  await db.exerciseHistory.clear();
+  await db.wrongAnswers.clear();
+  await db.achievements.clear();
+}
 
 /**
  * 获取数据库统计信息
  */
 export async function getDatabaseStats(): Promise<{
-  sentencesCount: number;
-  lessonsCount: number;
-  grammarPointsCount: number;
-  learnedSentencesCount: number;
-  completedLessonsCount: number;
+  sentences: number;
+  lessons: number;
+  grammarPoints: number;
+  exerciseHistory: number;
+  wrongAnswers: number;
+  achievements: number;
 }> {
-  const [sentencesCount, lessonsCount, grammarPointsCount, progress] = await Promise.all([
+  const [sentences, lessons, grammarPoints, exerciseHistory, wrongAnswers, achievements] = await Promise.all([
     db.sentences.count(),
     db.lessons.count(),
     db.grammarPoints.count(),
-    getUserProgress(),
+    db.exerciseHistory.count(),
+    db.wrongAnswers.count(),
+    db.achievements.count(),
   ]);
 
   return {
-    sentencesCount,
-    lessonsCount,
-    grammarPointsCount,
-    learnedSentencesCount: progress?.learnedSentences.length || 0,
-    completedLessonsCount: progress?.completedLessons.length || 0,
+    sentences,
+    lessons,
+    grammarPoints,
+    exerciseHistory,
+    wrongAnswers,
+    achievements,
   };
 }
