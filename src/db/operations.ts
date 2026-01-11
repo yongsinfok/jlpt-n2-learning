@@ -39,6 +39,57 @@ export async function getSentencesByGrammarPoint(grammarPoint: string): Promise<
 }
 
 /**
+ * 根据例句 ID 获取例句
+ */
+export async function getSentenceById(id: string): Promise<Sentence | undefined> {
+  return await db.sentences.get(id);
+}
+
+/**
+ * 标记例句为已学习
+ */
+export async function markSentenceAsLearned(sentenceId: string): Promise<void> {
+  await addLearnedSentence(sentenceId);
+}
+
+/**
+ * 标记语法点为已学习并安排复习
+ */
+export async function markGrammarAsLearned(grammarId: string): Promise<void> {
+  const progress = await getUserProgress();
+  if (!progress) return;
+
+  const existing = progress.learnedGrammar.find(g => g.grammarId === grammarId);
+  if (!existing) {
+    const now = new Date();
+    const nextReview = new Date();
+    nextReview.setDate(nextReview.getDate() + 1);
+
+    const learnedGrammarItem = {
+      grammarId,
+      firstLearnedDate: now,
+      lastReviewedDate: now,
+      nextReviewDate: nextReview,
+      reviewCount: 0,
+      masteryLevel: 1,
+    };
+
+    progress.learnedGrammar.push(learnedGrammarItem);
+    await updateUserProgress({ learnedGrammar: progress.learnedGrammar });
+  }
+}
+
+/**
+ * 解锁下一课
+ */
+export async function unlockNextLesson(currentLessonId: number): Promise<void> {
+  const nextLesson = await db.lessons.get(currentLessonId + 1);
+  if (nextLesson && !nextLesson.isUnlocked) {
+    await updateLessonStatus(currentLessonId + 1, { isUnlocked: true });
+  }
+}
+
+/**
  * 批量添加例句
  */
 export async function addSentences(sentences: Sentence[]): Promise<void> {

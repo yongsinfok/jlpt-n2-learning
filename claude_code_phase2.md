@@ -7,7 +7,7 @@
 
 ## 项目背景
 
-继续参考之前的完整 PRD。
+继续参考之前的完整 PRD。C:\Users\joshua\Desktop\vibe\Phase2\jlpt-n2-learning\jlpt_n2_prd_final.md
 
 ## 你的任务：实现学习功能模块
 
