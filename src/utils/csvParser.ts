@@ -10,22 +10,6 @@ import type { Sentence, Lesson, GrammarPoint, UserProgress, DailyGoal, Achieveme
 import { getTodayString } from './dateHelper';
 
 /**
- * CSV 行数据接口
- */
-interface CSVRow {
-  例句: string;
-  语法点: string;
-  课号: number;
-  假名标注: string;
-  中文翻译: string;
-  音频: string;
-  语法接续: string;
-  语法解释: string;
-  逐词精解: string;
-  标签: string;
-}
-
-/**
  * 提取音频文件路径
  * 处理 "[sound:example_002.mp3]" 格式
  */
@@ -65,10 +49,39 @@ export async function loadCSVData(): Promise<void> {
     const csvText = await response.text();
 
     // 3. 解析 CSV
-    const { data, errors } = Papa.parse<CSVRow>(csvText, {
-      header: true,
+    // 注意：CSV 文件以 # 开头的配置行开头，没有标准列头
+    // 需要手动指定列名顺序
+    const COLUMN_HEADERS = [
+      'deck',           // 0
+      'sentence',       // 1
+      'grammarPoint',   // 2
+      'lessonNumber',   // 3
+      'japanese',       // 4
+      'furigana',       // 5
+      'translation',    // 6
+      'audio',          // 7
+      'grammarConnection', // 8
+      'grammarFormation',  // 9
+      'meaning1',       // 10
+      'meaning2',       // 11
+      'level',          // 12
+      'japaneseExplanation', // 13
+      'chineseExplanation',  // 14
+      'usage',          // 15
+      'sentenceAnalysis',    // 16
+      'wordByWord',     // 17 (包含 HTML，可能有逗号分隔问题)
+      'wordByWord2',    // 18 (HTML 续)
+      'wordByWord3',    // 19 (HTML 续)
+      'wordByWord4',    // 20 (HTML 续)
+      'extra1',         // 21
+      'tags'            // 22 (根据 #tags column:22)
+    ];
+
+    const { data, errors } = Papa.parse(csvText, {
+      header: false,
       skipEmptyLines: true,
       dynamicTyping: true,
+      transformHeader: (header: string, index: number) => COLUMN_HEADERS[index] || `col${index}`,
     });
 
     if (errors.length > 0) {
@@ -77,32 +90,52 @@ export async function loadCSVData(): Promise<void> {
 
     console.log(`Parsed ${data.length} rows from CSV`);
 
-    // 4. 转换数据格式
-    const sentences: Sentence[] = data.map((row, index) => ({
-      id: `sentence_${index + 1}`,
-      lessonNumber: row.课号 || 0,
-      grammarPoint: row.语法点 || '',
-      sentence: row.例句 || '',
-      furigana: row.假名标注 || '',
-      translation: row.中文翻译 || '',
-      audioPath: extractAudioPath(row.音频),
-      grammarConnection: row.语法接续 || '',
-      grammarExplanation: row.语法解释 || '',
-      wordByWord: row.逐词精解 || '',
-      tags: parseTags(row.标签),
-    }));
+    // 4. 过滤掉以 # 开头的配置行
+    const validRows = data.filter((row: any[]) => {
+      return row[0] && !String(row[0]).startsWith('#');
+    });
 
-    // 5. 批量插入例句
+    console.log(`Filtered to ${validRows.length} valid data rows`);
+
+    // 5. 转换数据格式
+    const sentences: Sentence[] = validRows.map((row: any[], index: number) => {
+      // 从 deck 字段提取课号（格式: "新完全掌握N2语法例句::Lesson 01"）
+      const deck = String(row[0] || '');
+      const lessonMatch = deck.match(/Lesson\s+(\d+)/);
+      const lessonNumber = lessonMatch ? parseInt(lessonMatch[1]) : 0;
+
+      // wordByWord 可能被分割到多列（17-20），需要合并
+      const wordByWordParts = [];
+      for (let i = 17; i <= 20 && i < row.length; i++) {
+        if (row[i]) wordByWordParts.push(String(row[i]));
+      }
+
+      return {
+        id: `sentence_${index + 1}`,
+        lessonNumber: lessonNumber,
+        grammarPoint: String(row[2] || ''),
+        sentence: String(row[1] || ''),
+        furigana: String(row[5] || ''),
+        translation: String(row[6] || ''),
+        audioPath: extractAudioPath(String(row[7] || '')),
+        grammarConnection: String(row[8] || ''),
+        grammarExplanation: String(row[13] || row[14] || ''), // 优先使用日语解释，否则中文
+        wordByWord: wordByWordParts.join(''),
+        tags: parseTags(String(row[22] || '')), // tags 在索引 22
+      };
+    });
+
+    // 6. 批量插入例句
     await db.sentences.bulkAdd(sentences);
     console.log(`Inserted ${sentences.length} sentences`);
 
-    // 6. 生成课程和语法点数据
+    // 7. 生成课程和语法点数据
     await generateLessonsAndGrammar(sentences);
 
-    // 7. 初始化用户进度
+    // 8. 初始化用户进度
     await initializeUserProgress();
 
-    // 8. 初始化成就
+    // 9. 初始化成就
     await initializeAchievements();
 
     console.log('Data loaded successfully!');

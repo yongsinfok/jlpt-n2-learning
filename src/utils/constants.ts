@@ -230,7 +230,7 @@ export const ROUTES = {
   HOME: '/',
   ONBOARDING: '/onboarding',
   LESSONS: '/lessons',
-  LESSON_DETAIL: '/lessons/:id',
+  LESSON_DETAIL: '/lesson/:id',
   STUDY: '/study',
   GRAMMAR_DETAIL: '/grammar/:id',
   PRACTICE: '/practice',

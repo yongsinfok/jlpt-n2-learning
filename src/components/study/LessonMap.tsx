@@ -1,5 +1,5 @@
 /**
- * 课程地图组件
+ * 课程地图组件 - Japanese Style
  * 以游戏关卡式的视觉设计展示所有课程
  */
 
@@ -16,14 +16,17 @@ export interface LessonMapProps {
 }
 
 /**
- * 课程地图组件
+ * 课程地图组件 - Japanese Style
  * 以路径形式展示所有课程，类似游戏关卡
  */
 export function LessonMap({ lessons, onLessonClick, className = '' }: LessonMapProps) {
   if (lessons.length === 0) {
     return (
       <div className={`text-center py-12 ${className}`}>
-        <p className="text-gray-500">暂无课程数据</p>
+        <div className="japanese-card p-8 max-w-md mx-auto">
+          <div className="text-4xl mb-4">📚</div>
+          <p className="text-sumi-500 font-maru">暂无课程数据</p>
+        </div>
       </div>
     );
   }
@@ -35,71 +38,44 @@ export function LessonMap({ lessons, onLessonClick, className = '' }: LessonMapP
 
   return (
     <div className={className}>
-      {/* 进度概览 */}
-      <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">学习进度</h2>
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div>
-            <div className="text-3xl font-bold text-green-500">{completedCount}</div>
-            <div className="text-sm text-gray-600">已完成</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold text-blue-500">{unlockedCount}</div>
-            <div className="text-sm text-gray-600">已解锁</div>
-          </div>
-          <div>
-            <div className="text-3xl font-bold text-gray-700">{totalCount}</div>
-            <div className="text-sm text-gray-600">总课程</div>
-          </div>
-        </div>
-        <div className="mt-4">
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
-            <span>总体进度</span>
-            <span>{((completedCount / totalCount) * 100).toFixed(1)}%</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
-            <div
-              className="bg-green-500 h-full rounded-full transition-all duration-300"
-              style={{ width: `${(completedCount / totalCount) * 100}%` }}
-            />
-          </div>
-        </div>
-      </div>
-
       {/* 课程地图 */}
-      <div className="space-y-4">
+      <div className="space-y-3">
         {lessons.map((lesson, index) => (
-          <div key={lesson.id} className="relative">
+          <div key={lesson.id} className="relative animate-slide-up" style={{ animationDelay: `${index * 30}ms` }}>
             {/* 课程卡片 */}
             <LessonCard
               lesson={lesson}
               onClick={() => onLessonClick?.(lesson.id)}
             />
 
-            {/* 连接线 */}
+            {/* 连接线 - Japanese style */}
             {index < lessons.length - 1 && (
-              <div className="flex justify-center">
-                <div className="w-1 h-8 bg-gradient-to-b from-gray-300 to-gray-200" />
+              <div className="flex justify-center py-2">
+                <div className="w-0.5 h-8 bg-gradient-to-b from-ai-300 via-ai-200 to-transparent" />
               </div>
             )}
           </div>
         ))}
       </div>
 
-      {/* 图例 */}
-      <div className="mt-8 bg-white rounded-xl shadow-md p-4">
+      {/* 图例 - Japanese style */}
+      <div className="mt-8 japanese-card p-6">
+        <h3 className="font-serif text-lg text-sumi-DEFAULT mb-4 text-center">课程状态</h3>
         <div className="flex flex-wrap gap-6 justify-center text-sm">
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-green-500"></div>
-            <span className="text-gray-600">已完成</span>
+            <div className="w-4 h-4 rounded bg-matcha-DEFAULT shadow-stamp"></div>
+            <span className="text-sumi-600">已完成</span>
+            <span className="text-sumi-400 text-xs font-maru ml-1">完了</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-blue-500"></div>
-            <span className="text-gray-600">学习中</span>
+            <div className="w-4 h-4 rounded bg-ai-DEFAULT shadow-stamp"></div>
+            <span className="text-sumi-600">学习中</span>
+            <span className="text-sumi-400 text-xs font-maru ml-1">学習中</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-gray-300"></div>
-            <span className="text-gray-600">未解锁</span>
+            <div className="w-4 h-4 rounded bg-sumi-200 shadow-stamp"></div>
+            <span className="text-sumi-600">未解锁</span>
+            <span className="text-sumi-400 text-xs font-maru ml-1">ロック</span>
           </div>
         </div>
       </div>

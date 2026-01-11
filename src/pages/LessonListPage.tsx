@@ -1,5 +1,5 @@
 /**
- * 课程列表页 - 显示所有课程的地图式页面
+ * 课程列表页 - Japanese Editorial Style
  */
 
 import { useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ import type { Lesson } from '@/types';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 
 /**
- * 课程列表页面
+ * 课程列表页面 - Japanese Style
  */
 export function LessonListPage() {
   const navigate = useNavigate();
@@ -39,24 +39,74 @@ export function LessonListPage() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex justify-center items-center min-h-[400px]">
-          <LoadingSpinner />
-        </div>
+      <div className="min-h-screen washi-bg flex items-center justify-center">
+        <LoadingSpinner size="lg" text="加载课程中..." />
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* 页面标题 */}
-      <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">N2 学习之路</h1>
-        <p className="text-gray-600">循序渐进，系统掌握 N2 语法</p>
+    <div className="min-h-screen washi-bg">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden border-b border-ai-100">
+        {/* Decorative seigaiha pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="w-full h-full bg-seigaiha" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 py-12">
+          <div className="text-center">
+            {/* Vertical decoration */}
+            <div className="hidden lg:block absolute left-8 top-1/2 -translate-y-1/2 vertical-text text-sumi-200 text-sm">
+              N2 文法の道
+            </div>
+
+            <h1 className="font-serif display-display-lg text-sumi-DEFAULT mb-4 animate-slide-up">
+              N2 学习之路
+            </h1>
+            <p className="text-sumi-500 text-lg mb-2 animate-slide-up" style={{ animationDelay: '100ms' }}>
+              循序渐进，系统掌握 N2 语法
+            </p>
+            <p className="text-sumi-400 text-sm font-maru animate-slide-up" style={{ animationDelay: '150ms' }}>
+              一歩一歩、着実に日本語を身につけましょう
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* 课程地图 */}
-      <LessonMap lessons={lessons} onLessonClick={handleLessonClick} />
+      {/* Progress Stats */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="japanese-card p-6 mb-8">
+          <div className="grid grid-cols-3 gap-6 text-center">
+            <div>
+              <div className="text-3xl font-serif font-bold text-ai-DEFAULT mb-1">
+                {lessons.filter(l => l.isCompleted).length}
+              </div>
+              <div className="text-sm text-sumi-500">已完成</div>
+              <div className="text-xs text-sumi-400 font-maru">完了</div>
+            </div>
+            <div>
+              <div className="text-3xl font-serif font-bold text-matcha-DEFAULT mb-1">
+                {lessons.filter(l => l.isUnlocked).length}
+              </div>
+              <div className="text-sm text-sumi-500">已解锁</div>
+              <div className="text-xs text-sumi-400 font-maru">アンロック</div>
+            </div>
+            <div>
+              <div className="text-3xl font-serif font-bold text-sumi-400 mb-1">
+                {lessons.length}
+              </div>
+              <div className="text-sm text-sumi-500">总课程</div>
+              <div className="text-xs text-sumi-400 font-maru">全レッスン</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Course Map */}
+      <div className="max-w-7xl mx-auto px-4 pb-12">
+        <LessonMap lessons={lessons} onLessonClick={handleLessonClick} />
+      </div>
     </div>
   );
 }

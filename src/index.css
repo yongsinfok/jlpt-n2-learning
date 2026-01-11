@@ -1,19 +1,19 @@
-/* 日语字体 */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+/* Japanese Typography */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
+  font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
     'Yu Gothic', 'Meiryo', sans-serif;
-  line-height: 1.5;
+  line-height: 1.6;
   font-weight: 400;
 
   color-scheme: light;
-  color: rgba(31, 41, 55, 1);
-  background-color: #f9fafb;
+  color: #2F353B;
+  background-color: #F7F4ED;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -30,9 +30,326 @@ body {
   min-height: 100vh;
 }
 
-/* 语法点高亮 */
+/* ========================================
+   Washi Paper Texture Backgrounds
+   ======================================== */
+
+.washi-bg {
+  background-color: #F7F4ED;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+.washi-bg-alt {
+  background-color: #E8E4D9;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+/* Seigaiha (Blue Wave) pattern overlay */
+.seigaiha-overlay {
+  position: relative;
+}
+
+.seigaiha-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='40' viewBox='0 0 80 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.03.02a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9-14.1zm-19.92 0a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9-14.1zm-20 0a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9-14.1z' fill='%232A4A7A' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========================================
+   Typography Enhancements
+   ======================================== */
+
+.display-text {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: 'Noto Serif JP', serif;
+}
+
+/* Decorative brush stroke effect */
+.brush-stroke {
+  position: relative;
+  display: inline-block;
+}
+
+.brush-stroke::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #2A4A7A 0%, #C8364E 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.brush-stroke:hover::after,
+.brush-stroke.active::after {
+  transform: scaleX(1);
+}
+
+/* ========================================
+   Card Styles with Japanese Aesthetics
+   ======================================== */
+
+.japanese-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(42, 74, 122, 0.1);
+  border-radius: 12px;
+  box-shadow:
+    0 4px 6px rgba(47, 53, 59, 0.04),
+    0 2px 4px rgba(47, 53, 59, 0.02),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.japanese-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(42, 74, 122, 0.2), transparent);
+}
+
+.japanese-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 25px rgba(47, 53, 59, 0.04),
+    0 10px 10px rgba(47, 53, 59, 0.02),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  border-color: rgba(42, 74, 122, 0.2);
+}
+
+/* Stamp effect for buttons and badges */
+.stamp-effect {
+  position: relative;
+  border: 2px solid #C8364E;
+  border-radius: 4px;
+  transform: rotate(-2deg);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stamp-effect:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(200, 54, 78, 0.2);
+}
+
+.stamp-effect::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='rough'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.04' numOctaves='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23rough)' opacity='0.1'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Stamp texture for buttons */
+.stamp-texture {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='rough'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.04' numOctaves='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23rough)'/%3E%3C/svg%3E");
+}
+
+/* ========================================
+   Progress Bar with Brush Effect
+   ======================================== */
+
+.brush-progress {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(42, 74, 122, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.brush-progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #2A4A7A 0%, #5E9ED2 50%, #2A4A7A 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+  position: relative;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.brush-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s linear infinite;
+}
+
+/* ========================================
+   Ink Drop Animation
+   ======================================== */
+
+@keyframes inkDrop {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ink-drop-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ink-drop-effect::before {
+  content: '';
+  position: absolute;
+  top: var(--ink-y, 50%);
+  left: var(--ink-x, 50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(42, 74, 122, 0.4), transparent);
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ink-drop-effect:active::before {
+  animation: inkDrop 0.6s ease-out forwards;
+}
+
+/* ========================================
+   Grammar Highlight with Traditional Style
+   ======================================== */
+
 .grammar-highlight {
-  background-color: #fef08a;
-  border-bottom: 2px solid #eab308;
+  background: linear-gradient(180deg, transparent 60%, rgba(212, 165, 71, 0.3) 60%);
   padding: 0 2px;
+  border-radius: 2px;
+  position: relative;
+}
+
+.grammar-highlight::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #D4A547;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-out;
+}
+
+.grammar-highlight:hover::before {
+  transform: scaleX(1);
+}
+
+/* ========================================
+   Utility Classes for Japanese Decor
+   ======================================== */
+
+.decorative-border {
+  border: 2px solid #2A4A7A;
+  border-radius: 8px;
+  position: relative;
+}
+
+.decorative-border::before,
+.decorative-border::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #2A4A7A;
+}
+
+.decorative-border::before {
+  top: -4px;
+  left: -4px;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 8px 0 0 0;
+}
+
+.decorative-border::after {
+  bottom: -4px;
+  right: -4px;
+  border-left: none;
+  border-top: none;
+  border-radius: 0 0 8px 0;
+}
+
+/* Vertical text decoration */
+.vertical-deco {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.75rem;
+  color: #2A4A7A;
+  opacity: 0.6;
+  letter-spacing: 0.2em;
+  pointer-events: none;
+}
+
+/* ========================================
+   Responsive Typography
+   ======================================== */
+
+@media (max-width: 640px) {
+  .display-text {
+    letter-spacing: -0.01em;
+  }
+
+  .vertical-deco {
+    display: none;
+  }
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  .japanese-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
 }
