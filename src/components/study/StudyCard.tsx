@@ -119,14 +119,8 @@ export function StudyCard({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isFirst, isLast, onPrevious, onNext]);
 
-  // 解析逐词精解
-  const parseWordByWord = useCallback((text: string) => {
-    if (!text) return [];
-    return text.split(';').map(item => {
-      const [word, reading] = item.split(':');
-      return { word: word?.trim() || '', reading: reading?.trim() || '' };
-    }).filter(item => item.word);
-  }, []);
+  // 检查是否有详细的解析内容（HTML格式）
+  const hasDetailedAnalysis = wordByWord && wordByWord.includes('<h3>');
 
   return (
     <div className={`bg-white rounded-xl shadow-md overflow-hidden ${className}`}>
@@ -205,17 +199,15 @@ export function StudyCard({
               <span className="font-medium text-gray-700">显示解析 (A)</span>
               {showAnalysis ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
             </button>
-            {showAnalysis && (
-              <div className="px-4 py-3 bg-white">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {parseWordByWord(wordByWord).map((item, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="font-medium text-gray-900">{item.word}</span>
-                      <span className="text-gray-500">:</span>
-                      <span className="text-gray-600">{item.reading}</span>
-                    </div>
-                  ))}
-                </div>
+            {showAnalysis && wordByWord && (
+              <div className="px-4 py-3 bg-white analysis-content">
+                {hasDetailedAnalysis ? (
+                  // 如果有详细的 HTML 解析内容，直接渲染 HTML
+                  <div dangerouslySetInnerHTML={{ __html: wordByWord }} />
+                ) : (
+                  // 否则显示简单格式（如果有的话）
+                  <p className="text-gray-600 whitespace-pre-wrap">{wordByWord}</p>
+                )}
               </div>
             )}
           </div>

@@ -41,13 +41,21 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   const [shouldRedirect, setShouldRedirect] = useState<string | null>(null);
 
   useEffect(() => {
+    let isCancelled = false;
+
     async function initializeApp() {
+      // 防止重复初始化
+      if (isInitialized) return;
+
       try {
         // 1. 初始化数据库
         await initDatabase();
 
-        // 2. 加载 CSV 数据
+        // 2. 加载 CSV 数据（内部已有重复检查）
         await loadCSVData();
+
+        // 检查是否被取消（组件卸载或重新渲染）
+        if (isCancelled) return;
 
         // 3. 检查是否首次访问
         if (isFirstVisit) {
@@ -58,16 +66,20 @@ function RootLayout({ children }: { children: React.ReactNode }) {
         setIsInitialized(true);
         setIsLoading(false);
       } catch (error) {
+        if (isCancelled) return;
         console.error('Failed to initialize app:', error);
         setLoadError(error instanceof Error ? error.message : '未知错误');
         setIsLoading(false);
       }
     };
 
-    if (!isInitialized) {
-      initializeApp();
-    }
-  }, [isInitialized, isFirstVisit, markVisited]);
+    initializeApp();
+
+    // 清理函数：取消未完成的初始化
+    return () => {
+      isCancelled = true;
+    };
+  }, []); // 空依赖数组，只在组件挂载时执行一次
 
   // 处理首次访问重定向
   useEffect(() => {
