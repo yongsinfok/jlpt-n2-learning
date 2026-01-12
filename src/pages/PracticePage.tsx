@@ -1,7 +1,6 @@
 /**
  * 练习模式选择页面
- * 提供4种练习模式：填空练习、选择题练习、随机练习、错题本复习
- * 支持按课程范围筛选
+ * Modern Japanese Design - Washi Aesthetic
  */
 
 import { useState, useEffect } from 'react';
@@ -14,6 +13,7 @@ import {
   ChevronRight,
   Filter,
   X,
+  Target
 } from 'lucide-react';
 import { db } from '@/db/schema';
 import type { Lesson } from '@/types';
@@ -26,7 +26,8 @@ interface PracticeMode {
   icon: React.ReactNode;
   type: 'fill' | 'choice' | 'practice' | 'wrong';
   color: string;
-  bgLight: string;
+  bgClass: string;
+  borderClass: string;
 }
 
 export function PracticePage() {
@@ -47,8 +48,9 @@ export function PracticePage() {
       description: '随机抽取例句，填写正确的语法点',
       icon: <FileText className="w-8 h-8" />,
       type: 'fill',
-      color: 'text-primary',
-      bgLight: 'bg-primary-light',
+      color: 'text-ai-600',
+      bgClass: 'bg-ai-50 group-hover:bg-ai-100',
+      borderClass: 'border-ai-200 group-hover:border-ai-300',
     },
     {
       id: 'choice',
@@ -56,8 +58,9 @@ export function PracticePage() {
       description: '从多个选项中选择正确的语法点',
       icon: <HelpCircle className="w-8 h-8" />,
       type: 'choice',
-      color: 'text-success',
-      bgLight: 'bg-success-light',
+      color: 'text-matcha-600',
+      bgClass: 'bg-matcha-50 group-hover:bg-matcha-100',
+      borderClass: 'border-matcha-200 group-hover:border-matcha-300',
     },
     {
       id: 'practice',
@@ -65,8 +68,9 @@ export function PracticePage() {
       description: '混合已学内容进行综合练习',
       icon: <Shuffle className="w-8 h-8" />,
       type: 'practice',
-      color: 'text-warning',
-      bgLight: 'bg-warning-light',
+      color: 'text-kincha-600',
+      bgClass: 'bg-kincha-50 group-hover:bg-kincha-100',
+      borderClass: 'border-kincha-200 group-hover:border-kincha-300',
     },
     {
       id: 'wrong',
@@ -74,8 +78,9 @@ export function PracticePage() {
       description: `复习做错的题目（当前 ${wrongAnswersCount} 道）`,
       icon: <BookX className="w-8 h-8" />,
       type: 'wrong',
-      color: 'text-error',
-      bgLight: 'bg-error-light',
+      color: 'text-shu-600',
+      bgClass: 'bg-shu-50 group-hover:bg-shu-100',
+      borderClass: 'border-shu-200 group-hover:border-shu-300',
     },
   ];
 
@@ -150,43 +155,48 @@ export function PracticePage() {
   // 加载中状态
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">加载中...</p>
+      <div className="min-h-screen flex items-center justify-center bg-washi-texture">
+        <div className="text-center animate-pulse">
+          <div className="text-ai-300 mb-2">● ● ●</div>
+          <p className="text-sumi-500">正在准备练习数据...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* 页面标题 */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">练习模式</h1>
-          <p className="text-gray-600">选择一种练习模式来巩固你的学习成果</p>
+    <div className="min-h-screen bg-washi-texture">
+      {/* Background Decoration */}
+      <div className="absolute top-0 right-0 w-full h-64 bg-seigaiha-faint opacity-50 -z-0 pointer-events-none fade-out-bottom" />
+
+      <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
+        {/* Header */}
+        <div className="mb-12 text-center max-w-2xl mx-auto">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-paper-sm mb-6 border border-sumi-100">
+            <Target className="w-8 h-8 text-ai-600" />
+          </div>
+          <h1 className="text-4xl font-bold text-sumi-900 mb-4 tracking-tight">练习模式</h1>
+          <p className="text-lg text-sumi-600">通过多样化的练习模式，巩固你的语法知识。</p>
         </div>
 
-        {/* 筛选栏 */}
-        <div className="bg-white rounded-xl shadow-md p-4 mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+        {/* 筛选栏 - Paper Card Style */}
+        <div className="card-paper p-6 mb-8 border-sumi-100">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
               <button
                 onClick={() => setShowFilter(!showFilter)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                  showFilter
-                    ? 'bg-primary text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${showFilter
+                    ? 'bg-sumi-800 text-white shadow-lg'
+                    : 'bg-white border border-sumi-200 text-sumi-700 hover:bg-sumi-50'
+                  }`}
               >
                 <Filter className="w-5 h-5" />
                 筛选课程范围
               </button>
 
               {selectedLessons.length > 0 && (
-                <span className="text-sm text-gray-600">
-                  已选择 {selectedLessons.length} / {lessons.length} 门课程
+                <span className="text-sm font-medium text-ai-600 bg-ai-50 px-3 py-1 rounded-full border border-ai-100">
+                  已选 {selectedLessons.length} / {lessons.length} 门
                 </span>
               )}
             </div>
@@ -194,37 +204,36 @@ export function PracticePage() {
             {selectedLessons.length > 0 && (
               <button
                 onClick={() => setSelectedLessons([])}
-                className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
+                className="flex items-center gap-1.5 text-sm text-sumi-500 hover:text-shu-600 transition-colors px-2 py-1 rounded hover:bg-shu-50"
               >
                 <X className="w-4 h-4" />
-                清除筛选
+                清除选择
               </button>
             )}
           </div>
 
           {/* 课程选择面板 */}
           {showFilter && lessons.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-gray-700">选择要练习的课程：</span>
+            <div className="mt-6 pt-6 border-t border-sumi-100 animate-slide-down">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-bold text-sumi-800">选择练习范围：</span>
                 <button
                   onClick={toggleAllLessons}
-                  className="text-sm text-primary hover:text-primary-hover"
+                  className="text-sm font-medium text-ai-600 hover:text-ai-800 hover:underline"
                 >
-                  {selectedLessons.length === lessons.length ? '取消全选' : '全选'}
+                  {selectedLessons.length === lessons.length ? '取消全选' : '全选所有'}
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                 {lessons.map(lesson => (
                   <button
                     key={lesson.id}
                     onClick={() => toggleLesson(lesson.id)}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      selectedLessons.includes(lesson.id)
-                        ? 'bg-primary text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
+                    className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-all border ${selectedLessons.includes(lesson.id)
+                        ? 'bg-ai-600 text-white border-ai-600 shadow-md transform scale-105'
+                        : 'bg-white text-sumi-600 border-sumi-200 hover:border-ai-300 hover:bg-ai-50'
+                      }`}
                   >
                     课程 {lesson.id}
                   </button>
@@ -234,9 +243,9 @@ export function PracticePage() {
           )}
 
           {showFilter && lessons.length === 0 && (
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <p className="text-sm text-gray-500">
-                暂无已完成的课程，请先完成一些课程后再进行练习。
+            <div className="mt-6 pt-6 border-t border-sumi-100 text-center py-4">
+              <p className="text-sumi-500">
+                尚未完成任何课程，请先学习课程内容。
               </p>
             </div>
           )}
@@ -249,23 +258,39 @@ export function PracticePage() {
               key={mode.id}
               onClick={() => handleStartPractice(mode)}
               disabled={mode.type === 'wrong' && wrongAnswersCount === 0}
-              className={`bg-white rounded-xl shadow-md p-6 text-left transition-all hover:shadow-lg ${
-                mode.type === 'wrong' && wrongAnswersCount === 0
-                  ? 'opacity-50 cursor-not-allowed'
-                  : 'hover:scale-[1.02] cursor-pointer'
-              }`}
+              className={`
+                group relative text-left p-6 sm:p-8 rounded-2xl transition-all duration-300
+                border-2
+                ${mode.type === 'wrong' && wrongAnswersCount === 0
+                  ? 'bg-sumi-50 border-sumi-100 opacity-60 cursor-not-allowed grayscale'
+                  : `bg-white hover:-translate-y-1 hover:shadow-paper-floating cursor-pointer ${mode.borderClass}`
+                }
+              `}
             >
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-4">
-                  <div className={`${mode.bgLight} ${mode.color} p-3 rounded-lg`}>
+              {/* Pattern Overlay on Hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-2xl overflow-hidden">
+                <div className={`w-full h-full bg-asanoha opacity-[0.03] ${mode.color.replace('text', 'bg')}`} />
+              </div>
+
+              <div className="flex items-start justify-between relative z-10">
+                <div className="flex items-start gap-5">
+                  <div className={`
+                    p-4 rounded-xl transition-colors
+                    ${mode.type === 'wrong' && wrongAnswersCount === 0 ? 'bg-sumi-200 text-sumi-400' : `${mode.bgClass} ${mode.color}`}
+                  `}>
                     {mode.icon}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">{mode.title}</h3>
-                    <p className="text-gray-600 text-sm">{mode.description}</p>
+                    <h3 className="text-xl font-bold text-sumi-900 mb-2">{mode.title}</h3>
+                    <p className="text-sumi-600 leading-relaxed max-w-xs">{mode.description}</p>
                   </div>
                 </div>
-                <ChevronRight className="w-6 h-6 text-gray-400 flex-shrink-0" />
+                <div className={`
+                  w-8 h-8 rounded-full flex items-center justify-center transition-all bg-sumi-50
+                  ${mode.type === 'wrong' && wrongAnswersCount === 0 ? 'text-sumi-300' : 'group-hover:bg-sumi-900 group-hover:text-white text-sumi-400'}
+                `}>
+                  <ChevronRight size={18} />
+                </div>
               </div>
             </button>
           ))}
@@ -273,10 +298,13 @@ export function PracticePage() {
 
         {/* 提示信息 */}
         {lessons.length === 0 && (
-          <div className="mt-8 bg-warning-light border-l-4 border-warning p-4 rounded-lg">
-            <p className="text-gray-700">
+          <div className="mt-8 bg-kincha-50 border border-kincha-200 p-4 rounded-xl flex items-start gap-3">
+            <div className="mt-0.5 text-kincha-600">
+              <HelpCircle size={20} />
+            </div>
+            <p className="text-kincha-900 text-sm">
               <strong>提示：</strong>
-              还没有已完成的课程。请先通过课程列表学习一些语法点，然后再来练习吧！
+              还没有已完成的课程。请先通过课程列表学习一些语法点，掌握基础后再来进行综合练习。
             </p>
           </div>
         )}

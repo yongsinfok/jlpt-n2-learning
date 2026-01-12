@@ -1,7 +1,6 @@
 /**
  * 测试页面
- * 通用测试页面，支持填空题、选择题、课程测试等多种模式
- * 根据 URL 参数或路由状态决定测试类型
+ * Modern Japanese Design - Washi Aesthetic
  */
 
 import { useEffect, useState } from 'react';
@@ -17,6 +16,7 @@ import {
   generateRandomPractice,
 } from '@/utils/quizGenerator';
 import type { QuizQuestion } from '@/types';
+import { ArrowLeft } from 'lucide-react';
 
 /** 测试类型 */
 type QuizType = 'fill' | 'choice' | 'lesson' | 'practice' | null;
@@ -57,31 +57,21 @@ export function QuizPage() {
 
         switch (quizType) {
           case 'fill':
-            // 填空题测试
-            if (!grammarPoint) {
-              throw new Error('缺少语法点参数');
-            }
+            if (!grammarPoint) throw new Error('缺少语法点参数');
             loadedQuestions = await generateFillBlankQuestions(grammarPoint, count);
             break;
 
           case 'choice':
-            // 选择题测试
-            if (!grammarPoint) {
-              throw new Error('缺少语法点参数');
-            }
+            if (!grammarPoint) throw new Error('缺少语法点参数');
             loadedQuestions = await generateMultipleChoiceQuestions(grammarPoint, count);
             break;
 
           case 'lesson':
-            // 课程测试
-            if (!lessonId) {
-              throw new Error('缺少课程ID参数');
-            }
+            if (!lessonId) throw new Error('缺少课程ID参数');
             loadedQuestions = await generateLessonTest(parseInt(lessonId), count);
             break;
 
           case 'practice':
-            // 随机练习
             loadedQuestions = await generateRandomPractice(count);
             break;
 
@@ -107,9 +97,6 @@ export function QuizPage() {
   // 处理完成测试
   const handleComplete = () => {
     finishQuiz();
-
-    // 保存练习记录到 IndexedDB
-    // 这里可以添加保存逻辑
   };
 
   // 处理退出
@@ -139,10 +126,9 @@ export function QuizPage() {
   // 加载中
   if (loadingState === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-washi-texture">
         <div className="text-center">
-          <LoadingSpinner />
-          <p className="mt-4 text-gray-600">正在生成题目...</p>
+          <LoadingSpinner size="lg" text="正在生成题目..." />
         </div>
       </div>
     );
@@ -151,14 +137,14 @@ export function QuizPage() {
   // 错误状态
   if (loadingState === 'error') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-        <div className="bg-white rounded-xl shadow-md p-8 text-center max-w-md">
-          <div className="text-error text-6xl mb-4">⚠️</div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">加载失败</h2>
-          <p className="text-gray-600 mb-6">{error}</p>
+      <div className="min-h-screen flex items-center justify-center bg-washi-texture px-4">
+        <div className="card-paper p-8 text-center max-w-md border-shu-200">
+          <div className="text-shu-500 text-5xl mb-4">⚠️</div>
+          <h2 className="text-xl font-bold text-sumi-900 mb-2">生成试题失败</h2>
+          <p className="text-sumi-600 mb-6">{error}</p>
           <button
             onClick={handleGoHome}
-            className="px-6 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors"
+            className="btn-primary w-full"
           >
             返回首页
           </button>
@@ -182,22 +168,33 @@ export function QuizPage() {
 
   // 测试进行中
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="mb-4 px-4">
-        <button
-          onClick={handleExit}
-          className="text-gray-600 hover:text-gray-900 text-sm flex items-center gap-1"
-        >
-          ← 返回
-        </button>
+    <div className="min-h-screen bg-washi-texture py-8 relative">
+      {/* Background Decoration */}
+      <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none">
+        <div className="absolute top-0 left-0 w-64 h-64 bg-asanoha bg-repeat opacity-50"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-seigaiha bg-repeat opacity-50"></div>
       </div>
 
-      <FillBlankQuiz
-        questions={questions}
-        onComplete={handleComplete}
-        onExit={handleExit}
-        showExplanation={false}
-      />
+      <div className="max-w-3xl mx-auto px-4 relative z-10">
+        <div className="mb-6">
+          <button
+            onClick={handleExit}
+            className="text-sumi-500 hover:text-sumi-900 text-sm flex items-center gap-1 font-medium px-3 py-1.5 rounded-lg hover:bg-white/50 transition-colors"
+          >
+            <ArrowLeft size={16} />
+            退出练习
+          </button>
+        </div>
+
+        <div className="card-paper p-0 overflow-hidden shadow-paper-lg">
+          <FillBlankQuiz
+            questions={questions}
+            onComplete={handleComplete}
+            onExit={handleExit}
+            showExplanation={false}
+          />
+        </div>
+      </div>
     </div>
   );
 }
