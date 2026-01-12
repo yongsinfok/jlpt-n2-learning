@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle, Circle, ChevronRight, Clock, Target, BookOpen, Sparkles } from 'lucide-react';
+import { CheckCircle, ChevronRight, Clock, Target, BookOpen, Sparkles } from 'lucide-react';
 
 type OnboardingStep = 'welcome' | 'features' | 'goals' | 'time' | 'complete';
 

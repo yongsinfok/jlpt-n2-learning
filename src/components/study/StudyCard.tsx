@@ -1,5 +1,6 @@
 /**
- * 学习卡片组件
+ * 学习卡片组件 - Modern Japanese Design
+ * 玻璃态 + 黏土态风格
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -67,7 +68,7 @@ export function StudyCard({
     let result = parts[0] || '';
     if (matches) {
       matches.forEach((match, i) => {
-        result += `<span class="bg-yellow-200 border-b-2 border-yellow-500 px-0.5 rounded">${match}</span>`;
+        result += `<span class="bg-kincha-200 border-b-2 border-kincha-400 px-0.5 rounded">${match}</span>`;
         if (parts[i + 1]) {
           result += parts[i + 1];
         }
@@ -123,28 +124,30 @@ export function StudyCard({
   const hasDetailedAnalysis = wordByWord && wordByWord.includes('<h3>');
 
   return (
-    <div className={`bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden ${className}`}>
+    <div className={`bg-white/90 backdrop-blur rounded-3xl shadow-washi border border-ai-100/50 overflow-hidden ${className}`}>
       {/* 进度指示 */}
-      <div className="bg-gradient-to-r from-ai-50 to-white px-6 py-4 border-b border-gray-100">
+      <div className="bg-gradient-to-r from-ai-50 to-white px-6 py-4 border-b border-ai-100/50">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600 font-medium">例句进度</span>
-          <span className="font-semibold text-gray-900 text-sm">
+          <span className="text-sm font-medium text-sumi-600">例句进度</span>
+          <span className="font-bold text-sumi-900 text-sm">
             {currentIndex + 1} / {totalCount}
           </span>
         </div>
-        <div className="mt-3 w-full bg-gray-100 rounded-full h-2">
+        <div className="mt-3 w-full bg-sumi-100 rounded-full h-2 overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-ai-500 to-ai-400 rounded-full transition-all duration-500"
+            className="h-full bg-gradient-to-r from-ai-DEFAULT to-ai-400 rounded-full transition-all duration-500 relative overflow-hidden"
             style={{ width: `${((currentIndex + 1) / totalCount) * 100}%` }}
-          />
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
+          </div>
         </div>
       </div>
 
       <div className="p-6 space-y-6">
         {/* 日语例句（语法点高亮） */}
-        <div className="text-center py-4">
+        <div className="text-center py-6">
           <p
-            className="text-2xl sm:text-3xl leading-relaxed text-gray-900 font-medium"
+            className="text-2xl sm:text-3xl leading-relaxed text-sumi-900 font-semibold"
             dangerouslySetInnerHTML={{ __html: highlightGrammar() }}
           />
         </div>
@@ -159,54 +162,52 @@ export function StudyCard({
         {/* 可折叠内容区域 */}
         <div className="space-y-3">
           {/* 假名标注 */}
-          <div className="border border-gray-200 rounded-xl overflow-hidden">
+          <div className="border border-sumi-100 rounded-2xl overflow-hidden shadow-washi-sm">
             <button
               onClick={() => setShowFurigana(v => !v)}
-              className="w-full px-4 py-3.5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+              className="w-full px-5 py-4 flex items-center justify-between bg-sumi-50 hover:bg-sumi-100 transition-colors"
             >
-              <span className="font-medium text-gray-700">显示假名 <span className="text-gray-400 font-normal text-sm ml-2">(F)</span></span>
-              {showFurigana ? <ChevronUp size={18} className="text-gray-500" /> : <ChevronDown size={18} className="text-gray-500" />}
+              <span className="font-semibold text-sumi-700">显示假名 <span className="text-sumi-400 font-normal text-sm ml-2">(F)</span></span>
+              {showFurigana ? <ChevronUp size={20} className="text-sumi-400" /> : <ChevronDown size={20} className="text-sumi-400" />}
             </button>
             {showFurigana && (
-              <div className="px-4 py-3.5 bg-white">
-                <p className="text-gray-700 leading-relaxed">{furigana}</p>
+              <div className="px-5 py-4 bg-white">
+                <p className="text-sumi-800 leading-relaxed">{furigana}</p>
               </div>
             )}
           </div>
 
           {/* 中文翻译 */}
-          <div className="border border-gray-200 rounded-xl overflow-hidden">
+          <div className="border border-sumi-100 rounded-2xl overflow-hidden shadow-washi-sm">
             <button
               onClick={() => setShowTranslation(v => !v)}
-              className="w-full px-4 py-3.5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+              className="w-full px-5 py-4 flex items-center justify-between bg-sumi-50 hover:bg-sumi-100 transition-colors"
             >
-              <span className="font-medium text-gray-700">显示翻译 <span className="text-gray-400 font-normal text-sm ml-2">(T)</span></span>
-              {showTranslation ? <ChevronUp size={18} className="text-gray-500" /> : <ChevronDown size={18} className="text-gray-500" />}
+              <span className="font-semibold text-sumi-700">显示翻译 <span className="text-sumi-400 font-normal text-sm ml-2">(T)</span></span>
+              {showTranslation ? <ChevronUp size={20} className="text-sumi-400" /> : <ChevronDown size={20} className="text-sumi-400" />}
             </button>
             {showTranslation && (
-              <div className="px-4 py-3.5 bg-white">
-                <p className="text-gray-700 leading-relaxed">{translation}</p>
+              <div className="px-5 py-4 bg-white">
+                <p className="text-sumi-800 leading-relaxed">{translation}</p>
               </div>
             )}
           </div>
 
           {/* 逐词解析 */}
-          <div className="border border-gray-200 rounded-xl overflow-hidden">
+          <div className="border border-sumi-100 rounded-2xl overflow-hidden shadow-washi-sm">
             <button
               onClick={() => setShowAnalysis(v => !v)}
-              className="w-full px-4 py-3.5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+              className="w-full px-5 py-4 flex items-center justify-between bg-sumi-50 hover:bg-sumi-100 transition-colors"
             >
-              <span className="font-medium text-gray-700">显示解析 <span className="text-gray-400 font-normal text-sm ml-2">(A)</span></span>
-              {showAnalysis ? <ChevronUp size={18} className="text-gray-500" /> : <ChevronDown size={18} className="text-gray-500" />}
+              <span className="font-semibold text-sumi-700">显示解析 <span className="text-sumi-400 font-normal text-sm ml-2">(A)</span></span>
+              {showAnalysis ? <ChevronUp size={20} className="text-sumi-400" /> : <ChevronDown size={20} className="text-sumi-400" />}
             </button>
             {showAnalysis && wordByWord && (
-              <div className="px-4 py-3.5 bg-white analysis-content max-h-96 overflow-y-auto">
+              <div className="px-5 py-4 bg-white analysis-content max-h-96 overflow-y-auto">
                 {hasDetailedAnalysis ? (
-                  // 如果有详细的 HTML 解析内容，直接渲染 HTML
                   <div dangerouslySetInnerHTML={{ __html: wordByWord }} />
                 ) : (
-                  // 否则显示简单格式（如果有的话）
-                  <p className="text-gray-600 whitespace-pre-wrap">{wordByWord}</p>
+                  <p className="text-sumi-600 whitespace-pre-wrap">{wordByWord}</p>
                 )}
               </div>
             )}
@@ -218,21 +219,20 @@ export function StudyCard({
           <button
             onClick={onUnderstood}
             className={`
-              flex-1 flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-medium transition-all duration-200
+              flex-1 flex items-center justify-center gap-2 py-4 px-6 rounded-2xl font-semibold transition-all duration-200
               ${isLearned
-                ? 'bg-matcha-500 hover:bg-matcha-600 text-white'
-                : 'bg-ai-600 hover:bg-ai-700 text-white'
+                ? 'bg-gradient-to-r from-matcha-DEFAULT to-matcha-500 hover:from-matcha-600 hover:to-matcha-600 text-white shadow-washi hover:shadow-washi-md hover:-translate-y-0.5'
+                : 'bg-gradient-to-r from-ai-DEFAULT to-ai-500 hover:from-ai-600 hover:to-ai-600 text-white shadow-washi hover:shadow-washi-md hover:-translate-y-0.5'
               }
-              shadow-sm hover:shadow-md hover:-translate-y-0.5
             `}
           >
-            <Star size={18} className={isLearned ? 'fill-white' : ''} />
+            <Star size={20} className={isLearned ? 'fill-white' : ''} />
             {isLearned ? '已理解' : '我已理解'}
           </button>
           <button
             onClick={onNext}
             disabled={isLast}
-            className="flex-1 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed text-gray-700 font-medium py-3.5 px-6 rounded-xl transition-colors duration-200"
+            className="flex-1 bg-sumi-50 hover:bg-sumi-100 disabled:bg-sumi-100/50 disabled:text-sumi-300 disabled:cursor-not-allowed text-sumi-700 font-semibold py-4 px-6 rounded-2xl transition-colors duration-200 border border-sumi-100"
           >
             {isLast ? '已完成' : '下一句'}
           </button>
@@ -243,25 +243,25 @@ export function StudyCard({
           <button
             onClick={onPrevious}
             disabled={isFirst}
-            className="text-sm text-gray-500 hover:text-ai-600 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors font-medium"
+            className="text-sm font-medium text-sumi-400 hover:text-ai-DEFAULT disabled:text-sumi-200 disabled:cursor-not-allowed transition-colors"
           >
             ← 上一句
           </button>
           <button
             onClick={onNext}
             disabled={isLast}
-            className="text-sm text-gray-500 hover:text-ai-600 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors font-medium"
+            className="text-sm font-medium text-sumi-400 hover:text-ai-DEFAULT disabled:text-sumi-200 disabled:cursor-not-allowed transition-colors"
           >
             下一句 →
           </button>
         </div>
 
         {/* 快捷键提示 */}
-        <div className="text-xs text-gray-400 text-center space-x-3 pt-2 border-t border-gray-100">
-          <span>F: 假名</span>
-          <span>T: 翻译</span>
-          <span>A: 解析</span>
-          <span>←/→: 导航</span>
+        <div className="text-xs text-sumi-300 text-center space-x-4 pt-4 border-t border-sumi-100">
+          <span><kbd className="px-1.5 py-0.5 bg-sumi-100 rounded text-sumi-500">F</kbd> 假名</span>
+          <span><kbd className="px-1.5 py-0.5 bg-sumi-100 rounded text-sumi-500">T</kbd> 翻译</span>
+          <span><kbd className="px-1.5 py-0.5 bg-sumi-100 rounded text-sumi-500">A</kbd> 解析</span>
+          <span><kbd className="px-1.5 py-0.5 bg-sumi-100 rounded text-sumi-500">←</kbd><kbd className="px-1.5 py-0.5 bg-sumi-100 rounded text-sumi-500">→</kbd> 导航</span>
         </div>
       </div>
     </div>

@@ -50,38 +50,10 @@ export async function loadCSVData(): Promise<void> {
 
     // 3. 解析 CSV
     // 注意：CSV 文件以 # 开头的配置行开头，没有标准列头
-    // 需要手动指定列名顺序
-    const COLUMN_HEADERS = [
-      'deck',           // 0
-      'sentence',       // 1
-      'grammarPoint',   // 2
-      'lessonNumber',   // 3
-      'japanese',       // 4
-      'furigana',       // 5
-      'translation',    // 6
-      'audio',          // 7
-      'grammarConnection', // 8
-      'grammarFormation',  // 9
-      'meaning1',       // 10
-      'meaning2',       // 11
-      'level',          // 12
-      'japaneseExplanation', // 13
-      'chineseExplanation',  // 14
-      'usage',          // 15
-      'sentenceAnalysis',    // 16
-      'wordByWord',     // 17 (包含 HTML，可能有逗号分隔问题)
-      'wordByWord2',    // 18 (HTML 续)
-      'wordByWord3',    // 19 (HTML 续)
-      'wordByWord4',    // 20 (HTML 续)
-      'extra1',         // 21
-      'tags'            // 22 (根据 #tags column:22)
-    ];
-
     const { data, errors } = Papa.parse(csvText, {
       header: false,
       skipEmptyLines: true,
       dynamicTyping: true,
-      transformHeader: (header: string, index: number) => COLUMN_HEADERS[index] || `col${index}`,
     });
 
     if (errors.length > 0) {
@@ -91,14 +63,14 @@ export async function loadCSVData(): Promise<void> {
     console.log(`Parsed ${data.length} rows from CSV`);
 
     // 4. 过滤掉以 # 开头的配置行
-    const validRows = data.filter((row: any[]) => {
+    const validRows = (data as unknown[][]).filter((row: unknown[]) => {
       return row[0] && !String(row[0]).startsWith('#');
     });
 
     console.log(`Filtered to ${validRows.length} valid data rows`);
 
     // 5. 转换数据格式
-    const sentences: Sentence[] = validRows.map((row: any[], index: number) => {
+    const sentences: Sentence[] = validRows.map((row: unknown[], index: number) => {
       // 从 deck 字段提取课号（格式: "新完全掌握N2语法例句::Lesson 01"）
       const deck = String(row[0] || '');
       const lessonMatch = deck.match(/Lesson\s+(\d+)/);

@@ -1,52 +1,219 @@
-/* Japanese Typography */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
+/* ========================================
+   JLPT N2 Learning Platform - Design System
+   Modern Japanese Educational Aesthetic
+   ======================================== */
 
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap');
+
+/* Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ========================================
+   CSS Variables - Design Tokens
+   ======================================== */
+
 :root {
-  font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
-    'Yu Gothic', 'Meiryo', sans-serif;
-  line-height: 1.6;
-  font-weight: 400;
+  /* Font Families */
+  --font-sans: 'Inter', 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+  --font-serif: 'Noto Serif JP', serif;
+  --font-display: 'Noto Sans JP', sans-serif;
 
-  color-scheme: light;
-  color: #2F353B;
-  background-color: #F7F4ED;
+  /* Primary Colors - Indigo (Japanese Aizuri) */
+  --color-primary-50: #EEF2FF;
+  --color-primary-100: #E0E7FF;
+  --color-primary-200: #C7D2FE;
+  --color-primary-300: #A5B4FC;
+  --color-primary-400: #818CF8;
+  --color-primary-500: #6366F1;
+  --color-primary-600: #4F46E5;
+  --color-primary-700: #4338CA;
+  --color-primary-800: #3730A3;
+  --color-primary-900: #312E81;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Secondary Colors - Matcha Green */
+  --color-matcha-50: #F0FDF4;
+  --color-matcha-100: #DCFCE7;
+  --color-matcha-200: #BBF7D0;
+  --color-matcha-300: #86EFAC;
+  --color-matcha-400: #4ADE80;
+  --color-matcha-500: #22C55E;
+  --color-matcha-600: #16A34A;
+  --color-matcha-700: #15803D;
+  --color-matcha-800: #166534;
+  --color-matcha-900: #14532D;
+
+  /* Accent Colors - Shu Red (Cinnabar) */
+  --color-shu-50: #FEF2F2;
+  --color-shu-100: #FEE2E2;
+  --color-shu-200: #FECACA;
+  --color-shu-300: #FCA5A5;
+  --color-shu-400: #F87171;
+  --color-shu-500: #EF4444;
+  --color-shu-600: #DC2626;
+  --color-shu-700: #B91C1C;
+  --color-shu-800: #991B1B;
+  --color-shu-900: #7F1D1D;
+
+  /* Learning Colors - Teal */
+  --color-teal-50: #F0FDFA;
+  --color-teal-100: #CCFBF1;
+  --color-teal-200: #99F6E4;
+  --color-teal-300: #5EEAD4;
+  --color-teal-400: #2DD4BF;
+  --color-teal-500: #14B8A6;
+  --color-teal-600: #0D9488;
+  --color-teal-700: #0F766E;
+  --color-teal-800: #115E59;
+  --color-teal-900: #134E4A;
+
+  /* Warm Accent - Kincha (Gold) */
+  --color-kincha-50: #FFFBEB;
+  --color-kincha-100: #FEF3C7;
+  --color-kincha-200: #FDE68A;
+  --color-kincha-300: #FCD34D;
+  --color-kincha-400: #FBBF24;
+  --color-kincha-500: #F59E0B;
+  --color-kincha-600: #D97706;
+  --color-kincha-700: #B45309;
+  --color-kincha-800: #92400E;
+  --color-kincha-900: #78350F;
+
+  /* Neutral Colors - Sumi (Ink) */
+  --color-sumi-50: #F8FAFC;
+  --color-sumi-100: #F1F5F9;
+  --color-sumi-200: #E2E8F0;
+  --color-sumi-300: #CBD5E1;
+  --color-sumi-400: #94A3B8;
+  --color-sumi-500: #64748B;
+  --color-sumi-600: #475569;
+  --color-sumi-700: #334155;
+  --color-sumi-800: #1E293B;
+  --color-sumi-900: #0F172A;
+
+  /* Background - Washi (Japanese Paper) */
+  --color-washi: #F7F4ED;
+  --color-washi-alt: #E8E4D9;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+
+  /* Shadows - Claymorphism Style */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* Claymorphism Shadow (Soft 3D) */
+  --shadow-clay: 0 8px 16px rgba(0, 0, 0, 0.08),
+               0 2px 4px rgba(0, 0, 0, 0.04),
+               inset 0 1px 0 rgba(255, 255, 255, 0.8),
+               inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slower: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Z-Index Scale */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* ========================================
+   Base Styles
+   ======================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  padding: 0;
   min-height: 100vh;
-}
-
-#root {
-  min-height: 100vh;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  font-weight: 400;
+  color-scheme: light;
+  color: var(--color-sumi-800);
+  background-color: var(--color-washi);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* ========================================
-   Washi Paper Texture Backgrounds
+   Typography
+   ======================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-sumi-900);
+  margin: 0;
+}
+
+h1 { font-size: 2.5rem; letter-spacing: -0.02em; }
+h2 { font-size: 2rem; letter-spacing: -0.01em; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+@media (min-width: 768px) {
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2.5rem; }
+}
+
+p {
+  margin: 0;
+}
+
+/* ========================================
+   Japanese Aesthetic Backgrounds
    ======================================== */
 
 .washi-bg {
-  background-color: #F7F4ED;
+  background-color: var(--color-washi);
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
 }
 
 .washi-bg-alt {
-  background-color: #E8E4D9;
+  background-color: var(--color-washi-alt);
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
 }
 
-/* Seigaiha (Blue Wave) pattern overlay */
 .seigaiha-overlay {
   position: relative;
 }
@@ -55,7 +222,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='80' height='40' viewBox='0 0 80 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.03.02a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9-14.1zm-19.92 0a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9-14.1zm-20 0a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9-14.1z' fill='%232A4A7A' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='40' viewBox='0 0 80 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.03.02a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9 14.1zm-19.92 0a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9 14.1zm-20 0a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9 14.1z' fill='%232A4A7A' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
   background-repeat: repeat;
   opacity: 0.5;
   pointer-events: none;
@@ -63,275 +230,218 @@ body {
 }
 
 /* ========================================
-   Typography Enhancements
+   Component Styles - Modern
    ======================================== */
 
-.display-text {
-  font-family: 'Noto Serif JP', serif;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.vertical-text {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  font-family: 'Noto Serif JP', serif;
-}
-
-/* Decorative brush stroke effect */
-.brush-stroke {
-  position: relative;
-  display: inline-block;
-}
-
-.brush-stroke::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, #2A4A7A 0%, #C8364E 100%);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.brush-stroke:hover::after,
-.brush-stroke.active::after {
-  transform: scaleX(1);
-}
-
-/* ========================================
-   Card Styles with Japanese Aesthetics
-   ======================================== */
-
-.japanese-card {
-  background: rgba(255, 255, 255, 0.8);
+/* Cards - Claymorphism Style */
+.card {
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(42, 74, 122, 0.1);
-  border-radius: 12px;
-  box-shadow:
-    0 4px 6px rgba(47, 53, 59, 0.04),
-    0 2px 4px rgba(47, 53, 59, 0.02),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-clay);
+  transition: all var(--transition-base) ease-out;
+}
+
+.card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12),
+              0 4px 8px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-500));
+  color: white;
+  border-radius: var(--radius-xl);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all var(--transition-base) ease-out;
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Progress Bars */
+.progress-bar {
+  height: 0.5rem;
+  background: var(--color-sumi-100);
+  border-radius: 9999px;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.japanese-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(42, 74, 122, 0.2), transparent);
-}
-
-.japanese-card:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 20px 25px rgba(47, 53, 59, 0.04),
-    0 10px 10px rgba(47, 53, 59, 0.02),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  border-color: rgba(42, 74, 122, 0.2);
-}
-
-/* Stamp effect for buttons and badges */
-.stamp-effect {
-  position: relative;
-  border: 2px solid #C8364E;
-  border-radius: 4px;
-  transform: rotate(-2deg);
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.stamp-effect:hover {
-  transform: rotate(0deg) scale(1.05);
-  box-shadow:
-    inset 0 2px 4px rgba(0, 0, 0, 0.1),
-    0 4px 8px rgba(200, 54, 78, 0.2);
-}
-
-.stamp-effect::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='rough'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.04' numOctaves='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23rough)' opacity='0.1'/%3E%3C/svg%3E");
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-/* Stamp texture for buttons */
-.stamp-texture {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='rough'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.04' numOctaves='5'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23rough)'/%3E%3C/svg%3E");
-}
-
-/* ========================================
-   Progress Bar with Brush Effect
-   ======================================== */
-
-.brush-progress {
-  height: 8px;
-  border-radius: 4px;
-  background: rgba(42, 74, 122, 0.1);
-  overflow: hidden;
-  position: relative;
-}
-
-.brush-progress-bar {
+.progress-fill {
   height: 100%;
-  border-radius: 4px;
-  background: linear-gradient(90deg, #2A4A7A 0%, #5E9ED2 50%, #2A4A7A 100%);
+  background: linear-gradient(90deg, var(--color-teal-400), var(--color-teal-500), var(--color-teal-400));
   background-size: 200% 100%;
-  animation: shimmer 2s linear infinite;
-  position: relative;
-  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.brush-progress-bar::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  border-radius: 9999px;
+  transition: width var(--transition-slower) ease-out;
   animation: shimmer 2s linear infinite;
 }
 
 /* ========================================
-   Ink Drop Animation
+   Animations
    ======================================== */
 
-@keyframes inkDrop {
-  0% {
-    transform: scale(0);
-    opacity: 0.8;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
   }
-  50% {
-    opacity: 0.4;
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
   }
   100% {
-    transform: scale(4);
-    opacity: 0;
+    background-position: -200% 0;
   }
 }
 
-.ink-drop-effect {
-  position: relative;
-  overflow: hidden;
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
 
-.ink-drop-effect::before {
-  content: '';
-  position: absolute;
-  top: var(--ink-y, 50%);
-  left: var(--ink-x, 50%);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(42, 74, 122, 0.4), transparent);
-  transform: scale(0);
-  opacity: 0;
-  pointer-events: none;
+/* Utility Classes */
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
 }
 
-.ink-drop-effect:active::before {
-  animation: inkDrop 0.6s ease-out forwards;
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out forwards;
 }
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.2s ease-out forwards;
+}
+
+/* Staggered animation delays */
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }
 
 /* ========================================
-   Grammar Highlight with Traditional Style
+   Accessibility
    ======================================== */
 
-.grammar-highlight {
-  background: linear-gradient(180deg, transparent 60%, rgba(212, 165, 71, 0.3) 60%);
-  padding: 0 2px;
-  border-radius: 2px;
-  position: relative;
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-.grammar-highlight::before {
-  content: '';
+/* Focus visible */
+*:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Skip link */
+.skip-to-content {
   position: absolute;
-  bottom: 0;
+  top: -100%;
   left: 0;
-  right: 0;
-  height: 2px;
-  background: #D4A547;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease-out;
+  background: var(--color-primary-600);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  z-index: 9999;
+  transition: top var(--transition-base);
 }
 
-.grammar-highlight:hover::before {
-  transform: scaleX(1);
-}
-
-/* ========================================
-   Utility Classes for Japanese Decor
-   ======================================== */
-
-.decorative-border {
-  border: 2px solid #2A4A7A;
-  border-radius: 8px;
-  position: relative;
-}
-
-.decorative-border::before,
-.decorative-border::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #2A4A7A;
-}
-
-.decorative-border::before {
-  top: -4px;
-  left: -4px;
-  border-right: none;
-  border-bottom: none;
-  border-radius: 8px 0 0 0;
-}
-
-.decorative-border::after {
-  bottom: -4px;
-  right: -4px;
-  border-left: none;
-  border-top: none;
-  border-radius: 0 0 8px 0;
-}
-
-/* Vertical text decoration */
-.vertical-deco {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  writing-mode: vertical-rl;
-  font-family: 'Noto Serif JP', serif;
-  font-size: 0.75rem;
-  color: #2A4A7A;
-  opacity: 0.6;
-  letter-spacing: 0.2em;
-  pointer-events: none;
+.skip-to-content:focus {
+  top: 0;
 }
 
 /* ========================================
-   Responsive Typography
+   Responsive Design
    ======================================== */
 
+/* Mobile */
 @media (max-width: 640px) {
-  .display-text {
-    letter-spacing: -0.01em;
-  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
 
-  .vertical-deco {
-    display: none;
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 
@@ -348,14 +458,13 @@ body {
     background: white;
   }
 
-  .japanese-card {
-    box-shadow: none;
-    border: 1px solid #ddd;
+  a[href]:after {
+    content: " (" attr(href) ")";
   }
 }
 
 /* ========================================
-   Analysis Content Styles (Word-by-Word)
+   Analysis Content Styles
    ======================================== */
 
 .analysis-content h3 {
@@ -363,12 +472,12 @@ body {
   font-weight: 700;
   margin-top: 1rem;
   margin-bottom: 0.75rem;
-  color: #1f2937;
+  color: var(--color-sumi-900);
 }
 
 .analysis-content p {
   margin-bottom: 0.5rem;
-  color: #374151;
+  color: var(--color-sumi-700);
   line-height: 1.6;
 }
 
@@ -379,14 +488,14 @@ body {
 }
 
 .analysis-content li {
-  color: #374151;
+  color: var(--color-sumi-700);
   margin-bottom: 0.25rem;
   line-height: 1.6;
 }
 
 .analysis-content strong {
   font-weight: 700;
-  color: #111827;
+  color: var(--color-sumi-900);
 }
 
 .analysis-content ul ul {
@@ -395,70 +504,28 @@ body {
 }
 
 /* ========================================
-   Modern Animations
+   Utility Classes
    ======================================== */
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-shu-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-@keyframes slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-500));
 }
 
-@keyframes slide-in-from-top {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.bg-gradient-matcha {
+  background: linear-gradient(135deg, var(--color-matcha-500), var(--color-matcha-400));
 }
 
-@keyframes brush-stroke {
-  0% {
-    transform: scaleX(0);
-  }
-  100% {
-    transform: scaleX(1);
-  }
+.bg-gradient-shu {
+  background: linear-gradient(135deg, var(--color-shu-500), var(--color-shu-600));
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.2s ease-out;
-}
-
-.animate-slide-down {
-  animation: slide-down 0.25s ease-out;
-}
-
-.animate-brush-stroke {
-  animation: brush-stroke 0.4s ease-out;
-}
-
-.animate-shimmer {
-  animation: shimmer 2s linear infinite;
+.bg-gradient-kincha {
+  background: linear-gradient(135deg, var(--color-kincha-400), var(--color-kincha-500));
 }
