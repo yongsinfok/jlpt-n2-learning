@@ -152,13 +152,49 @@ export function PracticePage() {
     }
   };
 
-  // 加载中状态
+  // 加载中状态 - 优化骨架屏
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-washi-texture">
-        <div className="text-center animate-pulse">
-          <div className="text-ai-300 mb-2">● ● ●</div>
-          <p className="text-sumi-500">正在准备练习数据...</p>
+      <div className="min-h-screen bg-washi-texture">
+        {/* Background Decoration */}
+        <div className="absolute top-0 right-0 w-full h-64 bg-seigaiha-faint opacity-50 -z-0 pointer-events-none fade-out-bottom" aria-hidden="true" />
+
+        <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
+          {/* Header Skeleton */}
+          <div className="mb-12 text-center max-w-2xl mx-auto">
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-sumi-100 animate-pulse mb-6" />
+            <div className="h-10 bg-sumi-100 rounded w-48 mx-auto mb-4 animate-pulse" />
+            <div className="h-6 bg-sumi-50 rounded w-80 mx-auto animate-pulse" />
+          </div>
+
+          {/* Filter Bar Skeleton */}
+          <div className="bg-white/90 backdrop-blur rounded-3xl shadow-washi border border-sumi-100 p-6 mb-8">
+            <div className="flex items-center gap-4">
+              <div className="h-10 bg-sumi-100 rounded-lg w-32 animate-pulse" />
+              <div className="h-10 bg-sumi-50 rounded-lg w-24 animate-pulse" />
+            </div>
+          </div>
+
+          {/* Practice Mode Cards Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="bg-white border-2 border-sumi-100 rounded-2xl p-6 sm:p-8"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-5">
+                    <div className="w-16 h-16 rounded-xl bg-sumi-100 animate-pulse" />
+                    <div className="space-y-2">
+                      <div className="h-6 bg-sumi-100 rounded w-32 animate-pulse" />
+                      <div className="h-4 bg-sumi-50 rounded w-56 animate-pulse" />
+                    </div>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-sumi-50 animate-pulse" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );

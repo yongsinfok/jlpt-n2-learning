@@ -5,7 +5,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, BookOpen, FileText, RotateCcw, CheckCircle2, Circle, ChevronRight } from 'lucide-react';
+import { ArrowLeft, BookOpen, FileText, CheckCircle2 } from 'lucide-react';
 import { getLessonById, getGrammarPointsByLesson, getUserProgress } from '@/db/operations';
 import type { Lesson, GrammarPoint, UserProgress } from '@/types';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
@@ -77,10 +77,6 @@ export function LessonDetailPage() {
     if (nextGrammarId) {
       navigate(`/grammar/${encodeURIComponent(nextGrammarId)}`);
     }
-  };
-
-  const handleReviewLesson = () => {
-    navigate(`/lesson/${lessonId}/review`);
   };
 
   const handleStartQuiz = () => {

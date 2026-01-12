@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { LessonMap } from '@/components/study';
 import { getAllLessons } from '@/db/operations';
 import type { Lesson } from '@/types';
-import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { SkeletonCard } from '@/components/common';
 import { BookOpen, CheckCircle2, Map } from 'lucide-react';
 
 /**
@@ -36,8 +36,41 @@ export function LessonListPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-washi-texture flex items-center justify-center">
-        <LoadingSpinner size="lg" text="加载课程中..." />
+      <div className="min-h-screen bg-washi-texture">
+        {/* Header Skeleton */}
+        <div className="bg-white border-b border-sumi-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+            <div className="max-w-3xl space-y-4">
+              <div className="h-5 bg-sumi-100 rounded w-32 animate-pulse" />
+              <div className="h-12 bg-sumi-100 rounded w-64 animate-pulse" />
+              <div className="h-6 bg-sumi-50 rounded w-96 animate-pulse" />
+            </div>
+          </div>
+        </div>
+
+        {/* Progress Cards Skeleton */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-white/90 backdrop-blur rounded-3xl shadow-washi border border-sumi-100 p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-sumi-100 animate-pulse mb-3" />
+                  <div className="h-8 bg-sumi-100 rounded w-12 animate-pulse mb-1" />
+                  <div className="h-4 bg-sumi-50 rounded w-24 animate-pulse" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Lesson Map Skeleton */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

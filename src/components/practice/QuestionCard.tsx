@@ -1,9 +1,10 @@
 /**
- * 题目卡片组件
- * 显示单个测试题目，支持选择答案和查看解析
+ * 题目卡片组件 - 优化版本
+ * 使用 React.memo 和 useCallback 优化性能
+ * 增强可访问性（ARIA 属性）
  */
 
-import { useState } from 'react';
+import { useState, memo, useMemo, useCallback } from 'react';
 import { CheckCircle2, XCircle, ChevronDown } from 'lucide-react';
 import type { QuizQuestion } from '@/types';
 
@@ -22,7 +23,7 @@ interface QuestionCardProps {
   onToggleExplanation?: () => void;
 }
 
-export function QuestionCard({
+export const QuestionCard = memo(function QuestionCard({
   question,
   isSubmitted,
   userAnswer,
@@ -33,17 +34,19 @@ export function QuestionCard({
   const [localSelected, setLocalSelected] = useState<string | undefined>(userAnswer);
 
   // 判断答案是否正确
-  const isCorrect = userAnswer === question.correctAnswer;
+  const isCorrect = useMemo(() => {
+    return userAnswer === question.correctAnswer;
+  }, [userAnswer, question.correctAnswer]);
 
   // 处理选项选择
-  const handleSelectOption = (option: string) => {
+  const handleSelectOption = useCallback((option: string) => {
     if (isSubmitted) return; // 已提交后不能更改
     setLocalSelected(option);
     onSelectAnswer(option);
-  };
+  }, [isSubmitted, onSelectAnswer]);
 
-  // 获取选项样式
-  const getOptionClassName = (option: string) => {
+  // 缓存选项样式函数
+  const getOptionClassName = useCallback((option: string) => {
     const baseClasses = 'w-full p-4 text-left rounded-lg border-2 transition-all duration-200 ';
 
     if (!isSubmitted) {
@@ -66,10 +69,10 @@ export function QuestionCard({
     }
 
     return baseClasses + 'border-gray-200 bg-gray-100 text-gray-500';
-  };
+  }, [isSubmitted, localSelected, question.correctAnswer, userAnswer, isCorrect]);
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
+    <div className="bg-white rounded-xl shadow-lg p-6 md:p-8" role="region" aria-label={`题目 ${question.id.slice(-8)}`}>
       {/* 题目编号和进度 */}
       <div className="flex items-center justify-between mb-6">
         <span className="text-sm font-medium text-gray-500">题目 ID: {question.id.slice(-8)}</span>
@@ -77,12 +80,12 @@ export function QuestionCard({
           <div className="flex items-center gap-2">
             {isCorrect ? (
               <span className="flex items-center gap-1 text-success font-medium">
-                <CheckCircle2 className="w-5 h-5" />
+                <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
                 正确
               </span>
             ) : (
               <span className="flex items-center gap-1 text-error font-medium">
-                <XCircle className="w-5 h-5" />
+                <XCircle className="w-5 h-5" aria-hidden="true" />
                 错误
               </span>
             )}
@@ -101,39 +104,57 @@ export function QuestionCard({
       </div>
 
       {/* 选项列表 */}
-      <div className="space-y-3 mb-6">
-        {question.options.map((option, index) => (
-          <button
-            key={index}
-            onClick={() => handleSelectOption(option)}
-            disabled={isSubmitted}
-            className={getOptionClassName(option)}
-            aria-label={`选项 ${String.fromCharCode(65 + index)}: ${option}`}
-          >
-            <div className="flex items-center gap-4">
-              {/* 选项标签 */}
-              <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 font-bold text-gray-700">
-                {String.fromCharCode(65 + index)}
-              </span>
-              {/* 选项内容 */}
-              <span className="text-lg">{option}</span>
-              {/* 正确/错误标记 */}
-              {isSubmitted && option === question.correctAnswer && (
-                <CheckCircle2 className="w-6 h-6 text-success ml-auto" />
-              )}
-              {isSubmitted && option === userAnswer && !isCorrect && (
-                <XCircle className="w-6 h-6 text-error ml-auto" />
-              )}
-            </div>
-          </button>
-        ))}
+      <div className="space-y-3 mb-6" role="radiogroup" aria-label="答案选项">
+        {question.options.map((option, index) => {
+          const optionLabel = String.fromCharCode(65 + index);
+          const isSelected = localSelected === option;
+          const isCorrectOption = option === question.correctAnswer;
+          const isWrongSelected = option === userAnswer && !isCorrect && isSubmitted;
+
+          return (
+            <button
+              key={option}
+              onClick={() => handleSelectOption(option)}
+              disabled={isSubmitted}
+              className={getOptionClassName(option)}
+              aria-label={`选项 ${optionLabel}: ${option}`}
+              aria-pressed={isSelected}
+              aria-disabled={isSubmitted}
+              role="radio"
+              tabIndex={isSubmitted ? -1 : 0}
+            >
+              <div className="flex items-center gap-4">
+                {/* 选项标签 */}
+                <span
+                  className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 font-bold text-gray-700"
+                  aria-hidden="true"
+                >
+                  {optionLabel}
+                </span>
+                {/* 选项内容 */}
+                <span className="text-lg">{option}</span>
+                {/* 正确/错误标记 */}
+                {isSubmitted && isCorrectOption && (
+                  <CheckCircle2 className="w-6 h-6 text-success ml-auto" aria-hidden="true" />
+                )}
+                {isSubmitted && isWrongSelected && (
+                  <XCircle className="w-6 h-6 text-error ml-auto" aria-hidden="true" />
+                )}
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {/* 答案反馈（提交后显示） */}
       {isSubmitted && (
-        <div className={`border-l-4 p-4 rounded-lg mb-4 ${
-          isCorrect ? 'border-success bg-success-light' : 'border-error bg-error-light'
-        }`}>
+        <div
+          className={`border-l-4 p-4 rounded-lg mb-4 ${
+            isCorrect ? 'border-success bg-success-light' : 'border-error bg-error-light'
+          }`}
+          role="alert"
+          aria-live="polite"
+        >
           <p className="font-bold text-gray-900 mb-1">
             {isCorrect ? '回答正确！' : '回答错误'}
           </p>
@@ -158,16 +179,19 @@ export function QuestionCard({
           <button
             onClick={onToggleExplanation}
             className="w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors flex items-center justify-between"
+            aria-expanded={showExplanation}
+            aria-controls="explanation-content"
           >
             <span className="font-medium text-gray-700">语法解析</span>
             <ChevronDown
               className={`w-5 h-5 text-gray-500 transition-transform ${
                 showExplanation ? 'rotate-180' : ''
               }`}
+              aria-hidden="true"
             />
           </button>
           {showExplanation && (
-            <div className="px-4 py-3 bg-white">
+            <div id="explanation-content" className="px-4 py-3 bg-white">
               <p className="text-gray-700 leading-relaxed">{question.explanation}</p>
             </div>
           )}
@@ -175,4 +199,4 @@ export function QuestionCard({
       )}
     </div>
   );
-}
+});

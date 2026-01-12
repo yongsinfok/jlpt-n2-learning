@@ -1,10 +1,12 @@
 /**
  * 学习卡片组件 - Modern Japanese Design
  * Refined Washi Paper Aesthetic with Animations
+ * 优化版本：XSS 防护、性能优化、可访问性增强
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useMemo, memo } from 'react';
 import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
+import DOMPurify from 'dompurify';
 import { AudioPlayer } from './AudioPlayer';
 import type { Sentence } from '@/types';
 
@@ -25,8 +27,9 @@ export interface StudyCardProps {
 /**
  * 学习卡片组件
  * 修复了文字重叠问题，采用更干净的垂直堆叠布局
+ * 优化版本：使用 memo 避免不必要的重渲染
  */
-export function StudyCard({
+export const StudyCard = memo(function StudyCard({
   sentence,
   grammarPoint,
   currentIndex,
@@ -53,12 +56,17 @@ export function StudyCard({
     setShowAnalysis(true);
   }, [sentence.id]);
 
-  // 高亮语法点
-  const highlightGrammar = useCallback(() => {
+  // 高亮语法点 - 使用 useMemo 优化性能，并使用 DOMPurify 防止 XSS
+  const highlightedGrammar = useMemo(() => {
     if (!text) return '';
     const escapedGrammar = grammarPoint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${escapedGrammar})`, 'g');
-    return text.replace(regex, '<span class="text-shu-600 border-b-2 border-shu-300 pb-0.5 mx-0.5 font-bold">$1</span>');
+    const result = text.replace(regex, '<span class="text-shu-600 border-b-2 border-shu-300 pb-0.5 mx-0.5 font-bold">$1</span>');
+    // 使用 DOMPurify 清理 HTML，防止 XSS 攻击
+    return DOMPurify.sanitize(result, {
+      ALLOWED_TAGS: ['span'],
+      ALLOWED_ATTR: ['class']
+    });
   }, [text, grammarPoint]);
 
   // 键盘快捷键
@@ -112,7 +120,7 @@ export function StudyCard({
           <div className="mb-8 w-full min-h-[120px] flex items-center justify-center">
             <p
               className="text-3xl sm:text-4xl md:text-5xl leading-tight text-sumi-900 font-medium tracking-wide transition-all duration-300"
-              dangerouslySetInnerHTML={{ __html: highlightGrammar() }}
+              dangerouslySetInnerHTML={{ __html: highlightedGrammar }}
             />
           </div>
 
@@ -190,7 +198,10 @@ export function StudyCard({
                 </h4>
                 <div className="text-sumi-700 text-sm leading-relaxed prose prose-sm max-w-none">
                   {wordByWord && (wordByWord.includes('<') ? (
-                    <div dangerouslySetInnerHTML={{ __html: wordByWord }} />
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(wordByWord, {
+                      ALLOWED_TAGS: ['h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'div', 'span'],
+                      ALLOWED_ATTR: ['class']
+                    })}} />
                   ) : (
                     <p className="whitespace-pre-wrap">{wordByWord}</p>
                   ))}
@@ -245,7 +256,7 @@ export function StudyCard({
       </div>
     </div>
   );
-}
+});
 
 function ToggleButton({ isActive, onClick, label, shortcut }: { isActive: boolean; onClick: () => void; label: string; shortcut: string }) {
   return (
