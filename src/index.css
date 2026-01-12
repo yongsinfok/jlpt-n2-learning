@@ -1,29 +1,27 @@
 /* ========================================
    JLPT N2 Learning Platform - Design System
-   Modern Japanese Educational Aesthetic
-   Refined "Washi" Paper Style
+   Modern Japanese "Zen Glass" Aesthetic
    ======================================== */
 
-/* Google Fonts Import */
-/* Adding Outfit for English headings/UI elements to mix with Noto Sans JP */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap');
+/* Premium Font Selection */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap');
 
-/* Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ========================================
-   CSS Variables - Design Tokens
+   CSS Variables - Enhanced Design Tokens
    ======================================== */
 
 :root {
-  /* Font Families */
-  --font-sans: 'Outfit', 'Noto Sans JP', sans-serif; /* Cleaner, more geometric for UI */
-  --font-body: 'Noto Sans JP', sans-serif; /* Standard legibility for Japanese content */
+  /* Font Families - Premium Japanese Typography */
+  --font-display: 'Outfit', 'Zen Kaku Gothic New', sans-serif;
+  --font-sans: 'Noto Sans JP', sans-serif;
   --font-serif: 'Noto Serif JP', serif;
-  
-  /* Primary Colors - Indigo (Ai - 藍) - Deep, Serious, Trustworthy */
+  --font-jp: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
+
+  /* Primary - Indigo (Ai - 藍) */
   --color-ai-50: #EEF2FF;
   --color-ai-100: #E0E7FF;
   --color-ai-200: #C7D2FE;
@@ -31,47 +29,40 @@
   --color-ai-400: #818CF8;
   --color-ai-500: #6366F1;
   --color-ai-600: #4F46E5;
-  --color-ai-700: #2A4A7A; /* Primary Brand Color */
+  --color-ai-700: #2A4A7A;
   --color-ai-800: #1E3557;
   --color-ai-900: #132238;
 
-  /* Secondary Colors - Matcha (抹茶) - Progress, Success */
+  /* Success - Matcha (抹茶) */
   --color-matcha-50: #F6F9F2;
   --color-matcha-100: #E9F0E0;
   --color-matcha-200: #D3E0C0;
   --color-matcha-300: #B4CC90;
   --color-matcha-400: #93B360;
-  --color-matcha-500: #6B8E23; /* Olive/Matcha Green */
+  --color-matcha-500: #6B8E23;
   --color-matcha-600: #55721C;
   --color-matcha-700: #405615;
-  --color-matcha-800: #2B3A0E;
-  --color-matcha-900: #151D07;
 
-  /* Accent Colors - Shu (朱) - Attention, Errors, Highlights */
+  /* Accent - Shu (朱) */
   --color-shu-50: #FEF2F2;
   --color-shu-100: #FEE2E2;
   --color-shu-200: #FECACA;
   --color-shu-300: #FCA5A5;
   --color-shu-400: #F87171;
   --color-shu-500: #EF4444;
-  --color-shu-600: #C8364E; /* Traditional Vermilion */
+  --color-shu-600: #C8364E;
   --color-shu-700: #A02B3E;
-  --color-shu-800: #78202F;
-  --color-shu-900: #50151F;
 
-  /* Warm Accent - Kincha (金茶) - Gold, Awards, Streaks */
+  /* Achievement - Kincha (金茶) */
   --color-kincha-50: #FFFDF5;
   --color-kincha-100: #FFF7E0;
   --color-kincha-200: #FFE6B0;
   --color-kincha-300: #FFD480;
   --color-kincha-400: #FFC250;
-  --color-kincha-500: #D4A547; /* Antique Gold */
+  --color-kincha-500: #D4A547;
   --color-kincha-600: #AA8439;
-  --color-kincha-700: #80632B;
-  --color-kincha-800: #55421D;
-  --color-kincha-900: #2B210E;
 
-  /* Neutrals - Sumi (墨) - Ink */
+  /* Neutrals - Sumi (墨) */
   --color-sumi-50: #F9FAFB;
   --color-sumi-100: #F3F4F6;
   --color-sumi-200: #E5E7EB;
@@ -80,151 +71,300 @@
   --color-sumi-500: #6B7280;
   --color-sumi-600: #4B5563;
   --color-sumi-700: #374151;
-  --color-sumi-800: #2F353B; /* Soft Black */
+  --color-sumi-800: #2F353B;
   --color-sumi-900: #111827;
 
-  /* Backgrounds - Washi (Japanese Paper) */
-  --color-washi-white: #FCFCFA; /* Very slightly warm white */
-  --color-washi-cream: #F7F4ED; /* Traditional creamy paper */
-  --color-washi-dark: #E8E4D9;
+  /* Backgrounds */
+  --color-washi-white: #FAFAF8;
+  --color-washi-cream: #F5F3EC;
+  --color-washi-warm: #F0EBE0;
 
-  /* Radii - Reduced for a sharper, more book-like feel */
-  --radius-xs: 0.125rem;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
+  /* Enhanced Shadows */
+  --shadow-xs: '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+  --shadow-sm: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)';
+  --shadow-md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+  --shadow-lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+  --shadow-xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+  --shadow-glass: '0 8px 32px 0 rgba(31, 38, 135, 0.07)';
 
-  /* Shadows - Washi Layers (Flat, layered, subtle) */
-  /* Replaces Claymorphism with "Paper Stacking" */
-  --shadow-paper-sm: 0 1px 2px 0 rgba(47, 53, 59, 0.05);
-  --shadow-paper-md: 0 4px 6px -1px rgba(47, 53, 59, 0.05), 0 2px 4px -1px rgba(47, 53, 59, 0.03);
-  --shadow-paper-lg: 0 10px 15px -3px rgba(47, 53, 59, 0.05), 0 4px 6px -2px rgba(47, 53, 59, 0.02);
-  --shadow-paper-floating: 0 20px 25px -5px rgba(47, 53, 59, 0.08), 0 10px 10px -5px rgba(47, 53, 59, 0.03);
-  
+  /* Glassmorphism */
+  --glass-bg: 'rgba(255, 255, 255, 0.7)';
+  --glass-border: 'rgba(255, 255, 255, 0.18)';
+
   /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
-  --transition-slow: 400ms ease;
+  --ease-out-expo: 'cubic-bezier(0.16, 1, 0.3, 1)';
+  --ease-spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 }
 
 /* ========================================
    Base Styles
    ======================================== */
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: var(--font-body);
-  background-color: var(--color-washi-white);
+  font-family: var(--font-jp);
+  background: linear-gradient(135deg, var(--color-washi-white) 0%, var(--color-washi-cream) 100%);
   color: var(--color-sumi-800);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
+/* Typography */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
-  color: var(--color-sumi-900);
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
 }
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+h3 { font-size: clamp(1.25rem, 3vw, 1.875rem); }
 
 /* ========================================
-   Background Utilities
+   Background Patterns & Textures
    ======================================== */
 
 .bg-washi-texture {
   background-color: var(--color-washi-white);
-  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
 }
 
-.bg-seigaiha-faint {
-  background-image: url("data:image/svg+xml,%3Csvg width='80' height='40' viewBox='0 0 80 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.2A20 20 0 0 1 20.2 40H0zM65.03.02a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9 14.1zm-19.92 0a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9 14.1zm-20 0a20.1 20.1 0 0 1 5.9 14.1 20.02 20.02 0 0 1-5.9 14.1 19.96 19.96 0 0 1-5.9-14.1 20.1 20.1 0 0 1 5.9 14.1z' fill='%232A4A7A' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E");
+.bg-seigaiha-subtle {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='50' viewBox='0 0 100 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50a25 25 0 0 1 7.5-17.5 25 25 0 0 1 24.5-6.5 25 25 0 0 1 25 24H0zm82 0a25 25 0 0 1 7.5-17.5 25 25 0 0 1 24.5-6.5 25 25 0 0 1 7.5 17.5 25 25 0 0 1-7.5 17.5 25 25 0 0 1-24.5 6.5 25 25 0 0 1-7.5-17.5zm-25 0a25 25 0 0 1 7.5-17.5 25 25 0 0 1 24.5-6.5 25 25 0 0 1 7.5 17.5 25 25 0 0 1-7.5 17.5 25 25 0 0 1-24.5 6.5 25 25 0 0 1-7.5-17.5z' fill='%232A4A7A' fill-opacity='0.015'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+}
+
+.bg-asanoha-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232A4A7A' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 /* ========================================
-   Component Styles
+   Glassmorphism Components
    ======================================== */
 
-/* Paper Card - Replaces Claymorphism */
+.glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1rem;
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.07),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+}
+
+.glass-header {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+/* ========================================
+   Paper Card Style
+   ======================================== */
+
 .card-paper {
-  background-color: white;
-  border: 1px solid var(--color-sumi-100);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-paper-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
-}
-
-.card-paper:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-paper-lg);
-  border-color: var(--color-ai-200);
-}
-
-/* Buttons */
-.btn-primary {
-  background-color: var(--color-ai-700);
-  color: white;
-  padding: 0.625rem 1.25rem;
-  border-radius: var(--radius-md);
-  font-weight: 500;
-  font-family: var(--font-sans);
-  transition: all var(--transition-fast);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
-
-.btn-primary:hover {
-  background-color: var(--color-ai-800);
-  box-shadow: 0 4px 6px -1px rgba(42, 74, 122, 0.3);
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background-color: white;
-  color: var(--color-sumi-700);
-  border: 1px solid var(--color-sumi-200);
-  padding: 0.625rem 1.25rem;
-  border-radius: var(--radius-md);
-  font-weight: 500;
-  font-family: var(--font-sans);
-  transition: all var(--transition-fast);
-}
-
-.btn-secondary:hover {
-  background-color: var(--color-sumi-50);
-  border-color: var(--color-sumi-300);
-  color: var(--color-sumi-900);
-}
-
-/* Progress Bars */
-.progress-bar-bg {
-  background-color: var(--color-sumi-100);
-  border-radius: 9999px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 1rem;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.04),
+    0 4px 12px -1px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+  transition: all 0.3s var(--ease-out-expo);
+  position: relative;
   overflow: hidden;
 }
 
-.progress-bar-fill {
-  height: 100%;
-  border-radius: 9999px;
-  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+.card-paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
 }
 
-/* Animations */
+.card-paper:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.06),
+    0 12px 24px -4px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  border-color: rgba(167, 139, 250, 0.2);
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.animate-delay-100 { animation-delay: 100ms; }
-.animate-delay-200 { animation-delay: 200ms; }
-.animate-delay-300 { animation-delay: 300ms; }
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
-/* Custom Scrollbar */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s var(--ease-out-expo) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s var(--ease-spring) forwards;
+}
+
+.animate-slide-in {
+  animation: slideInLeft 0.5s var(--ease-out-expo) forwards;
+}
+
+/* Staggered delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Shimmer loading effect */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.03) 0%,
+    rgba(0, 0, 0, 0.08) 50%,
+    rgba(0, 0, 0, 0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ========================================
+   Button Styles
+   ======================================== */
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-ai-700) 0%, var(--color-ai-600) 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-display);
+  box-shadow:
+    0 4px 14px 0 rgba(42, 74, 122, 0.3),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s var(--ease-out-expo);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 20px 0 rgba(42, 74, 122, 0.35),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ========================================
+   Scrollbar
+   ======================================== */
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -232,10 +372,50 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-sumi-200);
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-sumi-300);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-ai-700) 0%, var(--color-shu-600) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-subtle {
+  background: linear-gradient(135deg, var(--color-sumi-700) 0%, var(--color-sumi-500) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Focus visible styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-ai-500);
+  outline-offset: 2px;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
