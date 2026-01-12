@@ -1,13 +1,13 @@
 /**
- * 首页 - Japanese Editorial Style
+ * 首页 - Modern Japanese Editorial Style
  */
 
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useUserStore } from '@/stores/userStore';
 import { getUserProgress, getTodayGoal } from '@/db/operations';
 import { getDueReviews } from '@/utils/reviewAlgorithm';
-import { BookOpen, TrendingUp, Play, Flame, Target, Award } from 'lucide-react';
+import { BookOpen, TrendingUp, Play, Flame, Target, Award, ArrowRight, Zap, Clock } from 'lucide-react';
 
 interface ReviewItem {
   grammarId: string;
@@ -17,7 +17,6 @@ interface ReviewItem {
 }
 
 export function HomePage() {
-  const navigate = useNavigate();
   const { userProgress, settings, setUserProgress, setDailyGoal, dailyGoal } = useUserStore();
   const [reviewItems, setReviewItems] = useState<ReviewItem[]>([]);
 
@@ -65,20 +64,12 @@ export function HomePage() {
     }
   };
 
-  const handleContinueLearning = () => {
+  // 获取继续学习的链接
+  const getContinueLearningLink = () => {
     if (userProgress?.currentLessonId) {
-      navigate(`/lesson/${userProgress.currentLessonId}`);
-    } else {
-      navigate('/lessons');
+      return `/lesson/${userProgress.currentLessonId}`;
     }
-  };
-
-  const handleStartReview = () => {
-    navigate('/review');
-  };
-
-  const handleViewProgress = () => {
-    navigate('/progress');
+    return '/lessons';
   };
 
   // 获取学习建议
@@ -111,138 +102,114 @@ export function HomePage() {
 
   return (
     <div className="min-h-screen washi-bg">
-      {/* Hero Section - Japanese Editorial Style */}
-      <div className="relative overflow-hidden">
-        {/* Decorative seigaiha pattern */}
-        <div className="absolute inset-0 opacity-10">
+      {/* Hero Section - Modern Japanese Style */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-ai-50 via-white to-matcha-50/30">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 opacity-5">
           <div className="w-full h-full bg-seigaiha" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 py-12">
-          {/* Greeting with vertical text decoration */}
-          <div className="relative">
-            <div className="hidden md:block absolute -right-8 top-0 vertical-text text-sumi-300 text-sm">
-              N2学習の旅へ
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="max-w-3xl">
+            {/* Greeting */}
+            <div className="mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/80 backdrop-blur rounded-full border border-ai-100 text-sm text-ai-700 mb-6">
+                <Zap size={14} className="text-kincha-500" />
+                <span className="font-medium">JLPT N2 语法学习</span>
+              </div>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 tracking-tight">
+                {userProgress ? (
+                  <>
+                    おかえりなさい<span className="text-ai-600">。</span>
+                  </>
+                ) : (
+                  <>
+                    ようこそ<span className="text-ai-600">。</span>
+                  </>
+                )}
+              </h1>
+
+              <p className="text-xl text-gray-600 mb-2">
+                {userProgress ? '欢迎回来继续你的学习之旅' : '开始系统学习 N2 语法'}
+              </p>
+
+              {userProgress && userProgress.studyStreak > 0 && (
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-kincha-100 to-kincha-50 rounded-full border border-kincha-200 mt-4">
+                  <Flame className="w-5 h-5 text-kincha-500" />
+                  <span className="font-medium text-kincha-700">
+                    连续学习 <span className="font-bold text-kincha-600">{userProgress.studyStreak}</span> 天
+                  </span>
+                </div>
+              )}
             </div>
 
-            <h1 className="font-serif display-display-md text-sumi-DEFAULT mb-3 animate-slide-up">
-              {userProgress ? 'おかえりなさい' : 'ようこそ'}
-            </h1>
-            <p className="text-sumi-500 text-lg mb-2 animate-slide-up" style={{ animationDelay: '100ms' }}>
-              {userProgress ? '欢迎回来继续你的学习之旅' : '开始系统学习 N2 语法'}
-            </p>
-            <p className="text-sumi-400 text-sm font-maru animate-slide-up" style={{ animationDelay: '150ms' }}>
-              {userProgress ? '学習を続けましょう' : 'JLPT N2 文法をマスターしよう'}
-            </p>
+            {/* Quick Action Buttons */}
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to={getContinueLearningLink()}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-ai-600 hover:bg-ai-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+              >
+                <Play size={18} />
+                继续学习
+              </Link>
+              {reviewItems.length > 0 && (
+                <Link
+                  to="/review"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md transition-all duration-300"
+                >
+                  <Target size={18} className="text-shu-500" />
+                  <span>复习 {reviewItems.length} 项</span>
+                </Link>
+              )}
+              <Link
+                to="/practice"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md transition-all duration-300"
+              >
+                练习模式
+              </Link>
+            </div>
           </div>
-
-          {/* Study Streak Badge */}
-          {userProgress && userProgress.studyStreak > 0 && (
-            <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-kincha-100 to-kincha-50 rounded-full border border-kincha-200 animate-scale-in" style={{ animationDelay: '200ms' }}>
-              <Flame className="w-5 h-5 text-kincha-DEFAULT" />
-              <span className="font-maru font-medium text-kincha-700">
-                连续学习 <span className="font-bold text-kincha-DEFAULT">{userProgress.studyStreak}</span> 天
-              </span>
-            </div>
-          )}
         </div>
       </div>
 
-      {/* Main Content - Editorial Grid Layout */}
-      <div className="max-w-7xl mx-auto px-4 pb-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Left Column - Main Content (8 cols) */}
           <div className="lg:col-span-8 space-y-6">
-            {/* Today's Suggestion Card */}
-            {getStudySuggestion() && (
-              <div className="japanese-card p-6 animate-slide-up" style={{ animationDelay: '250ms' }}>
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-ai-100 rounded-lg">
-                      <BookOpen className="w-5 h-5 text-ai-DEFAULT" />
-                    </div>
-                    <h2 className="font-serif text-xl text-sumi-DEFAULT">今日学习建议</h2>
-                  </div>
-                  <div className="hidden md:block vertical-text text-sumi-300 text-xs">
-                    今日の勉強
-                  </div>
-                </div>
-                <p className="text-sumi-600 mb-6 leading-relaxed">{getStudySuggestion()}</p>
-                <button
-                  onClick={handleContinueLearning}
-                  className="w-full sm:w-auto px-8 py-3 bg-ai-DEFAULT hover:bg-ai-600 text-white font-medium rounded-lg transition-all duration-300 shadow-washi hover:shadow-washi-md hover:-translate-y-0.5 flex items-center justify-center gap-2"
-                >
-                  <Play className="w-5 h-5" />
-                  开始学习
-                </button>
-              </div>
-            )}
-
-            {/* Review Reminder */}
-            {settings?.showReviewReminderOnHome && reviewItems.length > 0 && (
-              <div className="japanese-card p-6 border-shu-200 animate-slide-up" style={{ animationDelay: '300ms' }}>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 bg-shu-100 rounded-lg">
-                        <Target className="w-5 h-5 text-shu-DEFAULT" />
-                      </div>
-                      <div>
-                        <h3 className="font-serif text-lg text-sumi-DEFAULT">复习提醒</h3>
-                        <p className="text-sm text-sumi-400 font-maru">
-                          復習リマインダー
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-sumi-600 mb-4">
-                      有 <span className="font-bold text-shu-DEFAULT">{reviewItems.length}</span> 个语法点需要复习
-                    </p>
-                    <p className="text-sm text-sumi-400 mb-4">
-                      预计用时约 {Math.ceil(reviewItems.length * 3)} 分钟
-                    </p>
-                  </div>
-                  <button
-                    onClick={handleStartReview}
-                    className="px-6 py-3 bg-shu-DEFAULT hover:bg-shu-600 text-white font-medium rounded-lg transition-all duration-300 shadow-washi hover:shadow-washi-md hover:-translate-y-0.5 whitespace-nowrap"
-                  >
-                    立即复习
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Daily Goal Card */}
+            {/* Daily Goal Card - Modern Design */}
             {dailyGoal && (
-              <div className="japanese-card p-6 animate-slide-up" style={{ animationDelay: '350ms' }}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-matcha-100 rounded-lg">
-                    <Award className="w-5 h-5 text-matcha-DEFAULT" />
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-lg text-sumi-DEFAULT">每日目标</h3>
-                    <p className="text-sm text-sumi-400 font-maru">
-                      今日の目標
-                    </p>
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 bg-gradient-to-br from-matcha-100 to-matcha-50 rounded-xl">
+                      <Target className="w-5 h-5 text-matcha-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">每日目标</h3>
+                      <p className="text-sm text-gray-500">今日の目標</p>
+                    </div>
                   </div>
                   {dailyGoal.isCompleted && (
-                    <span className="ml-auto px-3 py-1 bg-matcha-100 text-matcha-700 text-sm font-medium rounded-full">
-                      已完成
+                    <span className="px-3 py-1.5 bg-matcha-100 text-matcha-700 text-sm font-medium rounded-full">
+                      ✓ 已完成
                     </span>
                   )}
                 </div>
 
-                <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Sentences Progress */}
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-sumi-600">例句</span>
-                      <span className="font-medium text-sumi-DEFAULT">
+                      <span className="text-gray-600">例句</span>
+                      <span className="font-medium text-gray-900">
                         {dailyGoal.completedSentences} / {dailyGoal.targetSentences}
                       </span>
                     </div>
-                    <div className="brush-progress">
+                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                       <div
-                        className="brush-progress-bar"
+                        className="h-full bg-gradient-to-r from-ai-500 to-ai-400 rounded-full transition-all duration-500"
                         style={{
                           width: `${Math.min((dailyGoal.completedSentences / dailyGoal.targetSentences) * 100, 100)}%`,
                         }}
@@ -253,14 +220,14 @@ export function HomePage() {
                   {/* Grammar Points Progress */}
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-sumi-600">语法点</span>
-                      <span className="font-medium text-sumi-DEFAULT">
+                      <span className="text-gray-600">语法点</span>
+                      <span className="font-medium text-gray-900">
                         {dailyGoal.completedGrammarPoints} / {dailyGoal.targetGrammarPoints}
                       </span>
                     </div>
-                    <div className="brush-progress">
+                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                       <div
-                        className="brush-progress-bar"
+                        className="h-full bg-gradient-to-r from-matcha-500 to-matcha-400 rounded-full transition-all duration-500"
                         style={{
                           width: `${Math.min((dailyGoal.completedGrammarPoints / dailyGoal.targetGrammarPoints) * 100, 100)}%`,
                         }}
@@ -271,17 +238,47 @@ export function HomePage() {
               </div>
             )}
 
+            {/* Review Reminder */}
+            {settings?.showReviewReminderOnHome && reviewItems.length > 0 && (
+              <div className="bg-gradient-to-br from-shu-50 to-white rounded-2xl shadow-sm border border-shu-100 p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="p-2.5 bg-shu-100 rounded-xl">
+                        <Clock className="w-5 h-5 text-shu-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900">复习提醒</h3>
+                        <p className="text-sm text-gray-500">復習リマインダー</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 mb-2">
+                      有 <span className="font-bold text-shu-600">{reviewItems.length}</span> 个语法点需要复习
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      预计用时约 {Math.ceil(reviewItems.length * 3)} 分钟
+                    </p>
+                  </div>
+                  <Link
+                    to="/review"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-shu-600 hover:bg-shu-700 text-white font-medium rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+                  >
+                    立即复习
+                    <ArrowRight size={16} />
+                  </Link>
+                </div>
+              </div>
+            )}
+
             {/* Overall Progress Card */}
-            <div className="japanese-card p-6 animate-slide-up" style={{ animationDelay: '400ms' }}>
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-ai-100 rounded-lg">
-                  <TrendingUp className="w-5 h-5 text-ai-DEFAULT" />
+                <div className="p-2.5 bg-gradient-to-br from-ai-100 to-ai-50 rounded-xl">
+                  <TrendingUp className="w-5 h-5 text-ai-600" />
                 </div>
                 <div>
-                  <h3 className="font-serif text-lg text-sumi-DEFAULT">总体进度</h3>
-                  <p className="text-sm text-sumi-400 font-maru">
-                    全体の進度
-                  </p>
+                  <h3 className="font-semibold text-gray-900">总体进度</h3>
+                  <p className="text-sm text-gray-500">全体の進度</p>
                 </div>
               </div>
 
@@ -289,12 +286,12 @@ export function HomePage() {
                 {/* Lessons Progress */}
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-sumi-600">已完成课程</span>
-                    <span className="font-medium text-ai-DEFAULT">{Math.round(overallProgress.lessons)}%</span>
+                    <span className="text-gray-600">已完成课程</span>
+                    <span className="font-semibold text-ai-600">{Math.round(overallProgress.lessons)}%</span>
                   </div>
-                  <div className="brush-progress">
+                  <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
                     <div
-                      className="brush-progress-bar"
+                      className="h-full bg-gradient-to-r from-ai-500 to-ai-400 rounded-full transition-all duration-700"
                       style={{ width: `${Math.min(overallProgress.lessons, 100)}%` }}
                     />
                   </div>
@@ -303,12 +300,12 @@ export function HomePage() {
                 {/* Grammar Points Progress */}
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-sumi-600">已学习语法点</span>
-                    <span className="font-medium text-matcha-DEFAULT">{Math.round(overallProgress.grammar)}%</span>
+                    <span className="text-gray-600">已学习语法点</span>
+                    <span className="font-semibold text-matcha-600">{Math.round(overallProgress.grammar)}%</span>
                   </div>
-                  <div className="brush-progress">
+                  <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
                     <div
-                      className="brush-progress-bar bg-gradient-to-r from-matcha-400 via-matcha-DEFAULT to-matcha-400"
+                      className="h-full bg-gradient-to-r from-matcha-500 to-matcha-400 rounded-full transition-all duration-700"
                       style={{ width: `${Math.min(overallProgress.grammar, 100)}%` }}
                     />
                   </div>
@@ -317,65 +314,83 @@ export function HomePage() {
                 {/* Sentences Progress */}
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-sumi-600">已学习例句</span>
-                    <span className="font-medium text-kincha-DEFAULT">{Math.round(overallProgress.sentences)}%</span>
+                    <span className="text-gray-600">已学习例句</span>
+                    <span className="font-semibold text-kincha-600">{Math.round(overallProgress.sentences)}%</span>
                   </div>
-                  <div className="brush-progress">
+                  <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
                     <div
-                      className="brush-progress-bar bg-gradient-to-r from-kincha-400 via-kincha-DEFAULT to-kincha-400"
+                      className="h-full bg-gradient-to-r from-kincha-500 to-kincha-400 rounded-full transition-all duration-700"
                       style={{ width: `${Math.min(overallProgress.sentences, 100)}%` }}
                     />
                   </div>
                 </div>
               </div>
 
-              <button
-                onClick={handleViewProgress}
-                className="mt-6 w-full px-6 py-3 bg-sumi-100 hover:bg-sumi-200 text-sumi-700 font-medium rounded-lg transition-all duration-300"
+              <Link
+                to="/progress"
+                className="mt-6 w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium rounded-xl transition-all duration-200"
               >
                 查看详细统计
-              </button>
+                <ArrowRight size={16} />
+              </Link>
             </div>
           </div>
 
           {/* Right Column - Quick Actions (4 cols) */}
           <div className="lg:col-span-4 space-y-6">
             {/* Quick Actions Card */}
-            <div className="japanese-card p-6 animate-slide-up sticky top-24" style={{ animationDelay: '450ms' }}>
-              <h3 className="font-serif text-lg text-sumi-DEFAULT mb-4">快速操作</h3>
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
+              <h3 className="font-semibold text-gray-900 mb-4">快速开始</h3>
 
               <div className="space-y-3">
-                <button
-                  onClick={handleContinueLearning}
-                  className="w-full px-4 py-3 bg-ai-DEFAULT hover:bg-ai-600 text-white font-medium rounded-lg transition-all duration-300 shadow-washi hover:shadow-washi-md hover:-translate-y-0.5 flex items-center justify-between group"
+                <Link
+                  to={getContinueLearningLink()}
+                  className="group flex items-center justify-between p-4 bg-gradient-to-r from-ai-50 to-white border border-ai-100 rounded-xl hover:shadow-md hover:border-ai-200 transition-all duration-200"
                 >
-                  <span>继续学习</span>
-                  <Play className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
+                  <div className="flex items-center gap-3">
+                    <Play className="w-5 h-5 text-ai-600" />
+                    <span className="font-medium text-gray-900">继续学习</span>
+                  </div>
+                  <ArrowRight size={16} className="text-gray-400 group-hover:text-ai-600 group-hover:translate-x-1 transition-all" />
+                </Link>
 
-                <button
-                  onClick={handleStartReview}
-                  className="w-full px-4 py-3 bg-kincha-DEFAULT hover:bg-kincha-600 text-white font-medium rounded-lg transition-all duration-300 shadow-washi hover:shadow-washi-md hover:-translate-y-0.5 flex items-center justify-between group"
-                >
-                  <span>开始复习</span>
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
-                </button>
+                {reviewItems.length > 0 && (
+                  <Link
+                    to="/review"
+                    className="group flex items-center justify-between p-4 bg-gradient-to-r from-shu-50 to-white border border-shu-100 rounded-xl hover:shadow-md hover:border-shu-200 transition-all duration-200"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Target className="w-5 h-5 text-shu-600" />
+                      <div>
+                        <span className="font-medium text-gray-900">开始复习</span>
+                        <span className="text-xs text-gray-500 ml-2">({reviewItems.length})</span>
+                      </div>
+                    </div>
+                    <ArrowRight size={16} className="text-gray-400 group-hover:text-shu-600 group-hover:translate-x-1 transition-all" />
+                  </Link>
+                )}
 
-                <button
-                  onClick={() => navigate('/practice')}
-                  className="w-full px-4 py-3 bg-matcha-DEFAULT hover:bg-matcha-600 text-white font-medium rounded-lg transition-all duration-300 shadow-washi hover:shadow-washi-md hover:-translate-y-0.5 flex items-center justify-between group"
+                <Link
+                  to="/practice"
+                  className="group flex items-center justify-between p-4 bg-gradient-to-r from-matcha-50 to-white border border-matcha-100 rounded-xl hover:shadow-md hover:border-matcha-200 transition-all duration-200"
                 >
-                  <span>练习模式</span>
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
-                </button>
+                  <div className="flex items-center gap-3">
+                    <Zap className="w-5 h-5 text-matcha-600" />
+                    <span className="font-medium text-gray-900">练习模式</span>
+                  </div>
+                  <ArrowRight size={16} className="text-gray-400 group-hover:text-matcha-600 group-hover:translate-x-1 transition-all" />
+                </Link>
 
-                <button
-                  onClick={() => navigate('/lessons')}
-                  className="w-full px-4 py-3 bg-sumi-100 hover:bg-sumi-200 text-sumi-700 font-medium rounded-lg transition-all duration-300 flex items-center justify-between group"
+                <Link
+                  to="/lessons"
+                  className="group flex items-center justify-between p-4 bg-gray-50 border border-gray-100 rounded-xl hover:shadow-md hover:border-gray-200 transition-all duration-200"
                 >
-                  <span>课程列表</span>
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
-                </button>
+                  <div className="flex items-center gap-3">
+                    <BookOpen className="w-5 h-5 text-gray-600" />
+                    <span className="font-medium text-gray-900">课程列表</span>
+                  </div>
+                  <ArrowRight size={16} className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />
+                </Link>
               </div>
             </div>
           </div>

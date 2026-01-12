@@ -1,83 +1,126 @@
 /**
- * 课程地图组件 - Japanese Style
+ * 课程地图组件 - Modern Japanese Style
  * 以游戏关卡式的视觉设计展示所有课程
  */
 
-import { LessonCard } from './LessonCard';
+import { Link } from 'react-router-dom';
 import type { Lesson } from '@/types';
+import { Lock, CheckCircle2, BookOpen } from 'lucide-react';
 
 export interface LessonMapProps {
   /** 课程列表 */
   lessons: Lesson[];
-  /** 点击课程回调 */
-  onLessonClick?: (lessonId: number) => void;
   /** 自定义类名 */
   className?: string;
 }
 
 /**
- * 课程地图组件 - Japanese Style
+ * 课程地图组件 - Modern Japanese Style
  * 以路径形式展示所有课程，类似游戏关卡
  */
-export function LessonMap({ lessons, onLessonClick, className = '' }: LessonMapProps) {
+export function LessonMap({ lessons, className = '' }: LessonMapProps) {
   if (lessons.length === 0) {
     return (
       <div className={`text-center py-12 ${className}`}>
-        <div className="japanese-card p-8 max-w-md mx-auto">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-md mx-auto">
           <div className="text-4xl mb-4">📚</div>
-          <p className="text-sumi-500 font-maru">暂无课程数据</p>
+          <p className="text-gray-500">暂无课程数据</p>
         </div>
       </div>
     );
   }
 
-  // 统计进度
-  const completedCount = lessons.filter(l => l.isCompleted).length;
-  const unlockedCount = lessons.filter(l => l.isUnlocked).length;
-  const totalCount = lessons.length;
-
   return (
     <div className={className}>
       {/* 课程地图 */}
       <div className="space-y-3">
-        {lessons.map((lesson, index) => (
-          <div key={lesson.id} className="relative animate-slide-up" style={{ animationDelay: `${index * 30}ms` }}>
-            {/* 课程卡片 */}
-            <LessonCard
-              lesson={lesson}
-              onClick={() => onLessonClick?.(lesson.id)}
-            />
+        {lessons.map((lesson, index) => {
+          const isLocked = !lesson.isUnlocked;
+          const isCompleted = lesson.isCompleted;
 
-            {/* 连接线 - Japanese style */}
-            {index < lessons.length - 1 && (
-              <div className="flex justify-center py-2">
-                <div className="w-0.5 h-8 bg-gradient-to-b from-ai-300 via-ai-200 to-transparent" />
+          return (
+            <Link
+              key={lesson.id}
+              to={isLocked ? '#' : `/lesson/${lesson.id}`}
+              onClick={(e) => isLocked && e.preventDefault()}
+              className={`
+                block relative p-4 sm:p-6 rounded-xl border transition-all duration-200
+                ${isLocked
+                  ? 'bg-gray-50 border-gray-200 cursor-not-allowed opacity-60'
+                  : isCompleted
+                    ? 'bg-gradient-to-r from-matcha-50 to-white border-matcha-200 hover:shadow-md hover:border-matcha-300'
+                    : 'bg-gradient-to-r from-ai-50 to-white border-ai-200 hover:shadow-md hover:border-ai-300'
+                }
+              `}
+            >
+              <div className="flex items-center justify-between">
+                {/* Left: Icon and Info */}
+                <div className="flex items-center gap-4">
+                  {/* Status Icon */}
+                  <div className={`
+                    w-12 h-12 rounded-xl flex items-center justify-center
+                    ${isLocked
+                      ? 'bg-gray-200'
+                      : isCompleted
+                        ? 'bg-matcha-100'
+                        : 'bg-ai-100'
+                    }
+                  `}>
+                    {isLocked ? (
+                      <Lock className="w-6 h-6 text-gray-400" />
+                    ) : isCompleted ? (
+                      <CheckCircle2 className="w-6 h-6 text-matcha-600" />
+                    ) : (
+                      <BookOpen className="w-6 h-6 text-ai-600" />
+                    )}
+                  </div>
+
+                  {/* Lesson Info */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold text-gray-900">
+                        课程 {lesson.id}
+                      </h3>
+                      {isLocked && (
+                        <span className="px-2 py-0.5 bg-gray-200 text-gray-600 text-xs rounded-full">
+                          未解锁
+                        </span>
+                      )}
+                      {isCompleted && (
+                        <span className="px-2 py-0.5 bg-matcha-100 text-matcha-700 text-xs rounded-full">
+                          已完成
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-500">
+                      {lesson.grammarPoints.length} 个语法点 · {lesson.sentenceCount} 个例句
+                    </p>
+                  </div>
+                </div>
+
+                {/* Right: Progress & Arrow */}
+                <div className="flex items-center gap-4">
+                  {/* Progress */}
+                  {!isLocked && (
+                    <div className="text-right">
+                      <div className="text-sm font-medium text-gray-900">
+                        {Math.round(lesson.completionRate)}%
+                      </div>
+                      <div className="text-xs text-gray-500">完成度</div>
+                    </div>
+                  )}
+
+                  {/* Arrow */}
+                  {!isLocked && (
+                    <div className="text-gray-400">
+                      →
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* 图例 - Japanese style */}
-      <div className="mt-8 japanese-card p-6">
-        <h3 className="font-serif text-lg text-sumi-DEFAULT mb-4 text-center">课程状态</h3>
-        <div className="flex flex-wrap gap-6 justify-center text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-matcha-DEFAULT shadow-stamp"></div>
-            <span className="text-sumi-600">已完成</span>
-            <span className="text-sumi-400 text-xs font-maru ml-1">完了</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-ai-DEFAULT shadow-stamp"></div>
-            <span className="text-sumi-600">学习中</span>
-            <span className="text-sumi-400 text-xs font-maru ml-1">学習中</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-sumi-200 shadow-stamp"></div>
-            <span className="text-sumi-600">未解锁</span>
-            <span className="text-sumi-400 text-xs font-maru ml-1">ロック</span>
-          </div>
-        </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

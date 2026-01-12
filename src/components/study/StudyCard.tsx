@@ -123,18 +123,18 @@ export function StudyCard({
   const hasDetailedAnalysis = wordByWord && wordByWord.includes('<h3>');
 
   return (
-    <div className={`bg-white rounded-xl shadow-md overflow-hidden ${className}`}>
+    <div className={`bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden ${className}`}>
       {/* 进度指示 */}
-      <div className="bg-gray-100 px-6 py-3 border-b border-gray-200">
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-600">例句进度</span>
-          <span className="font-medium text-gray-900">
+      <div className="bg-gradient-to-r from-ai-50 to-white px-6 py-4 border-b border-gray-100">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600 font-medium">例句进度</span>
+          <span className="font-semibold text-gray-900 text-sm">
             {currentIndex + 1} / {totalCount}
           </span>
         </div>
-        <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
+        <div className="mt-3 w-full bg-gray-100 rounded-full h-2">
           <div
-            className="bg-primary h-full rounded-full transition-all duration-300"
+            className="h-full bg-gradient-to-r from-ai-500 to-ai-400 rounded-full transition-all duration-500"
             style={{ width: `${((currentIndex + 1) / totalCount) * 100}%` }}
           />
         </div>
@@ -142,9 +142,9 @@ export function StudyCard({
 
       <div className="p-6 space-y-6">
         {/* 日语例句（语法点高亮） */}
-        <div className="text-center">
+        <div className="text-center py-4">
           <p
-            className="text-2xl leading-relaxed text-gray-900"
+            className="text-2xl sm:text-3xl leading-relaxed text-gray-900 font-medium"
             dangerouslySetInnerHTML={{ __html: highlightGrammar() }}
           />
         </div>
@@ -159,48 +159,48 @@ export function StudyCard({
         {/* 可折叠内容区域 */}
         <div className="space-y-3">
           {/* 假名标注 */}
-          <div className="border border-gray-200 rounded-lg overflow-hidden">
+          <div className="border border-gray-200 rounded-xl overflow-hidden">
             <button
               onClick={() => setShowFurigana(v => !v)}
-              className="w-full px-4 py-3 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+              className="w-full px-4 py-3.5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
             >
-              <span className="font-medium text-gray-700">显示假名 (F)</span>
-              {showFurigana ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+              <span className="font-medium text-gray-700">显示假名 <span className="text-gray-400 font-normal text-sm ml-2">(F)</span></span>
+              {showFurigana ? <ChevronUp size={18} className="text-gray-500" /> : <ChevronDown size={18} className="text-gray-500" />}
             </button>
             {showFurigana && (
-              <div className="px-4 py-3 bg-white">
-                <p className="text-gray-700">{furigana}</p>
+              <div className="px-4 py-3.5 bg-white">
+                <p className="text-gray-700 leading-relaxed">{furigana}</p>
               </div>
             )}
           </div>
 
           {/* 中文翻译 */}
-          <div className="border border-gray-200 rounded-lg overflow-hidden">
+          <div className="border border-gray-200 rounded-xl overflow-hidden">
             <button
               onClick={() => setShowTranslation(v => !v)}
-              className="w-full px-4 py-3 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+              className="w-full px-4 py-3.5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
             >
-              <span className="font-medium text-gray-700">显示翻译 (T)</span>
-              {showTranslation ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+              <span className="font-medium text-gray-700">显示翻译 <span className="text-gray-400 font-normal text-sm ml-2">(T)</span></span>
+              {showTranslation ? <ChevronUp size={18} className="text-gray-500" /> : <ChevronDown size={18} className="text-gray-500" />}
             </button>
             {showTranslation && (
-              <div className="px-4 py-3 bg-white">
-                <p className="text-gray-700">{translation}</p>
+              <div className="px-4 py-3.5 bg-white">
+                <p className="text-gray-700 leading-relaxed">{translation}</p>
               </div>
             )}
           </div>
 
           {/* 逐词解析 */}
-          <div className="border border-gray-200 rounded-lg overflow-hidden">
+          <div className="border border-gray-200 rounded-xl overflow-hidden">
             <button
               onClick={() => setShowAnalysis(v => !v)}
-              className="w-full px-4 py-3 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+              className="w-full px-4 py-3.5 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
             >
-              <span className="font-medium text-gray-700">显示解析 (A)</span>
-              {showAnalysis ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+              <span className="font-medium text-gray-700">显示解析 <span className="text-gray-400 font-normal text-sm ml-2">(A)</span></span>
+              {showAnalysis ? <ChevronUp size={18} className="text-gray-500" /> : <ChevronDown size={18} className="text-gray-500" />}
             </button>
             {showAnalysis && wordByWord && (
-              <div className="px-4 py-3 bg-white analysis-content">
+              <div className="px-4 py-3.5 bg-white analysis-content max-h-96 overflow-y-auto">
                 {hasDetailedAnalysis ? (
                   // 如果有详细的 HTML 解析内容，直接渲染 HTML
                   <div dangerouslySetInnerHTML={{ __html: wordByWord }} />
@@ -214,16 +214,16 @@ export function StudyCard({
         </div>
 
         {/* 操作按钮 */}
-        <div className="flex flex-col sm:flex-row gap-3 pt-4">
+        <div className="flex flex-col sm:flex-row gap-3 pt-2">
           <button
             onClick={onUnderstood}
             className={`
-              flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-lg font-medium transition-all duration-200
+              flex-1 flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-medium transition-all duration-200
               ${isLearned
-                ? 'bg-green-500 hover:bg-green-600 text-white'
-                : 'bg-primary hover:bg-primary-hover text-white'
+                ? 'bg-matcha-500 hover:bg-matcha-600 text-white'
+                : 'bg-ai-600 hover:bg-ai-700 text-white'
               }
-              shadow-md hover:shadow-lg
+              shadow-sm hover:shadow-md hover:-translate-y-0.5
             `}
           >
             <Star size={18} className={isLearned ? 'fill-white' : ''} />
@@ -232,36 +232,35 @@ export function StudyCard({
           <button
             onClick={onNext}
             disabled={isLast}
-            className="flex-1 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+            className="flex-1 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed text-gray-700 font-medium py-3.5 px-6 rounded-xl transition-colors duration-200"
           >
-            {isLast ? '已完成' : '下一句 →'}
+            {isLast ? '已完成' : '下一句'}
           </button>
         </div>
 
         {/* 导航按钮 */}
-        <div className="flex justify-between">
+        <div className="flex justify-between pt-2">
           <button
             onClick={onPrevious}
             disabled={isFirst}
-            className="text-sm text-gray-600 hover:text-primary disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
+            className="text-sm text-gray-500 hover:text-ai-600 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors font-medium"
           >
             ← 上一句
           </button>
           <button
             onClick={onNext}
             disabled={isLast}
-            className="text-sm text-gray-600 hover:text-primary disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
+            className="text-sm text-gray-500 hover:text-ai-600 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors font-medium"
           >
             下一句 →
           </button>
         </div>
 
         {/* 快捷键提示 */}
-        <div className="text-xs text-gray-500 text-center space-x-4">
+        <div className="text-xs text-gray-400 text-center space-x-3 pt-2 border-t border-gray-100">
           <span>F: 假名</span>
           <span>T: 翻译</span>
           <span>A: 解析</span>
-          <span>空格: 播放</span>
           <span>←/→: 导航</span>
         </div>
       </div>
