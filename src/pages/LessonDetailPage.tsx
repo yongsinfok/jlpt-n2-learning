@@ -1,6 +1,6 @@
 /**
- * 课程详情页 - 显示课程的所有语法点
- * Modern Japanese Design - Washi Aesthetic
+ * 课程详情页 - MODERN ZEN DESIGN
+ * Clean. Elegant. Japanese-inspired.
  */
 
 import { useEffect, useState, useCallback } from 'react';
@@ -53,7 +53,7 @@ export function LessonDetailPage() {
     if (!learned) return 0;
 
     const grammarPoint = grammarPoints.find(g => g.id === grammarId);
-    if (!grammarPoint || grammarPoint.sentenceCount === 0) return 100; // 如果没有例句，但已标记学习，则视为完成
+    if (!grammarPoint || grammarPoint.sentenceCount === 0) return 100;
 
     const learnedSentencesInGrammar = userProgress.learnedSentences.filter(id =>
       grammarPoint.sentenceIds.includes(id)
@@ -91,7 +91,7 @@ export function LessonDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-washi-texture flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-screen">
         <LoadingSpinner size="lg" text="正在准备课程内容..." />
       </div>
     );
@@ -99,12 +99,12 @@ export function LessonDetailPage() {
 
   if (!lesson) {
     return (
-      <div className="min-h-screen bg-washi-texture flex items-center justify-center p-4">
-        <div className="card-paper p-8 text-center max-w-md">
-          <p className="text-sumi-600 mb-4">课程不存在</p>
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div className="glass-card-strong p-8 text-center max-w-md">
+          <p className="text-text-secondary mb-4">课程不存在</p>
           <button
             onClick={() => navigate('/lessons')}
-            className="text-ai-600 hover:underline font-medium"
+            className="text-primary hover:text-secondary font-medium"
           >
             返回课程列表
           </button>
@@ -114,20 +114,20 @@ export function LessonDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-washi-texture pb-20">
-      {/* Header Section */}
-      <div className="bg-white border-b border-sumi-200 sticky top-0 z-10 backdrop-blur-md bg-white/90">
+    <div className="pb-20">
+      {/* Header Section - Glass */}
+      <div className="sticky top-0 z-10 backdrop-blur-xl bg-white/30 border-b border-gray-200/50">
         <div className="max-w-4xl mx-auto px-4 py-4 sm:px-6">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/lessons')}
-              className="p-2 -ml-2 text-sumi-500 hover:text-sumi-900 transition-colors rounded-full hover:bg-sumi-50"
+              className="p-2 -ml-2 text-text-secondary hover:text-text-primary transition-colors rounded-xl hover:bg-white/50"
             >
               <ArrowLeft size={20} />
             </button>
             <div>
-              <h1 className="text-xl font-bold text-sumi-900 leading-none">课程 {lesson.id}</h1>
-              <p className="text-xs text-sumi-500 mt-1">N2 语法系统学习</p>
+              <h1 className="text-xl font-semibold text-text-primary leading-none">课程 {lesson.id}</h1>
+              <p className="text-xs text-text-secondary mt-1">N2 语法系统学习</p>
             </div>
           </div>
         </div>
@@ -136,23 +136,23 @@ export function LessonDetailPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8">
 
         {/* Progress Overview Card */}
-        <div className="card-paper p-6 relative overflow-hidden">
-          {/* Decorative Pattern */}
-          <div className="absolute top-0 right-0 w-32 h-32 opacity-[0.03] bg-asanoha rounded-bl-full pointer-events-none" />
+        <div className="glass-card-strong p-6 relative overflow-hidden">
+          {/* Decorative Glow */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-2xl" />
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
             <div>
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-4xl font-bold text-ai-700 font-mono tracking-tight">{lesson.completionRate.toFixed(0)}%</span>
-                <span className="text-sumi-500 text-sm font-medium">完成进度</span>
+                <span className="text-4xl font-semibold text-text-primary font-mono tracking-tight">{lesson.completionRate.toFixed(0)}%</span>
+                <span className="text-text-secondary text-sm font-medium">完成进度</span>
               </div>
-              <div className="w-full sm:w-64 h-2 bg-sumi-100 rounded-full overflow-hidden">
+              <div className="w-full sm:w-64 h-2 bg-gray-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-ai-600 transition-all duration-700 ease-out"
+                  className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-700 ease-out rounded-full"
                   style={{ width: `${lesson.completionRate}%` }}
                 />
               </div>
-              <p className="text-sm text-sumi-500 mt-2">
+              <p className="text-sm text-text-secondary mt-2">
                 已学习 {lesson.sentenceCount > 0 ? Math.round(lesson.sentenceCount * lesson.completionRate / 100) : 0} / {lesson.sentenceCount} 个例句
               </p>
             </div>
@@ -160,7 +160,7 @@ export function LessonDetailPage() {
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={handleContinueLearning}
-                className="btn-primary flex items-center gap-2 shadow-lg shadow-ai-100"
+                className="btn-modern-primary flex items-center gap-2"
               >
                 <BookOpen size={18} />
                 继续学习
@@ -170,10 +170,10 @@ export function LessonDetailPage() {
                 onClick={handleStartQuiz}
                 disabled={!canTakeQuiz}
                 className={`
-                  flex items-center gap-2 px-4 py-2.5 rounded-lg border font-medium transition-all
+                  flex items-center gap-2 px-4 py-2.5 rounded-xl border font-medium transition-all
                   ${canTakeQuiz
-                    ? 'bg-matcha-50 border-matcha-200 text-matcha-700 hover:bg-matcha-100 hover:border-matcha-300'
-                    : 'bg-sumi-50 border-sumi-100 text-sumi-400 cursor-not-allowed'
+                    ? 'bg-success/10 border-success/30 text-success hover:bg-success/20'
+                    : 'bg-gray-50 border-gray-200 text-text-muted cursor-not-allowed'
                   }
                 `}
               >
@@ -187,18 +187,18 @@ export function LessonDetailPage() {
         {/* Grammar Points List */}
         <div className="space-y-4">
           <div className="flex items-center justify-between px-1">
-            <h2 className="text-lg font-bold text-sumi-900 flex items-center gap-2">
-              <BookOpen size={20} className="text-ai-600" />
+            <h2 className="text-lg font-semibold text-text-primary flex items-center gap-2">
+              <BookOpen size={20} className="text-primary" />
               本课语法点
             </h2>
-            <span className="text-xs font-medium text-sumi-400 bg-sumi-100 px-2 py-1 rounded">
+            <span className="text-xs font-medium text-text-secondary bg-white/50 px-2 py-1 rounded-full">
               {grammarPoints.length} 个语法
             </span>
           </div>
 
           {grammarPoints.length === 0 ? (
-            <div className="card-paper p-12 text-center bg-sumi-50 border-dashed">
-              <p className="text-sumi-500">暂无语法点数据</p>
+            <div className="glass-card-strong p-12 text-center border-dashed">
+              <p className="text-text-secondary">暂无语法点数据</p>
             </div>
           ) : (
             <div className="grid gap-3">
@@ -212,39 +212,39 @@ export function LessonDetailPage() {
                     onClick={() => handleGrammarClick(gp.id)}
                     className={`
                       group w-full text-left p-5 rounded-xl border transition-all duration-200
-                      hover:shadow-paper-md hover:-translate-y-0.5
+                      hover:shadow-glow hover:-translate-y-0.5
                       ${isCompleted
-                        ? 'bg-white border-matcha-200'
-                        : 'bg-white border-sumi-200 hover:border-ai-300'
+                        ? 'bg-success/5 border-success/20 hover:bg-success/10'
+                        : 'glass-card hover:bg-white/60'
                       }
                     `}
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-1">
-                          <span className="font-mono text-xs text-sumi-400 w-6">{(index + 1).toString().padStart(2, '0')}</span>
-                          <h3 className="font-bold text-lg text-sumi-900 group-hover:text-ai-700 transition-colors">
+                          <span className="font-mono text-xs text-text-muted w-6">{(index + 1).toString().padStart(2, '0')}</span>
+                          <h3 className="font-semibold text-lg text-text-primary group-hover:text-primary transition-colors">
                             {gp.id}
                           </h3>
                         </div>
-                        <p className="text-sm text-sumi-600 pl-9 mb-3">{gp.grammarConnection}</p>
+                        <p className="text-sm text-text-secondary pl-9 mb-3">{gp.grammarConnection}</p>
 
                         <div className="flex items-center gap-4 pl-9">
-                          <div className="flex-1 max-w-[120px] h-1.5 bg-sumi-100 rounded-full overflow-hidden">
+                          <div className="flex-1 max-w-[120px] h-1.5 bg-gray-100 rounded-full overflow-hidden">
                             <div
-                              className={`h-full rounded-full transition-all ${isCompleted ? 'bg-matcha-500' : 'bg-ai-500'}`}
+                              className={`h-full rounded-full transition-all ${isCompleted ? 'bg-success' : 'bg-gradient-to-r from-primary to-secondary'}`}
                               style={{ width: `${progress}%` }}
                             />
                           </div>
-                          <span className="text-xs text-sumi-400">{progress}%</span>
+                          <span className="text-xs text-text-secondary">{progress}%</span>
                         </div>
                       </div>
 
                       <div className="self-center">
                         {isCompleted ? (
-                          <CheckCircle2 className="w-6 h-6 text-matcha-500" />
+                          <CheckCircle2 className="w-6 h-6 text-success" />
                         ) : (
-                          <div className="w-6 h-6 rounded-full border-2 border-sumi-200 group-hover:border-ai-400 transition-colors" />
+                          <div className="w-6 h-6 rounded-full border-2 border-gray-200 group-hover:border-primary transition-colors" />
                         )}
                       </div>
                     </div>

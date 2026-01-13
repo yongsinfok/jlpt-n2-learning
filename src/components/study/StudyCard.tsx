@@ -1,6 +1,6 @@
 /**
- * 学习卡片组件 - Modern Japanese "Zen Glass" Design
- * Focus Mode Aesthetic with Smooth Animations
+ * 学习卡片组件 - MODERN ZEN DESIGN
+ * Clean. Elegant. Japanese-inspired.
  * 优化版本：XSS 防护、性能优化、可访问性增强
  */
 
@@ -25,9 +25,8 @@ export interface StudyCardProps {
 }
 
 /**
- * 学习卡片组件 - Focus Mode 设计
- * 清爽专注的学习界面，采用玻璃态美学
- * 优化版本：使用 memo 避免不必要的重渲染
+ * 学习卡片组件 - Modern Glassmorphism Design
+ * 优雅的玻璃拟态设计，渐变背景
  */
 export const StudyCard = memo(function StudyCard({
   sentence,
@@ -90,84 +89,79 @@ export const StudyCard = memo(function StudyCard({
 
   return (
     <div className={`relative w-full max-w-4xl mx-auto ${className}`}>
-      {/* 顶部进度条 - 极简设计 */}
+      {/* 顶部进度条 - Modern Design */}
       <div className="flex items-center justify-between mb-8 px-2">
-        <span className="text-xs font-semibold text-sumi-400 uppercase tracking-widest">
-          例句 <span className="text-ai-600 font-bold">{String(currentIndex + 1).padStart(2, '0')}</span>
-          <span className="text-sumi-300 mx-1">/</span>
+        <span className="text-xs font-medium tracking-wide text-text-secondary">
+          Sentence <span className="font-semibold text-primary">{String(currentIndex + 1).padStart(2, '0')}</span>
+          <span className="text-text-muted mx-1">/</span>
           {String(totalCount).padStart(2, '0')}
         </span>
-        <div className="flex gap-1.5 h-1 flex-1 max-w-[240px] mx-6">
+        <div className="flex gap-1.5 h-1.5 flex-1 max-w-[240px] mx-6">
           {Array.from({ length: Math.min(totalCount, 12) }).map((_, idx) => (
             <div
               key={idx}
-              className={`h-full rounded-full flex-1 transition-all duration-500 ${
+              className={`h-full flex-1 rounded-full transition-all duration-500 ${
                 idx < currentIndex
-                  ? 'bg-gradient-to-r from-ai-400 to-matcha-400'
+                  ? 'bg-gradient-to-r from-primary to-secondary'
                   : idx === currentIndex
-                  ? 'bg-ai-500 scale-y-150 shadow-[0_0_8px_rgba(79,70,229,0.4)]'
-                  : 'bg-sumi-100'
+                  ? 'bg-gradient-to-r from-primary to-secondary scale-y-150 shadow-glow'
+                  : 'bg-gray-200'
               }`}
               style={{ transitionDelay: `${idx * 20}ms` }}
             />
           ))}
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-sumi-400">
+        <div className="flex items-center text-xs text-text-secondary">
           {isLearned ? (
-            <span className="inline-flex items-center gap-1 px-2 py-1 bg-matcha-50 text-matcha-600 rounded-md font-medium">
-              <Star size={12} className="fill-current" />
-              已掌握
+            <span className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-primary to-secondary text-white font-medium text-xs rounded-full shadow-sm">
+              <Star size={12} className="fill-white" />
+              <span>已掌握</span>
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 px-2 py-1 bg-sumi-50 text-sumi-500 rounded-md">
+            <span className="px-3 py-1.5 bg-white/50 backdrop-blur-sm text-text-secondary font-medium text-xs rounded-full border border-gray-200">
               学习中
             </span>
           )}
         </div>
       </div>
 
-      {/* 主卡片 - 玻璃态设计 */}
+      {/* 主卡片 - Modern Glassmorphism Design */}
       <div className={`
-        glass-card p-10 md:p-14 text-center relative overflow-hidden
+        glass-card-strong p-10 md:p-14 text-center relative
         transition-all duration-500
         ${isTransitioning ? 'opacity-50 scale-[0.98]' : 'opacity-100 scale-100'}
       `}>
-        {/* 背景装饰 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-ai-50/30 via-transparent to-matcha-50/20 pointer-events-none" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-asanoha-pattern opacity-[0.03] pointer-events-none" />
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-ai-100 to-transparent rounded-full blur-3xl opacity-30" />
-
         {/* 主要内容区 */}
-        <div className="relative z-10 flex flex-col items-center">
+        <div className="relative flex flex-col items-center">
 
-          {/* 语法点标签 */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-shu-50/80 backdrop-blur border border-shu-200/50 rounded-full mb-8">
-            <span className="w-2 h-2 rounded-full bg-shu-500 animate-pulse" />
-            <span className="text-sm font-semibold text-shu-700">{grammarPoint}</span>
+          {/* 语法点标签 - Modern Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/10 to-secondary/10 text-primary font-medium text-xs mb-8 rounded-full border border-primary/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            <span>{grammarPoint}</span>
           </div>
 
           {/* 主句显示 - 大号字体 */}
           <div className="mb-8 w-full min-h-[140px] flex items-center justify-center">
             <p
-              className="text-3xl sm:text-4xl md:text-5xl leading-relaxed text-sumi-900 font-medium transition-all duration-500"
+              className="text-3xl sm:text-4xl md:text-5xl leading-tight text-text-primary transition-all duration-500"
               style={{
-                fontFamily: '"Zen Kaku Gothic New", "Noto Sans JP", sans-serif',
-                fontWeight: 500,
-                letterSpacing: '0.02em'
+                fontFamily: '"Inter", "Noto Sans JP", sans-serif',
+                fontWeight: 600,
+                letterSpacing: '-0.02em'
               }}
               dangerouslySetInnerHTML={{ __html: highlightedGrammar }}
             />
           </div>
 
-          {/* 音频播放器 - 居中 */}
+          {/* 音频播放器 - Modern Style */}
           {audioPath && (
             <div className="mb-8">
               <AudioPlayer audioPath={audioPath} />
             </div>
           )}
 
-          {/* 可折叠内容区域 */}
-          <div className="w-full max-w-2xl space-y-3">
+          {/* 可折叠内容区域 - Modern Cards */}
+          <div className="w-full max-w-2xl space-y-4">
             {/* 假名卡片 */}
             <ExpandableCard
               show={showFurigana}
@@ -176,7 +170,7 @@ export const StudyCard = memo(function StudyCard({
               label="假名标注"
               shortcut="F"
             >
-              <p className="text-2xl text-ai-800 font-medium tracking-wide" style={{ fontFamily: '"Zen Kaku Gothic New", sans-serif' }}>
+              <p className="text-2xl text-text-primary font-semibold tracking-wide" style={{ fontFamily: '"Noto Sans JP", sans-serif' }}>
                 {furigana}
               </p>
             </ExpandableCard>
@@ -189,7 +183,7 @@ export const StudyCard = memo(function StudyCard({
               label="中文翻译"
               shortcut="T"
             >
-              <p className="text-lg text-sumi-700 leading-relaxed">
+              <p className="text-lg text-text-secondary leading-relaxed">
                 {translation}
               </p>
             </ExpandableCard>
@@ -202,7 +196,7 @@ export const StudyCard = memo(function StudyCard({
               label="逐词解析"
               shortcut="A"
             >
-              <div className="text-sumi-600 text-sm leading-relaxed prose prose-sm max-w-none">
+              <div className="text-text-secondary text-sm leading-relaxed max-w-none">
                 {wordByWord && (wordByWord.includes('<') ? (
                   <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(wordByWord, {
                     ALLOWED_TAGS: ['h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'div', 'span'],
@@ -217,7 +211,7 @@ export const StudyCard = memo(function StudyCard({
         </div>
       </div>
 
-      {/* 底部导航 - 极简设计 */}
+      {/* 底部导航 - Modern Design */}
       <div className="mt-6 flex items-center justify-between gap-4">
         <NavButton
           onClick={onPrevious}
@@ -229,16 +223,15 @@ export const StudyCard = memo(function StudyCard({
         <button
           onClick={onUnderstood}
           className={`
-            flex-1 max-w-md flex items-center justify-center gap-3 py-4 px-8 rounded-2xl
-            font-semibold text-base tracking-wide transition-all duration-200
-            transform active:scale-[0.98]
+            flex-1 max-w-md flex items-center justify-center gap-3 py-4 px-8
+            font-semibold text-base transition-all duration-300 rounded-xl
             ${isLearned
-              ? 'bg-gradient-to-r from-matcha-500 to-matcha-600 text-white shadow-lg shadow-matcha-200/50'
-              : 'bg-white text-sumi-800 border border-sumi-200 shadow-sm hover:border-ai-300 hover:shadow-md hover:text-ai-700'
+              ? 'bg-gradient-to-r from-success to-success/80 text-white shadow-glow'
+              : 'bg-gradient-to-r from-primary to-secondary text-white shadow-glow hover:shadow-lg hover:-translate-y-0.5'
             }
           `}
         >
-          <Star size={20} className={isLearned ? 'fill-white' : 'text-sumi-300'} />
+          <Star size={20} className={isLearned ? 'fill-white' : 'fill-white/30'} />
           {isLearned ? '已掌握' : '我已理解'}
         </button>
 
@@ -250,28 +243,29 @@ export const StudyCard = memo(function StudyCard({
         />
       </div>
 
-      {/* 键盘快捷键提示 - 更隐蔽 */}
-      <div className="mt-8 flex justify-center gap-4 text-xs text-sumi-300">
-        <kbd className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/50 backdrop-blur rounded-md border border-sumi-100">
-          <span className="font-mono">F</span> 假名
+      {/* 键盘快捷键提示 - Modern */}
+      <div className="mt-8 flex justify-center gap-3 text-xs text-text-secondary">
+        <kbd className="flex items-center gap-1.5 px-3 py-2 glass-card rounded-lg">
+          <span className="font-mono font-medium">F</span> 假名
         </kbd>
-        <kbd className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/50 backdrop-blur rounded-md border border-sumi-100">
-          <span className="font-mono">T</span> 翻译
+        <kbd className="flex items-center gap-1.5 px-3 py-2 glass-card rounded-lg">
+          <span className="font-mono font-medium">T</span> 翻译
         </kbd>
-        <kbd className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/50 backdrop-blur rounded-md border border-sumi-100">
-          <span className="font-mono">A</span> 解析
+        <kbd className="flex items-center gap-1.5 px-3 py-2 glass-card rounded-lg">
+          <span className="font-mono font-medium">A</span> 解析
         </kbd>
-        <kbd className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/50 backdrop-blur rounded-md border border-sumi-100">
-          <span className="font-mono">←→</span> 切换
+        <kbd className="flex items-center gap-1.5 px-3 py-2 glass-card rounded-lg">
+          <span className="font-mono font-medium">←→</span> 切换
         </kbd>
       </div>
 
-      {/* Grammar highlight inline styles */}
+      {/* Grammar highlight inline styles - Modern */}
       <style>{`
         mark.grammar-highlight {
-          background: linear-gradient(180deg, transparent 60%, rgba(200, 54, 78, 0.2) 60%);
-          padding: 0 0.125em;
-          color: #C8364E;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: #FFFFFF;
+          padding: 0 0.25em;
+          border-radius: 0.25rem;
           font-weight: 600;
         }
       `}</style>
@@ -280,7 +274,7 @@ export const StudyCard = memo(function StudyCard({
 });
 
 /**
- * 可折叠卡片组件
+ * 可折叠卡片组件 - Modern Design
  */
 function ExpandableCard({
   show,
@@ -299,22 +293,16 @@ function ExpandableCard({
 }) {
   const colors = {
     furigana: {
-      bg: 'bg-ai-50/80',
-      border: 'border-ai-200/50',
-      text: 'text-ai-700',
-      dot: 'bg-ai-400'
+      bg: 'bg-white/40',
+      border: 'border-gray-200'
     },
     translation: {
-      bg: 'bg-matcha-50/80',
-      border: 'border-matcha-200/50',
-      text: 'text-matcha-700',
-      dot: 'bg-matcha-400'
+      bg: 'bg-white/40',
+      border: 'border-gray-200'
     },
     analysis: {
-      bg: 'bg-sumi-50/80',
-      border: 'border-sumi-200/50',
-      text: 'text-sumi-700',
-      dot: 'bg-sumi-400'
+      bg: 'bg-white/60',
+      border: 'border-gray-200'
     }
   };
 
@@ -326,22 +314,17 @@ function ExpandableCard({
       ${show ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
     `}>
       <div className={`
-        ${color.bg} backdrop-blur rounded-xl p-5 border ${color.border} shadow-sm
-        transition-all duration-300 hover:shadow-md
+        ${color.bg} backdrop-blur-sm border ${color.border} rounded-xl p-5
       `}>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <span className={`w-1.5 h-1.5 rounded-full ${color.dot}`} />
-            <span className={`text-xs font-bold uppercase tracking-wider ${color.text}`}>
+            <span className="text-xs font-semibold tracking-wide text-text-primary">
               {label}
             </span>
           </div>
           <button
             onClick={onToggle}
-            className={`
-              p-1.5 rounded-lg transition-all duration-200
-              ${show ? 'bg-white/50 text-sumi-400' : 'bg-transparent text-sumi-300'}
-            `}
+            className="p-2 bg-gradient-to-r from-primary/10 to-secondary/10 text-primary rounded-lg hover:from-primary/20 hover:to-secondary/20 transition-all"
             title={`Toggle (${shortcut})`}
           >
             <EyeOff size={14} />
@@ -354,7 +337,7 @@ function ExpandableCard({
 }
 
 /**
- * 导航按钮组件
+ * 导航按钮组件 - Modern Design
  */
 function NavButton({
   onClick,
@@ -372,11 +355,11 @@ function NavButton({
       onClick={onClick}
       disabled={disabled}
       className={`
-        w-14 h-14 flex items-center justify-center
-        rounded-2xl transition-all duration-200
+        w-14 h-14 rounded-xl flex items-center justify-center
+        transition-all duration-300 font-medium
         ${disabled
-          ? 'bg-sumi-50 text-sumi-300 cursor-not-allowed opacity-50'
-          : 'bg-white text-sumi-400 hover:text-ai-600 hover:bg-ai-50 hover:shadow-md hover:scale-105'
+          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+          : 'bg-gradient-to-br from-primary to-secondary text-white shadow-glow hover:shadow-lg hover:-translate-y-0.5'
         }
       `}
       title={label}

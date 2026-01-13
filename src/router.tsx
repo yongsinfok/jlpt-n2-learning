@@ -1,6 +1,6 @@
 /**
- * 路由配置 - 优化版本
- * 实现懒加载、代码分割和错误边界
+ * 路由配置 - BRUTALIST DESIGN SYSTEM
+ * Raw. Unpolished. High Contrast.
  */
 
 import { createBrowserRouter, useNavigate, Outlet } from 'react-router-dom';
@@ -33,7 +33,6 @@ const SettingsPage = lazy(() => import('@/pages/SettingsPage').then(m => ({ defa
 
 /**
  * 懒加载页面包装器
- * 包含 Suspense 和 ErrorBoundary
  */
 interface LazyPageWrapperProps {
   children: React.ReactNode;
@@ -64,20 +63,14 @@ function RootLayout({ children }: { children: React.ReactNode }) {
     let isCancelled = false;
 
     async function initializeApp() {
-      // 防止重复初始化
       if (isInitialized) return;
 
       try {
-        // 1. 初始化数据库
         await initDatabase();
-
-        // 2. 加载 CSV 数据（内部已有重复检查）
         await loadCSVData();
 
-        // 检查是否被取消（组件卸载或重新渲染）
         if (isCancelled) return;
 
-        // 3. 检查是否首次访问
         if (isFirstVisit) {
           markVisited();
           setShouldRedirect(ROUTES.ONBOARDING);
@@ -95,13 +88,11 @@ function RootLayout({ children }: { children: React.ReactNode }) {
 
     initializeApp();
 
-    // 清理函数：取消未完成的初始化
     return () => {
       isCancelled = true;
     };
-  }, []); // 空依赖数组，只在组件挂载时执行一次
+  }, []);
 
-  // 处理首次访问重定向
   useEffect(() => {
     if (shouldRedirect && isInitialized) {
       navigate(shouldRedirect);
@@ -109,31 +100,29 @@ function RootLayout({ children }: { children: React.ReactNode }) {
     }
   }, [shouldRedirect, isInitialized, navigate]);
 
-  // 加载状态
+  // Loading State - Brutalist
   if (isLoading) {
     return (
-      <div className="min-h-screen washi-bg flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <LoadingSpinner size="lg" text="正在加载学习数据..." />
       </div>
     );
   }
 
-  // 加载错误
+  // Error State - Brutalist
   if (loadError) {
     return (
       <ErrorBoundary>
-        <div className="min-h-screen washi-bg flex items-center justify-center p-4">
-          <div className="bg-white/90 backdrop-blur rounded-3xl shadow-washi border border-shu-200 p-8 max-w-md w-full text-center">
-            <div className="p-4 bg-shu-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-shu-DEFAULT" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+        <div className="min-h-screen bg-white flex items-center justify-center p-4">
+          <div className="bg-white border-4 border-black p-8 max-w-md w-full text-center">
+            <div className="p-4 bg-black text-white w-16 h-16 flex items-center justify-center mx-auto mb-6">
+              <span className="text-3xl">!</span>
             </div>
-            <h2 className="text-xl font-bold text-sumi-900 mb-2">加载失败</h2>
-            <p className="text-sumi-600 mb-6">{loadError}</p>
+            <h2 className="text-xl font-bold text-black uppercase mb-2">加载失败</h2>
+            <p className="text-gray-700 mb-6">{loadError}</p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-ai-DEFAULT hover:bg-ai-600 text-white px-6 py-3 rounded-xl font-medium transition-colors"
+              className="btn-brutalist-primary"
             >
               重新加载
             </button>
@@ -143,16 +132,15 @@ function RootLayout({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // 应用就绪，渲染子组件
   return <>{children}</>;
 }
 
 /**
- * 布局包装器
+ * 布局包装器 - Brutalist
  */
 function LayoutWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen washi-bg flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
@@ -161,18 +149,18 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * 404 页面
+ * 404 页面 - Brutalist
  */
 function NotFoundPage() {
   return (
-    <div className="min-h-screen washi-bg flex items-center justify-center p-4">
-      <div className="bg-white/90 backdrop-blur rounded-3xl shadow-washi border border-sumi-100 p-8 max-w-md w-full text-center">
-        <div className="text-6xl font-bold text-ai-DEFAULT mb-4">404</div>
-        <h1 className="text-2xl font-bold text-sumi-900 mb-2">页面未找到</h1>
-        <p className="text-sumi-600 mb-6">抱歉，您访问的页面不存在</p>
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="bg-white border-4 border-black p-8 max-w-md w-full text-center">
+        <div className="text-6xl font-display font-bold text-black mb-4">404</div>
+        <h1 className="text-2xl font-bold text-black uppercase mb-2">页面未找到</h1>
+        <p className="text-gray-700 mb-6">抱歉，您访问的页面不存在</p>
         <a
           href="/"
-          className="inline-block px-6 py-3 bg-ai-DEFAULT hover:bg-ai-600 text-white font-medium rounded-xl transition-colors"
+          className="btn-brutalist-primary"
         >
           返回首页
         </a>
@@ -182,7 +170,7 @@ function NotFoundPage() {
 }
 
 /**
- * 路由配置 - 使用懒加载和错误边界
+ * 路由配置 - Brutalist Design
  */
 export const router = createBrowserRouter([
   {
