@@ -1,22 +1,25 @@
 /**
- * 按钮组件 - Japanese Stamp Style
+ * Button Component - Modern Clean Design
  */
 
-import { ButtonHTMLAttributes, forwardRef } from 'react';
+import { ButtonHTMLAttributes, forwardRef, ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** 按钮变体 */
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'ghost' | 'stamp';
-  /** 按钮大小 */
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'asChild'> {
+  /** Button variant */
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost';
+  /** Button size */
   size?: 'sm' | 'md' | 'lg';
-  /** 是否禁用 */
+  /** Is disabled */
   disabled?: boolean;
-  /** 是否全宽 */
+  /** Full width */
   fullWidth?: boolean;
+  /** Render as child element (e.g., Link) */
+  asChild?: boolean;
 }
 
 /**
- * 按钮组件 - Japanese Stamp Style
+ * Button Component - Modern Clean Design
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(props, ref) {
   const {
@@ -24,58 +27,126 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     size = 'md',
     disabled = false,
     fullWidth = false,
+    asChild = false,
     className = '',
     children,
     ...rest
   } = props;
 
   // Base styles
-  const baseStyles = 'font-medium rounded-lg transition-all duration-300 relative overflow-hidden';
+  const baseStyles = 'btn font-display';
 
-  // Variant styles - Japanese Color Palette
+  // Variant styles
   const variantStyles = {
-    primary: 'bg-ai-DEFAULT hover:bg-ai-600 text-white shadow-washi hover:shadow-washi-md hover:-translate-y-0.5',
-    secondary: 'bg-matcha-DEFAULT hover:bg-matcha-600 text-white shadow-washi hover:shadow-washi-md hover:-translate-y-0.5',
-    success: 'bg-matcha-DEFAULT hover:bg-matcha-600 text-white shadow-washi hover:shadow-washi-md hover:-translate-y-0.5',
-    warning: 'bg-kincha-DEFAULT hover:bg-kincha-600 text-white shadow-washi hover:shadow-washi-md hover:-translate-y-0.5',
-    error: 'bg-shu-DEFAULT hover:bg-shu-600 text-white shadow-washi hover:shadow-washi-md hover:-translate-y-0.5',
-    ghost: 'bg-transparent hover:bg-ai-50 text-sumi-600 hover:text-ai-DEFAULT',
-    stamp: 'bg-transparent border-2 border-shu-DEFAULT text-shu-DEFAULT hover:bg-shu-DEFAULT hover:text-white shadow-stamp',
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    accent: 'btn-accent',
+    ghost: 'btn-ghost',
+  };
+
+  // Size styles
+  const sizeStyles = {
+    sm: 'btn-sm',
+    md: '',
+    lg: 'btn-lg',
   };
 
   const variantClass = variantStyles[variant] || variantStyles.primary;
-
-  // Size styles
-  const sizeStylesMap = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg',
-  };
-  const sizeClass = sizeStylesMap[size] || sizeStylesMap.md;
-
+  const sizeClass = sizeStyles[size] || '';
   const widthStyles = fullWidth ? 'w-full' : '';
-  const disabledClass = disabled ? 'opacity-50 cursor-not-allowed' : 'ink-drop-effect';
+  const combinedClassName = `${baseStyles} ${variantClass} ${sizeClass} ${widthStyles} ${className}`;
+
+  // If asChild is true and children is a ReactElement (like Link), clone it with button styles
+  if (asChild) {
+    const child = children as ReactElement;
+    return (
+      <child.type
+        {...child.props}
+        {...rest}
+        className={`${combinedClassName} ${child.props.className || ''}`}
+        ref={ref as any}
+      >
+        {child.props.children}
+      </child.type>
+    );
+  }
 
   return (
     <button
       ref={ref}
       disabled={disabled}
-      className={`${baseStyles} ${variantClass} ${sizeClass} ${widthStyles} ${className} ${disabledClass}`}
+      className={combinedClassName}
       {...rest}
     >
-      {/* Shimmer effect for primary variants */}
-      {(variant === 'primary' || variant === 'secondary' || variant === 'success') && !disabled && (
-        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shimmer" />
-      )}
-
-      {/* Stamp texture for stamp variant */}
-      {variant === 'stamp' && (
-        <span className="absolute inset-0 opacity-20 stamp-texture" />
-      )}
-
-      <span className="relative z-10">{children}</span>
+      {children}
     </button>
   );
 });
 
 Button.displayName = 'Button';
+
+/**
+ * Icon Button Component
+ */
+export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Icon to display */
+  icon: React.ReactNode;
+  /** Is active */
+  active?: boolean;
+  /** Tooltip text */
+  label?: string;
+}
+
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
+  { icon, active = false, label, className = '', ...rest },
+  ref
+) {
+  return (
+    <button
+      ref={ref}
+      className={`btn-icon ${active ? 'text-accent' : ''} ${className}`}
+      aria-label={label}
+      aria-pressed={active}
+      {...rest}
+    >
+      {icon}
+    </button>
+  );
+});
+
+IconButton.displayName = 'IconButton';
+
+/**
+ * Heart Button Component
+ */
+export interface HeartButtonProps {
+  /** Is favorited */
+  active?: boolean;
+  /** On toggle */
+  onToggle?: () => void;
+  /** Label */
+  label?: string;
+}
+
+export function HeartButton({ active = false, onToggle, label = 'Add to favorites' }: HeartButtonProps) {
+  return (
+    <button
+      className={`heart-btn ${active ? 'active' : ''}`}
+      onClick={onToggle}
+      aria-label={label}
+      aria-pressed={active}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill={active ? 'currentColor' : 'none'}
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+      </svg>
+    </button>
+  );
+}

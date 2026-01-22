@@ -1,5 +1,5 @@
 /**
- * 成就页面 - 显示所有成就和解锁状态
+ * AchievementsPage - Modern Clean Design
  */
 
 import { useEffect, useState } from 'react';
@@ -24,17 +24,14 @@ export function AchievementsPage() {
   };
 
   const filteredAchievements = achievements.filter((achievement) => {
-    // 按解锁状态筛选
     if (showUnlockedOnly && !achievement.isUnlocked) {
       return false;
     }
 
-    // 按分类筛选
     if (selectedCategory === 'all') {
       return true;
     }
 
-    // 根据成就ID推断分类
     if (selectedCategory === 'learning') {
       return achievement.id.includes('grammar') || achievement.id.includes('sentence') || achievement.id.includes('lesson');
     }
@@ -55,131 +52,133 @@ export function AchievementsPage() {
   const totalCount = achievements.length;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* 页面标题 */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <Award className="w-8 h-8 text-amber-500" />
-          <h1 className="text-3xl font-bold text-gray-900">成就徽章</h1>
-        </div>
-        <p className="text-gray-600">
-          已解锁: <strong className="text-amber-600">{unlockedCount}</strong> / {totalCount}
-        </p>
-      </div>
-
-      {/* 筛选器 */}
-      <div className="bg-white rounded-xl p-6 border border-gray-200 mb-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          {/* 分类筛选 */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <Filter className="w-4 h-4 text-gray-500" />
-            <span className="text-sm text-gray-600">分类:</span>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setSelectedCategory('all')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedCategory === 'all'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                全部
-              </button>
-              <button
-                onClick={() => setSelectedCategory('learning')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedCategory === 'learning'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                学习进度
-              </button>
-              <button
-                onClick={() => setSelectedCategory('practice')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedCategory === 'practice'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                练习成绩
-              </button>
-              <button
-                onClick={() => setSelectedCategory('streak')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedCategory === 'streak'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                坚持学习
-              </button>
-              <button
-                onClick={() => setSelectedCategory('milestone')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedCategory === 'milestone'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                里程碑
-              </button>
-            </div>
+    <div className="min-h-screen bg-neutral">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-2">
+            <Award className="w-8 h-8 text-warning" />
+            <h1 className="text-h1 md:text-3xl font-bold text-primary">成就徽章</h1>
           </div>
-
-          {/* 状态筛选 */}
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={showUnlockedOnly}
-              onChange={(e) => setShowUnlockedOnly(e.target.checked)}
-              className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-            />
-            <span className="text-sm text-gray-700">只显示已解锁</span>
-          </label>
-        </div>
-      </div>
-
-      {/* 成就网格 */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {filteredAchievements.map((achievement) => (
-          <AchievementBadge
-            key={achievement.id}
-            icon={achievement.icon}
-            name={achievement.name}
-            description={achievement.description}
-            isUnlocked={achievement.isUnlocked}
-            unlockedDate={achievement.unlockedDate}
-            showDetails
-          />
-        ))}
-      </div>
-
-      {/* 空状态 */}
-      {filteredAchievements.length === 0 && (
-        <div className="bg-white rounded-xl p-12 text-center border border-gray-200">
-          <Award className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">没有找到成就</h3>
-          <p className="text-gray-600">
-            {showUnlockedOnly
-              ? '还没有解锁任何成就，继续学习吧！'
-              : '该分类下没有成就'}
+          <p className="text-body text-neutral-dark">
+            已解锁: <strong className="text-warning">{unlockedCount}</strong> / {totalCount}
           </p>
         </div>
-      )}
 
-      {/* 成就说明 */}
-      <div className="mt-12 bg-blue-50 rounded-xl p-6 border border-blue-200">
-        <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-          <Award className="w-5 h-5 text-blue-600" />
-          关于成就系统
-        </h3>
-        <p className="text-sm text-gray-700 leading-relaxed">
-          成就系统旨在激励你坚持学习。当你完成特定目标时，会自动解锁相应的成就徽章。
-          成就分为多个类别：学习进度、练习成绩、坚持学习和里程碑等。
-          有些成就需要持续努力才能解锁，比如连续学习30天或完成全部课程。
-        </p>
+        {/* Filter */}
+        <div className="card p-6 mb-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            {/* Category filter */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <Filter className="w-4 h-4 text-neutral-dark" />
+              <span className="text-small text-neutral-dark">分类:</span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setSelectedCategory('all')}
+                  className={`px-4 py-2 rounded-md text-small font-medium transition-colors ${
+                    selectedCategory === 'all'
+                      ? 'bg-primary text-white'
+                      : 'bg-white border border-border text-primary hover:bg-neutral'
+                  }`}
+                >
+                  全部
+                </button>
+                <button
+                  onClick={() => setSelectedCategory('learning')}
+                  className={`px-4 py-2 rounded-md text-small font-medium transition-colors ${
+                    selectedCategory === 'learning'
+                      ? 'bg-primary text-white'
+                      : 'bg-white border border-border text-primary hover:bg-neutral'
+                  }`}
+                >
+                  学习进度
+                </button>
+                <button
+                  onClick={() => setSelectedCategory('practice')}
+                  className={`px-4 py-2 rounded-md text-small font-medium transition-colors ${
+                    selectedCategory === 'practice'
+                      ? 'bg-primary text-white'
+                      : 'bg-white border border-border text-primary hover:bg-neutral'
+                  }`}
+                >
+                  练习成绩
+                </button>
+                <button
+                  onClick={() => setSelectedCategory('streak')}
+                  className={`px-4 py-2 rounded-md text-small font-medium transition-colors ${
+                    selectedCategory === 'streak'
+                      ? 'bg-primary text-white'
+                      : 'bg-white border border-border text-primary hover:bg-neutral'
+                  }`}
+                >
+                  坚持学习
+                </button>
+                <button
+                  onClick={() => setSelectedCategory('milestone')}
+                  className={`px-4 py-2 rounded-md text-small font-medium transition-colors ${
+                    selectedCategory === 'milestone'
+                      ? 'bg-primary text-white'
+                      : 'bg-white border border-border text-primary hover:bg-neutral'
+                  }`}
+                >
+                  里程碑
+                </button>
+              </div>
+            </div>
+
+            {/* Status filter */}
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={showUnlockedOnly}
+                onChange={(e) => setShowUnlockedOnly(e.target.checked)}
+                className="w-4 h-4 text-primary rounded focus:ring-primary"
+              />
+              <span className="text-small text-primary">只显示已解锁</span>
+            </label>
+          </div>
+        </div>
+
+        {/* Achievement grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+          {filteredAchievements.map((achievement) => (
+            <AchievementBadge
+              key={achievement.id}
+              icon={achievement.icon}
+              name={achievement.name}
+              description={achievement.description}
+              isUnlocked={achievement.isUnlocked}
+              unlockedDate={achievement.unlockedDate}
+              showDetails
+            />
+          ))}
+        </div>
+
+        {/* Empty state */}
+        {filteredAchievements.length === 0 && (
+          <div className="card p-12 text-center">
+            <Award className="w-16 h-16 text-neutral-dark mx-auto mb-4" />
+            <h3 className="text-h1 text-primary mb-2">没有找到成就</h3>
+            <p className="text-body text-neutral-dark">
+              {showUnlockedOnly
+                ? '还没有解锁任何成就，继续学习吧！'
+                : '该分类下没有成就'}
+            </p>
+          </div>
+        )}
+
+        {/* Info section */}
+        <div className="card p-6">
+          <h3 className="font-semibold text-primary mb-3 flex items-center gap-2">
+            <Award className="w-5 h-5 text-primary" />
+            关于成就系统
+          </h3>
+          <p className="text-small text-primary leading-relaxed">
+            成就系统旨在激励你坚持学习。当你完成特定目标时，会自动解锁相应的成就徽章。
+            成就分为多个类别：学习进度、练习成绩、坚持学习和里程碑等。
+            有些成就需要持续努力才能解锁，比如连续学习30天或完成全部课程。
+          </p>
+        </div>
       </div>
     </div>
   );
