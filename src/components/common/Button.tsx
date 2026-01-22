@@ -8,7 +8,7 @@ import { Loader2 } from 'lucide-react';
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'asChild'> {
   /** Button variant */
-  variant?: 'primary' | 'secondary' 'accent' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost';
   /** Button size */
   size?: 'sm' | 'md' | 'lg';
   /** Is disabled */
