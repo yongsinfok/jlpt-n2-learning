@@ -1,13 +1,14 @@
 /**
- * Button Component - Modern Clean Design
+ * Button Component - Modern Clean Design with Animations
  */
 
 import { ButtonHTMLAttributes, forwardRef, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
+import { Loader2 } from 'lucide-react';
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'asChild'> {
   /** Button variant */
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost';
+  variant?: 'primary' | 'secondary' 'accent' | 'ghost';
   /** Button size */
   size?: 'sm' | 'md' | 'lg';
   /** Is disabled */
@@ -16,6 +17,8 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   fullWidth?: boolean;
   /** Render as child element (e.g., Link) */
   asChild?: boolean;
+  /** Show loading state */
+  loading?: boolean;
 }
 
 /**
@@ -28,6 +31,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     disabled = false,
     fullWidth = false,
     asChild = false,
+    loading = false,
     className = '',
     children,
     ...rest
@@ -63,10 +67,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       <child.type
         {...child.props}
         {...rest}
+        disabled={disabled || loading}
         className={`${combinedClassName} ${child.props.className || ''}`}
         ref={ref as any}
       >
-        {child.props.children}
+        {loading ? (
+          <Loader2 className="w-5 h-5 animate-spin" />
+        ) : (
+          child.props.children
+        )}
       </child.type>
     );
   }
@@ -74,11 +83,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   return (
     <button
       ref={ref}
-      disabled={disabled}
+      disabled={disabled || loading}
       className={combinedClassName}
       {...rest}
     >
-      {children}
+      {loading ? (
+        <>
+          <Loader2 className="w-5 h-5 animate-spin mr-2" />
+          Loading...
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 });

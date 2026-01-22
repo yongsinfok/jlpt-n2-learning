@@ -287,17 +287,23 @@ export function LessonListPage() {
         </div>
       </section>
 
-      {/* Lesson Grid - 2-3 COLUMNS FOR LARGER CARDS */}
+      {/* Lesson Grid - 2-3 COLUMNS FOR LARGER CARDS with entrance animations */}
       <section className="w-full max-w-9xl mx-auto px-6 sm:px-8 lg:px-12 py-10 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredLessons.map((lesson) => (
-            <LessonCard key={lesson.id} lesson={lesson} />
+          {filteredLessons.map((lesson, index) => (
+            <div
+              key={lesson.id}
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${Math.min(index * 0.1, 0.5)}s` }}
+            >
+              <LessonCard lesson={lesson} />
+            </div>
           ))}
         </div>
 
         {filteredLessons.length === 0 && (
           <div className="text-center py-24">
-            <Target className="w-24 h-24 text-neutral-dark mx-auto mb-6" />
+            <Target className="w-24 h-24 text-neutral-dark mx-auto mb-6 animate-bounce" />
             <h3 className="text-4xl font-bold text-primary mb-4">暂无课程</h3>
             <p className="text-xl text-neutral-dark">
               {filter === 'inProgress' && '开始学习第一课吧！'}

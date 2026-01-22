@@ -1,69 +1,54 @@
 /**
- * 加载动画组件
+ * LoadingSpinner Component - Animated Loading Indicator
  */
 
-import { cn } from '@/utils/cn';
+import { Loader2 } from 'lucide-react';
 
 export interface LoadingSpinnerProps {
-  /** 大小 */
+  /** Size of the spinner */
   size?: 'sm' | 'md' | 'lg';
-  /** 颜色 */
-  color?: 'primary' | 'white' | 'gray';
-  /** 是否全屏显示 */
-  fullScreen?: boolean;
-  /** 自定义类名 */
-  className?: string;
-  /** 加载文本 */
+  /** Optional text to display */
   text?: string;
+  /** Full screen overlay */
+  fullScreen?: boolean;
+  /** Custom className */
+  className?: string;
 }
 
-/**
- * 大小样式映射
- */
-const sizeStyles = {
-  sm: 'w-4 h-4 border-2',
-  md: 'w-8 h-8 border-3',
-  lg: 'w-12 h-12 border-4',
-} as const;
-
-/**
- * 颜色样式映射
- */
-const colorStyles = {
-  primary: 'border-primary border-t-transparent',
-  white: 'border-white border-t-transparent',
-  gray: 'border-gray-400 border-t-transparent',
-} as const;
-
-/**
- * 加载动画组件
- */
 export function LoadingSpinner({
   size = 'md',
-  color = 'primary',
+  text,
   fullScreen = false,
   className = '',
-  text,
 }: LoadingSpinnerProps) {
-  const sizeClass = sizeStyles[size];
-  const colorClass = colorStyles[color];
+  const sizeClasses = {
+    sm: 'w-5 h-5',
+    md: 'w-10 h-10',
+    lg: 'w-16 h-16',
+  };
+
+  const textSizeClasses = {
+    sm: 'text-sm',
+    md: 'text-base',
+    lg: 'text-lg',
+  };
 
   const spinner = (
-    <div className={cn('flex flex-col items-center justify-center gap-3', className)}>
-      <div
-        className={cn(
-          'rounded-full animate-spin',
-          sizeClass,
-          colorClass
-        )}
+    <div className={`flex flex-col items-center justify-center gap-4 ${className}`}>
+      <Loader2
+        className={`${sizeClasses[size]} animate-spin text-primary`}
       />
-      {text && <p className="text-sm text-gray-600">{text}</p>}
+      {text && (
+        <p className={`${textSizeClasses[size]} text-neutral-dark font-medium animate-fade-in`}>
+          {text}
+        </p>
+      )}
     </div>
   );
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm animate-fade-in">
         {spinner}
       </div>
     );

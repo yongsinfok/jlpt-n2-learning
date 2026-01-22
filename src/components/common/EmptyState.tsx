@@ -1,40 +1,34 @@
 /**
- * 空状态组件
+ * EmptyState Component - Animated Empty State
  */
 
 import { Button } from './Button';
+import { Inbox } from 'lucide-react';
 
 export interface EmptyStateProps {
-  /** 图标 */
+  /** Icon */
   icon?: React.ReactNode;
-  /** 标题 */
+  /** Title */
   title: string;
-  /** 描述 */
+  /** Description */
   description?: string;
-  /** 操作按钮文本 */
+  /** Action button text */
   actionText?: string;
-  /** 操作按钮回调 */
+  /** Action button callback */
   onAction?: () => void;
-  /** 自定义类名 */
+  /** Custom className */
   className?: string;
 }
 
 /**
- * 默认空状态图标
+ * Default empty state icon
  */
 const DefaultIcon = () => (
-  <svg className="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-    />
-  </svg>
+  <Inbox className="w-24 h-24 text-neutral-dark" />
 );
 
 /**
- * 空状态组件
+ * EmptyState Component - Animated
  */
 export function EmptyState({
   icon = <DefaultIcon />,
@@ -45,12 +39,12 @@ export function EmptyState({
   className = '',
 }: EmptyStateProps) {
   return (
-    <div className={`flex flex-col items-center justify-center p-8 text-center ${className}`}>
-      <div className="mb-4">{icon}</div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
-      {description && <p className="text-gray-600 mb-6 max-w-sm">{description}</p>}
+    <div className={`flex flex-col items-center justify-center p-12 text-center ${className} animate-fade-in-up`}>
+      <div className="mb-6 animate-scale-in">{icon}</div>
+      <h3 className="text-3xl font-bold text-primary mb-3">{title}</h3>
+      {description && <p className="text-lg text-neutral-dark mb-8 max-w-md">{description}</p>}
       {actionText && onAction && (
-        <Button onClick={onAction} variant="primary">
+        <Button onClick={onAction} variant="primary" size="lg">
           {actionText}
         </Button>
       )}

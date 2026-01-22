@@ -116,11 +116,11 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Stats Cards - FULL WIDTH, 2 COLUMNS */}
+      {/* Stats Cards - FULL WIDTH, 2 COLUMNS with animations */}
       <section className="w-full max-w-9xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Stat 1 - Larger */}
-          <div className="card p-8">
+          {/* Stat 1 - Larger with animation */}
+          <div className="card p-8 animate-fade-in-up animate-delay-100">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-16 h-16 rounded-xl bg-neutral flex items-center justify-center">
                 <BookOpen className="w-8 h-8 text-primary" />
@@ -141,8 +141,8 @@ export function HomePage() {
             </div>
           </div>
 
-          {/* Stat 2 - Larger */}
-          <div className="card p-8">
+          {/* Stat 2 - Larger with animation */}
+          <div className="card p-8 animate-fade-in-up animate-delay-200">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-16 h-16 rounded-xl bg-neutral flex items-center justify-center">
                 <Brain className="w-8 h-8 text-primary" />
@@ -163,8 +163,8 @@ export function HomePage() {
             </div>
           </div>
 
-          {/* Stat 3 - Larger */}
-          <div className="card p-8">
+          {/* Stat 3 - Larger with animation */}
+          <div className="card p-8 animate-fade-in-up animate-delay-300">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-16 h-16 rounded-xl bg-neutral flex items-center justify-center">
                 <BookCopy className="w-8 h-8 text-primary" />
@@ -185,8 +185,8 @@ export function HomePage() {
             </div>
           </div>
 
-          {/* Stat 4 - Larger */}
-          <div className="card p-8">
+          {/* Stat 4 - Larger with animation */}
+          <div className="card p-8 animate-fade-in-up animate-delay-400">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-16 h-16 rounded-xl bg-neutral flex items-center justify-center">
                 <Clock className="w-8 h-8 text-primary" />
@@ -206,15 +206,15 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Quick Actions - FULL WIDTH, 2 COLUMNS */}
+      {/* Quick Actions - FULL WIDTH, 2 COLUMNS with animations */}
       <section className="w-full max-w-9xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
-        <div className="card">
+        <div className="card animate-fade-in-up animate-delay-500">
           <div className="card-header">
             <h2 className="text-3xl font-bold text-primary">快捷操作</h2>
           </div>
           <div className="card-body">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Action 1 - Larger */}
+              {/* Action 1 - Larger with animation */}
               <Link
                 to={getContinueLearningLink()}
                 className="group flex items-center gap-6 p-8 rounded-xl border-2 border-border hover:border-neutral-dark hover:bg-neutral transition-all"
@@ -229,7 +229,7 @@ export function HomePage() {
                 <ArrowRight className="w-8 h-8 text-neutral-dark group-hover:text-primary group-hover:translate-x-2 transition-all flex-shrink-0" />
               </Link>
 
-              {/* Action 2 - Larger */}
+              {/* Action 2 - Larger with animation */}
               <Link
                 to="/practice"
                 className="group flex items-center gap-6 p-8 rounded-xl border-2 border-border hover:border-neutral-dark hover:bg-neutral transition-all"
@@ -244,7 +244,7 @@ export function HomePage() {
                 <ArrowRight className="w-8 h-8 text-neutral-dark group-hover:text-primary group-hover:translate-x-2 transition-all flex-shrink-0" />
               </Link>
 
-              {/* Action 3 - Larger */}
+              {/* Action 3 - Larger with animation */}
               <Link
                 to="/review"
                 className="group flex items-center gap-6 p-8 rounded-xl border-2 border-border hover:border-neutral-dark hover:bg-neutral transition-all"
@@ -259,7 +259,7 @@ export function HomePage() {
                 <ArrowRight className="w-8 h-8 text-neutral-dark group-hover:text-primary group-hover:translate-x-2 transition-all flex-shrink-0" />
               </Link>
 
-              {/* Action 4 - Larger */}
+              {/* Action 4 - Larger with animation */}
               <Link
                 to="/progress"
                 className="group flex items-center gap-6 p-8 rounded-xl border-2 border-border hover:border-neutral-dark hover:bg-neutral transition-all"
