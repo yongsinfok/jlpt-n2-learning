@@ -1,5 +1,5 @@
 /**
- * LessonListPage - Modern Clean Design
+ * LessonListPage - Spacious User-Friendly Design
  */
 
 import { useEffect, useState, useMemo } from 'react';
@@ -11,7 +11,7 @@ import { Map, Flame, Target, Lock, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/common/Button';
 
 /**
- * LessonCard Component
+ * LessonCard Component - MUCH LARGER
  */
 interface LessonCardProps {
   lesson: Lesson;
@@ -23,92 +23,92 @@ function LessonCard({ lesson }: LessonCardProps) {
       to={lesson.isUnlocked ? `/lesson/${lesson.id}` : '#'}
       className={`card group ${!lesson.isUnlocked ? 'opacity-60 pointer-events-none' : ''}`}
     >
-      {/* Card Image Area */}
+      {/* Card Image Area - Larger */}
       <div className="aspect-video bg-neutral relative overflow-hidden">
         {lesson.isCompleted ? (
           <div className="absolute inset-0 bg-success/10 flex items-center justify-center">
-            <CheckCircle2 className="w-12 h-12 text-success" />
+            <CheckCircle2 className="w-20 h-20 text-success" />
           </div>
         ) : lesson.isUnlocked ? (
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
         ) : (
           <div className="absolute inset-0 bg-neutral-dark/5 flex items-center justify-center">
-            <Lock className="w-8 h-8 text-neutral-dark" />
+            <Lock className="w-16 h-16 text-neutral-dark" />
           </div>
         )}
 
-        {/* Lesson Number Badge */}
-        <div className="absolute top-3 left-3">
-          <span className="badge badge-primary">第 {lesson.number} 课</span>
+        {/* Lesson Number Badge - Larger */}
+        <div className="absolute top-6 left-6">
+          <span className="badge badge-primary text-base px-5 py-2.5">第 {lesson.number} 课</span>
         </div>
 
-        {/* Status Icon */}
-        <div className="absolute top-3 right-3">
+        {/* Status Icon - Larger */}
+        <div className="absolute top-6 right-6">
           {lesson.isCompleted ? (
-            <div className="w-8 h-8 rounded-full bg-success flex items-center justify-center">
-              <CheckCircle2 className="w-5 h-5 text-white" />
+            <div className="w-14 h-14 rounded-full bg-success flex items-center justify-center">
+              <CheckCircle2 className="w-9 h-9 text-white" />
             </div>
           ) : lesson.isUnlocked ? (
-            <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
-              <Flame className="w-5 h-5 text-white" />
+            <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center">
+              <Flame className="w-9 h-9 text-white" />
             </div>
           ) : (
-            <div className="w-8 h-8 rounded-full bg-neutral flex items-center justify-center">
-              <Lock className="w-5 h-5 text-neutral-dark" />
+            <div className="w-14 h-14 rounded-full bg-neutral flex items-center justify-center">
+              <Lock className="w-9 h-9 text-neutral-dark" />
             </div>
           )}
         </div>
       </div>
 
-      {/* Card Body */}
+      {/* Card Body - More padding */}
       <div className="card-body">
-        {/* Title */}
-        <h3 className="text-h1 text-primary mb-1 text-truncate-2">
+        {/* Title - Larger */}
+        <h3 className="text-2xl font-bold text-primary mb-3 text-truncate-2">
           {lesson.title}
         </h3>
 
-        {/* Description */}
-        <p className="text-small text-neutral-dark mb-3 line-clamp-2">
+        {/* Description - Larger */}
+        <p className="text-lg text-neutral-dark mb-6 line-clamp-2">
           {lesson.description || '掌握本课语法点，提升日语表达能力'}
         </p>
 
-        {/* Stats */}
-        <div className="flex items-center gap-4 text-small text-neutral-dark">
-          <span className="flex items-center gap-1">
-            <Target className="w-3.5 h-3.5" />
+        {/* Stats - Larger */}
+        <div className="flex items-center gap-6 text-lg text-neutral-dark mb-4">
+          <span className="flex items-center gap-2">
+            <Target className="w-5 h-5" />
             {lesson.grammarPointCount || 4} 语法点
           </span>
-          <span className="flex items-center gap-1">
-            <Flame className="w-3.5 h-3.5" />
+          <span className="flex items-center gap-2">
+            <Flame className="w-5 h-5" />
             {lesson.sentenceCount || 20} 例句
           </span>
         </div>
 
-        {/* Progress Bar */}
+        {/* Progress Bar - Taller */}
         {lesson.isUnlocked && !lesson.isCompleted && (
-          <div className="mt-3">
-            <div className="progress-bar">
+          <div className="mt-4">
+            <div className="progress-bar h-3">
               <div
-                className="progress-fill"
+                className="progress-fill h-3"
                 style={{ width: `${lesson.progress || 0}%` }}
               />
             </div>
-            <p className="text-xs text-neutral-dark mt-1">
+            <p className="text-base text-neutral-dark mt-2 font-semibold">
               完成 {lesson.progress || 0}%
             </p>
           </div>
         )}
       </div>
 
-      {/* Card Footer */}
+      {/* Card Footer - More padding */}
       <div className="card-footer">
-        {/* Avatar */}
+        {/* Avatar - Already updated in CSS */}
         <div className={`avatar ${lesson.id % 2 === 0 ? 'avatar-2' : ''}`}>
           {lesson.title?.charAt(0) || `L${lesson.id}`}
         </div>
 
-        {/* Action Text */}
-        <span className="text-small text-neutral-dark">
+        {/* Action Text - Larger */}
+        <span className="text-lg font-medium text-primary">
           {lesson.isCompleted ? '已完成' : lesson.isUnlocked ? '开始学习 →' : '待解锁'}
         </span>
       </div>
@@ -117,7 +117,7 @@ function LessonCard({ lesson }: LessonCardProps) {
 }
 
 /**
- * LessonListPage Component
+ * LessonListPage Component - Spacious & User-Friendly
  */
 export function LessonListPage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -164,28 +164,28 @@ export function LessonListPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-neutral">
-        {/* Loading Skeleton */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="max-w-3xl">
-            <div className="h-8 bg-border rounded w-64 mb-4 animate-pulse" />
-            <div className="h-4 bg-border rounded w-96 mb-8 animate-pulse" />
+        {/* Loading Skeleton - FULL WIDTH */}
+        <section className="w-full max-w-9xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
+          <div className="max-w-4xl">
+            <div className="h-12 bg-border rounded-lg w-80 mb-6 animate-pulse" />
+            <div className="h-6 bg-border rounded-lg w-[500px] mb-12 animate-pulse" />
           </div>
 
-          {/* Stats Skeleton */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          {/* Stats Skeleton - 2 columns */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="card p-4 animate-pulse">
-                <div className="h-10 bg-border rounded mb-3" />
-                <div className="h-8 bg-border rounded w-16 mb-2" />
-                <div className="h-3 bg-border rounded w-20" />
+              <div key={i} className="card p-8 animate-pulse">
+                <div className="h-16 bg-border rounded-lg mb-4" />
+                <div className="h-12 bg-border rounded-lg w-24 mb-3" />
+                <div className="h-5 bg-border rounded-lg w-32" />
               </div>
             ))}
           </div>
 
-          {/* Cards Skeleton */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="card h-64 animate-pulse" />
+          {/* Cards Skeleton - 2-3 columns */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="card h-96 animate-pulse" />
             ))}
           </div>
         </section>
@@ -195,44 +195,44 @@ export function LessonListPage() {
 
   return (
     <div className="min-h-screen bg-neutral">
-      {/* Hero Section */}
+      {/* Hero Section - FULL WIDTH */}
       <section className="bg-white border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div className="max-w-2xl">
-              {/* Breadcrumb */}
-              <div className="flex items-center gap-2 text-small text-neutral-dark mb-4">
-                <Link to="/" className="hover:text-primary transition-colors">首页</Link>
+        <div className="w-full max-w-9xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+            <div className="max-w-3xl">
+              {/* Breadcrumb - Larger */}
+              <div className="flex items-center gap-3 text-base text-neutral-dark mb-5">
+                <Link to="/" className="hover:text-primary transition-colors font-semibold">首页</Link>
                 <span className="text-muted">/</span>
-                <span className="text-primary">课程列表</span>
+                <span className="text-primary font-semibold">课程列表</span>
               </div>
 
-              {/* Title */}
-              <h1 className="text-h1 md:text-3xl font-bold text-primary mb-3">
+              {/* Title - Much Larger */}
+              <h1 className="text-5xl md:text-6xl font-bold text-primary mb-4">
                 N2 学习路径
               </h1>
-              <p className="text-body text-neutral-dark">
+              <p className="text-xl text-neutral-dark">
                 系统化的语法学习。每一课都是迈向流利日语的关键一步。
               </p>
             </div>
 
-            {/* Progress Card */}
-            <div className="card p-6 min-w-[200px]">
+            {/* Progress Card - Larger */}
+            <div className="card p-8 min-w-[300px]">
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary mb-1">
+                <div className="text-6xl font-bold text-primary mb-2">
                   {stats.progress}%
                 </div>
-                <p className="text-small text-neutral-dark mb-4">
+                <p className="text-lg text-neutral-dark mb-6">
                   {stats.completed} / {stats.total} 课已完成
                 </p>
-                <div className="flex justify-center gap-4">
+                <div className="flex justify-center gap-8">
                   <div>
-                    <div className="text-lg font-semibold text-primary">{stats.inProgress}</div>
-                    <div className="text-xs text-neutral-dark">进行中</div>
+                    <div className="text-3xl font-bold text-primary">{stats.inProgress}</div>
+                    <div className="text-base text-neutral-dark">进行中</div>
                   </div>
                   <div>
-                    <div className="text-lg font-semibold text-primary">{stats.completed}</div>
-                    <div className="text-xs text-neutral-dark">已完成</div>
+                    <div className="text-3xl font-bold text-primary">{stats.completed}</div>
+                    <div className="text-base text-neutral-dark">已完成</div>
                   </div>
                 </div>
               </div>
@@ -241,31 +241,31 @@ export function LessonListPage() {
         </div>
       </section>
 
-      {/* Stats Cards */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="card p-4">
-            <div className="text-2xl font-bold text-primary mb-1">{stats.total}</div>
-            <p className="text-small text-neutral-dark">总课程数</p>
+      {/* Stats Cards - FULL WIDTH, 2 columns on desktop */}
+      <section className="w-full max-w-9xl mx-auto px-6 sm:px-8 lg:px-12 py-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="card p-6">
+            <div className="text-4xl font-bold text-primary mb-2">{stats.total}</div>
+            <p className="text-lg text-neutral-dark">总课程数</p>
           </div>
-          <div className="card p-4">
-            <div className="text-2xl font-bold text-primary mb-1">{stats.completed}</div>
-            <p className="text-small text-neutral-dark">已完成</p>
+          <div className="card p-6">
+            <div className="text-4xl font-bold text-primary mb-2">{stats.completed}</div>
+            <p className="text-lg text-neutral-dark">已完成</p>
           </div>
-          <div className="card p-4">
-            <div className="text-2xl font-bold text-primary mb-1">{stats.inProgress}</div>
-            <p className="text-small text-neutral-dark">进行中</p>
+          <div className="card p-6">
+            <div className="text-4xl font-bold text-primary mb-2">{stats.inProgress}</div>
+            <p className="text-lg text-neutral-dark">进行中</p>
           </div>
-          <div className="card p-4">
-            <div className="text-2xl font-bold text-accent mb-1">{stats.progress}%</div>
-            <p className="text-small text-neutral-dark">完成进度</p>
+          <div className="card p-6">
+            <div className="text-4xl font-bold text-accent mb-2">{stats.progress}%</div>
+            <p className="text-lg text-neutral-dark">完成进度</p>
           </div>
         </div>
       </section>
 
-      {/* Filter Tabs */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-6 border-b border-border">
+      {/* Filter Tabs - FULL WIDTH */}
+      <section className="w-full max-w-9xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="flex items-center gap-8 border-b-2 border-border">
           <button
             onClick={() => setFilter('all')}
             className={`nav-tab ${filter === 'all' ? 'active' : ''}`}
@@ -287,19 +287,19 @@ export function LessonListPage() {
         </div>
       </section>
 
-      {/* Lesson Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Lesson Grid - 2-3 COLUMNS FOR LARGER CARDS */}
+      <section className="w-full max-w-9xl mx-auto px-6 sm:px-8 lg:px-12 py-10 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredLessons.map((lesson) => (
             <LessonCard key={lesson.id} lesson={lesson} />
           ))}
         </div>
 
         {filteredLessons.length === 0 && (
-          <div className="text-center py-16">
-            <Target className="w-16 h-16 text-neutral-dark mx-auto mb-4" />
-            <h3 className="text-h1 text-primary mb-2">暂无课程</h3>
-            <p className="text-body text-neutral-dark">
+          <div className="text-center py-24">
+            <Target className="w-24 h-24 text-neutral-dark mx-auto mb-6" />
+            <h3 className="text-4xl font-bold text-primary mb-4">暂无课程</h3>
+            <p className="text-xl text-neutral-dark">
               {filter === 'inProgress' && '开始学习第一课吧！'}
               {filter === 'completed' && '还没有完成的课程。'}
               {filter === 'all' && '课程即将推出。'}
@@ -308,27 +308,27 @@ export function LessonListPage() {
         )}
       </section>
 
-      {/* Motivational Section */}
+      {/* Motivational Section - FULL WIDTH */}
       {stats.progress < 100 && stats.inProgress > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <section className="w-full max-w-9xl mx-auto px-6 sm:px-8 lg:px-12 pb-20">
           <div className="card">
             <div className="card-body">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-md bg-accent/10 flex items-center justify-center">
-                    <Flame className="w-6 h-6 text-accent" />
+              <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="flex items-center gap-6">
+                  <div className="w-20 h-20 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                    <Flame className="w-10 h-10 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-h1 text-primary">
+                    <h3 className="text-3xl font-bold text-primary mb-2">
                       继续保持学习势头！
                     </h3>
-                    <p className="text-small text-neutral-dark mt-1">
+                    <p className="text-lg text-neutral-dark">
                       还有 {stats.total - stats.completed} 课待完成。坚持就是胜利。
                     </p>
                   </div>
                 </div>
 
-                <Button variant="primary" asChild>
+                <Button variant="primary" size="lg" asChild>
                   <Link to={`/lesson/${lessons.find(l => l.isUnlocked && !l.isCompleted)?.id || lessons[0]?.id}`}>
                     继续学习
                   </Link>

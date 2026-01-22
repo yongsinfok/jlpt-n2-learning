@@ -52,28 +52,31 @@ export default {
         jp: ['Noto Sans JP', 'sans-serif'],
       },
       fontSize: {
-        'logo': ['24px', { lineHeight: '1.2', fontWeight: '700' }],
-        'h1': ['20px', { lineHeight: '1.2', fontWeight: '600' }],
-        'h2': ['16px', { lineHeight: '1.2', fontWeight: '500' }],
-        'h3': ['14px', { lineHeight: '1.2', fontWeight: '500' }],
-        'body': ['14px', { lineHeight: '1.6', fontWeight: '400' }],
-        'small': ['12px', { lineHeight: '1.5', fontWeight: '400' }],
-        'xs': ['11px', { lineHeight: '1.4', fontWeight: '400' }],
+        // MUCH LARGER font sizes for better readability
+        'logo': ['32px', { lineHeight: '1.2', fontWeight: '700' }],
+        'h1': ['36px', { lineHeight: '1.2', fontWeight: '700' }],  // Was 20px
+        'h2': ['28px', { lineHeight: '1.3', fontWeight: '600' }],  // Was 16px
+        'h3': ['20px', { lineHeight: '1.4', fontWeight: '600' }],  // Was 14px
+        'body': ['17px', { lineHeight: '1.7', fontWeight: '400' }], // Was 14px
+        'small': ['15px', { lineHeight: '1.6', fontWeight: '400' }], // Was 12px
+        'xs': ['13px', { lineHeight: '1.5', fontWeight: '400' }],
       },
       spacing: {
-        'xs': '4px',
-        'sm': '8px',
-        'md': '16px',
-        'lg': '24px',
-        'xl': '32px',
-        '2xl': '48px',
+        'xs': '8px',   // Increased from 4px
+        'sm': '12px',  // Increased from 8px
+        'md': '20px',  // Increased from 16px
+        'lg': '32px',  // Increased from 24px
+        'xl': '48px',  // Increased from 32px
+        '2xl': '64px', // Increased from 48px
+        '3xl': '96px', // New
+        '4xl': '128px', // New
       },
       borderRadius: {
-        'sm': '4px',
-        'md': '8px',
-        'lg': '12px',
-        'xl': '16px',
-        '2xl': '24px',
+        'sm': '8px',   // Increased from 4px
+        'md': '12px',  // Increased from 8px
+        'lg': '16px',  // Increased from 12px
+        'xl': '20px',  // Increased from 16px
+        '2xl': '28px', // Increased from 24px
         'full': '9999px',
       },
       boxShadow: {
@@ -83,6 +86,11 @@ export default {
         'lg': '0 10px 15px rgba(0, 0, 0, 0.1)',
         'card': '0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06)',
         'card-hover': '0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08)',
+      },
+      maxWidth: {
+        '8xl': '90rem', // Wider than 7xl (80rem)
+        '9xl': '95rem',
+        'full': '100%',
       },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-out',
