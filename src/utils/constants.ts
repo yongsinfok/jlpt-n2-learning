@@ -60,15 +60,23 @@ export const LESSON_CONFIG = {
 
 // ==================== 成就定义 ====================
 
-/** 成就列表 */
-export const ACHIEVEMENTS = [
+/** 成就定义（不包括运行时状态） */
+interface AchievementDefinition {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  condition: string;
+}
+
+/** 成就配置 */
+export const ACHIEVEMENTS: readonly AchievementDefinition[] = [
   {
     id: 'first_grammar',
     name: '开始学习',
     description: '完成第1个语法点',
     icon: '🎯',
     condition: '完成第1个语法点',
-    isUnlocked: false,
   },
   {
     id: 'first_lesson',
@@ -76,7 +84,6 @@ export const ACHIEVEMENTS = [
     description: '完成第1课',
     icon: '📚',
     condition: '完成第1课',
-    isUnlocked: false,
   },
   {
     id: 'streak_7',
@@ -84,7 +91,6 @@ export const ACHIEVEMENTS = [
     description: '连续学习7天',
     icon: '🔥',
     condition: '连续学习7天',
-    isUnlocked: false,
   },
   {
     id: 'streak_30',
@@ -92,7 +98,6 @@ export const ACHIEVEMENTS = [
     description: '连续学习30天',
     icon: '🔥',
     condition: '连续学习30天',
-    isUnlocked: false,
   },
   {
     id: 'perfect_score',
@@ -100,7 +105,6 @@ export const ACHIEVEMENTS = [
     description: '课后测试获得满分',
     icon: '💯',
     condition: '课后测试获得满分',
-    isUnlocked: false,
   },
   {
     id: 'early_bird',
@@ -108,7 +112,6 @@ export const ACHIEVEMENTS = [
     description: '上午8点前学习',
     icon: '⏰',
     condition: '上午8点前学习',
-    isUnlocked: false,
   },
   {
     id: 'night_owl',
@@ -116,7 +119,6 @@ export const ACHIEVEMENTS = [
     description: '晚上10点后学习',
     icon: '🌙',
     condition: '晚上10点后学习',
-    isUnlocked: false,
   },
   {
     id: 'progress_10',
@@ -124,7 +126,6 @@ export const ACHIEVEMENTS = [
     description: '完成10%课程',
     icon: '⭐',
     condition: '完成5课',
-    isUnlocked: false,
   },
   {
     id: 'progress_25',
@@ -132,7 +133,6 @@ export const ACHIEVEMENTS = [
     description: '完成25%课程',
     icon: '⭐',
     condition: '完成13课',
-    isUnlocked: false,
   },
   {
     id: 'progress_50',
@@ -140,7 +140,6 @@ export const ACHIEVEMENTS = [
     description: '完成50%课程',
     icon: '🏆',
     condition: '完成25课',
-    isUnlocked: false,
   },
   {
     id: 'progress_75',
@@ -148,7 +147,6 @@ export const ACHIEVEMENTS = [
     description: '完成75%课程',
     icon: '🏆',
     condition: '完成38课',
-    isUnlocked: false,
   },
   {
     id: 'complete_all',
@@ -156,7 +154,6 @@ export const ACHIEVEMENTS = [
     description: '完成全部50课',
     icon: '🏆',
     condition: '完成全部50课',
-    isUnlocked: false,
   },
   {
     id: 'sentences_100',
@@ -164,7 +161,6 @@ export const ACHIEVEMENTS = [
     description: '学习100个例句',
     icon: '📖',
     condition: '学习100个例句',
-    isUnlocked: false,
   },
   {
     id: 'sentences_500',
@@ -172,7 +168,6 @@ export const ACHIEVEMENTS = [
     description: '学习500个例句',
     icon: '📖',
     condition: '学习500个例句',
-    isUnlocked: false,
   },
   {
     id: 'sentences_all',
@@ -180,7 +175,6 @@ export const ACHIEVEMENTS = [
     description: '学习全部例句',
     icon: '📖',
     condition: '学习全部例句',
-    isUnlocked: false,
   },
   {
     id: 'quiz_100',
@@ -188,7 +182,6 @@ export const ACHIEVEMENTS = [
     description: '完成100道练习题',
     icon: '✏️',
     condition: '完成100道练习题',
-    isUnlocked: false,
   },
   {
     id: 'quiz_500',
@@ -196,7 +189,6 @@ export const ACHIEVEMENTS = [
     description: '完成500道练习题',
     icon: '✏️',
     condition: '完成500道练习题',
-    isUnlocked: false,
   },
   {
     id: 'accuracy_90',
@@ -204,7 +196,6 @@ export const ACHIEVEMENTS = [
     description: '练习正确率达到90%',
     icon: '🎯',
     condition: '练习正确率达到90%',
-    isUnlocked: false,
   },
   {
     id: 'daily_goal_30',
@@ -212,7 +203,6 @@ export const ACHIEVEMENTS = [
     description: '连续30天完成每日目标',
     icon: '💪',
     condition: '连续30天完成每日目标',
-    isUnlocked: false,
   },
   {
     id: 'master_all',
@@ -220,7 +210,6 @@ export const ACHIEVEMENTS = [
     description: '所有语法点达到Level 5',
     icon: '🧠',
     condition: '所有语法点达到Level 5',
-    isUnlocked: false,
   },
 ] as const;
 

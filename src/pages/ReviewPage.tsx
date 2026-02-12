@@ -132,7 +132,8 @@ export function ReviewPage() {
   };
 
   const handleQuizAnswer = (answer: string) => {
-    const currentItem = reviewItems[reviewSession!].currentIndex;
+    if (reviewSession === null) return;
+    const currentItem = reviewItems[reviewSession.currentIndex];
     const isCorrect = answer === currentItem.grammarId;
 
     setLastAnswerCorrect(isCorrect);

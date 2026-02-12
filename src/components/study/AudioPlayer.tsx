@@ -3,7 +3,7 @@
  * 使用 React.memo 避免不必要的重渲染
  */
 
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { useAudio } from '@/hooks/useAudio';
 import { Play, Pause } from 'lucide-react';
 
@@ -30,24 +30,18 @@ export const AudioPlayer = memo(function AudioPlayer({
 }: AudioPlayerProps) {
   const { isPlaying, duration, currentTime, toggle, setPlaybackRate } = useAudio(audioPath);
 
-  // 缓存进度计算
-  const progress = useMemo(() => {
-    return duration > 0 ? (currentTime / duration) * 100 : 0;
-  }, [duration, currentTime]);
+  // 播放速度设置函数 - simple wrapper
+  const handleSetPlaybackRate = (rate: number) => () => setPlaybackRate(rate);
 
-  // 缓存时间格式化函数
-  const formatTime = useMemo(() => {
-    return (time: number) => {
-      const minutes = Math.floor(time / 60);
-      const seconds = Math.floor(time % 60);
-      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    };
-  }, []);
+  // 进度计算
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
-  // 缓存播放速度设置函数
-  const handleSetPlaybackRate = useMemo(() => {
-    return (rate: number) => () => setPlaybackRate(rate);
-  }, [setPlaybackRate]);
+  // 时间格式化函数 - extracted for clarity
+  const formatTime = (time: number): string => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>

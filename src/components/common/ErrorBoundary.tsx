@@ -47,31 +47,31 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       }
 
       return (
-        <div className="min-h-screen washi-bg flex items-center justify-center p-4">
-          <div className="bg-white/90 backdrop-blur rounded-3xl shadow-washi border border-shu-200 p-8 max-w-md w-full text-center">
-            <div className="p-4 bg-shu-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-              <AlertCircle className="w-8 h-8 text-shu-DEFAULT" />
+        <div className="min-h-screen bg-neutral flex items-center justify-center p-4">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg border border-border p-8 max-w-md w-full text-center">
+            <div className="p-4 bg-neutral rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+              <AlertCircle className="w-8 h-8 text-primary" aria-hidden="true" />
             </div>
 
-            <h2 className="text-2xl font-bold text-sumi-900 mb-3">
+            <h2 className="text-2xl font-bold text-primary mb-3">
               出错了
             </h2>
 
-            <p className="text-sumi-600 mb-6">
+            <p className="text-text-secondary mb-6">
               {this.state.error?.message || '应用遇到了意外错误，请刷新页面重试'}
             </p>
 
             <div className="space-y-3">
               <button
                 onClick={this.handleReset}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-ai-DEFAULT hover:bg-ai-600 text-white font-semibold rounded-2xl transition-all duration-200"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary-hover text-white font-semibold rounded-2xl transition-all duration-200"
               >
                 <RefreshCw size={20} />
                 重试
               </button>
               <button
                 onClick={() => window.location.href = '/'}
-                className="w-full px-6 py-3 bg-sumi-50 hover:bg-sumi-100 text-sumi-700 font-semibold rounded-2xl transition-all duration-200"
+                className="w-full px-6 py-3 bg-neutral hover:bg-neutral-dark text-text-primary font-semibold rounded-2xl transition-all duration-200"
               >
                 返回首页
               </button>
@@ -79,10 +79,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mt-6 text-left">
-                <summary className="text-sm font-medium text-sumi-400 cursor-pointer">
+                <summary className="text-sm font-medium text-text-tertiary cursor-pointer">
                   错误详情（开发模式）
                 </summary>
-                <pre className="mt-3 p-4 bg-sumi-100 rounded-xl text-xs overflow-auto max-h-40">
+                <pre className="mt-3 p-4 bg-neutral rounded-xl text-xs overflow-auto max-h-40">
                   {this.state.error.stack}
                 </pre>
               </details>

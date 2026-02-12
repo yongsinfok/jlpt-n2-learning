@@ -1,5 +1,5 @@
 /**
- * 学习页面 - 显示例句学习卡片
+ * 学习页面 - Glassmorphism Design with Japanese Colors
  */
 
 import { useEffect, useState, useCallback } from 'react';
@@ -20,7 +20,7 @@ import type { Sentence, GrammarPoint, Lesson } from '@/types';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 
 /**
- * 学习页面
+ * 学习页面 - Glassmorphism Design
  */
 export function StudyPage() {
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ export function StudyPage() {
             return gp && gp.lessonNumber === lesson.id;
           });
 
-          // 简单的检查：如果本课所有语法点都学完了
+          // 检查：如果本课所有语法点都学完了
           if (learnedInLesson.length > 0 && lesson.completionRate >= 80) {
             await unlockNextLesson(lesson.id);
           }
@@ -178,55 +178,85 @@ export function StudyPage() {
     }
   };
 
+  // ========================================
+  // LOADING STATE - Glassmorphism Design
+  // ========================================
   if (loading) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <div className="flex justify-center items-center min-h-[400px]">
-          <LoadingSpinner />
+      <div className="min-h-screen bg-washi bg-seigaiha">
+        <div className="max-w-3xl mx-auto px-4 py-8">
+          <div className="glass-card-subtle rounded-2xl p-12 flex justify-center items-center min-h-[400px] animate-spring-bounce">
+            <LoadingSpinner />
+          </div>
         </div>
       </div>
     );
   }
 
+  // ========================================
+  // ERROR STATE - Glassmorphism Design
+  // ========================================
   if (!grammarPoint || currentSentences.length === 0) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-xl shadow-md p-8 text-center">
-          <p className="text-gray-600">无法加载学习内容</p>
-          <button
-            onClick={handleBackToGrammar}
-            className="mt-4 text-primary hover:underline"
-          >
-            返回
-          </button>
+      <div className="min-h-screen bg-washi bg-seigaiha">
+        <div className="max-w-3xl mx-auto px-4 py-8">
+          <div className="glass-card-strong rounded-2xl p-8 text-center animate-spring-bounce">
+            <p className="text-sumi text-lg mb-6">无法加载学习内容</p>
+            <button
+              onClick={handleBackToGrammar}
+              className="btn-glass px-8 py-4 rounded-xl font-semibold hover-lift"
+              >
+              返回课程
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
-  // 显示完成界面
+  // ========================================
+  // COMPLETION STATE - Glassmorphism Design
+  // ========================================
   if (showCompletion) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-xl shadow-md p-8 text-center">
-          <CheckCircle2 className="mx-auto mb-4 text-green-500" size={64} />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">恭喜完成！</h1>
-          <p className="text-gray-600 mb-6">
-            你已经学习了「{grammarPoint.id}」的全部 {currentSentences.length} 个例句！
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={handleBackToGrammar}
-              className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors"
-            >
-              返回课程
-            </button>
-            <button
-              onClick={handleNextGrammar}
-              className="bg-primary hover:bg-primary-hover text-white font-medium py-3 px-6 rounded-lg transition-colors"
-            >
-              继续学习下一个
-            </button>
+      <div className="min-h-screen bg-washi bg-seigaiha">
+        <div className="max-w-2xl mx-auto px-4 py-8">
+          <div className="glass-card-strong glass-glow animate-spring-bounce rounded-2xl p-8 text-center">
+            {/* Success Icon */}
+            <CheckCircle2
+              className="mx-auto mb-6 text-matcha animate-spring-bounce"
+              size={80}
+              strokeWidth={2}
+            />
+
+            {/* Heading */}
+            <h1 className="text-4xl font-bold text-sumi mb-4 animate-fade-in-up">
+              恭喜完成！
+            </h1>
+
+            {/* Description */}
+            <p className="text-sumi/80 text-lg mb-8 animate-fade-in-up animate-delay-200">
+              你已经学习了「{grammarPoint.id}」的全部 {currentSentences.length} 个例句！
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animate-delay-300">
+              {/* Secondary Button - Glass Effect */}
+              <button
+                onClick={handleBackToGrammar}
+                className="glass-card px-8 py-4 rounded-xl font-semibold text-sumi hover-lift transition-all"
+              >
+                返回课程
+              </button>
+
+              {/* Primary Button - Sakura Pink */}
+              <button
+                onClick={handleNextGrammar}
+                className="btn-glass-sakura px-8 py-4 rounded-xl font-semibold hover-lift shadow-lg"
+              >
+                继续学习下一个
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -235,14 +265,17 @@ export function StudyPage() {
 
   const currentSentence = getCurrentSentence();
 
+  // ========================================
+  // NORMAL STATE - Study Card
+  // ========================================
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-washi bg-seigaiha">
       {/* 返回按钮 */}
       <button
         onClick={handleBackToGrammar}
-        className="flex items-center gap-2 text-gray-600 hover:text-primary mb-6 transition-colors"
+        className="flex items-center gap-2 text-sumi/70 hover:text-sakura mb-6 transition-colors font-medium"
       >
-        <ArrowLeft size={18} />
+        <ArrowLeft size={22} />
         返回课程
       </button>
 

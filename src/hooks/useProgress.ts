@@ -7,6 +7,7 @@ import { useUserStore } from '@/stores/userStore';
 import {
   addLearnedSentence,
   addCompletedLesson,
+  getUserProgress,
 } from '@/db/operations';
 
 /**
@@ -19,9 +20,11 @@ export function useProgress() {
    * 从数据库刷新用户进度
    */
   const refreshProgress = useCallback(async () => {
-    // TODO: Implement database refresh
-    console.log('Refresh progress');
-  }, []);
+    const progress = await getUserProgress();
+    if (progress) {
+      updateUserProgress(progress);
+    }
+  }, [updateUserProgress]);
 
   /**
    * 标记例句为已学习
@@ -29,7 +32,6 @@ export function useProgress() {
   const markSentenceLearned = useCallback(
     async (sentenceId: string) => {
       await addLearnedSentence(sentenceId);
-      // 刷新进度
       await refreshProgress();
     },
     [refreshProgress]

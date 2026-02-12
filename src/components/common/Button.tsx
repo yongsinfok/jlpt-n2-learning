@@ -2,9 +2,8 @@
  * Button Component - Modern Clean Design with Animations
  */
 
-import { ButtonHTMLAttributes, forwardRef, ReactElement } from 'react';
-import { Link } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
+import { ButtonHTMLAttributes, forwardRef, ReactElement, ReactNode } from 'react';
+import { Loader2, Heart } from 'lucide-react';
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'asChild'> {
   /** Button variant */
@@ -19,6 +18,8 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   asChild?: boolean;
   /** Show loading state */
   loading?: boolean;
+  /** Button content */
+  children?: ReactNode;
 }
 
 /**
@@ -65,16 +66,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     const child = children as ReactElement;
     return (
       <child.type
-        {...child.props}
+        {...(child.props as any)}
         {...rest}
         disabled={disabled || loading}
-        className={`${combinedClassName} ${child.props.className || ''}`}
+        className={`${combinedClassName} ${(child.props as any)?.className || ''}`}
         ref={ref as any}
       >
         {loading ? (
           <Loader2 className="w-5 h-5 animate-spin" />
         ) : (
-          child.props.children
+          (child.props as any).children
         )}
       </child.type>
     );
@@ -152,17 +153,7 @@ export function HeartButton({ active = false, onToggle, label = 'Add to favorite
       aria-label={label}
       aria-pressed={active}
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill={active ? 'currentColor' : 'none'}
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-      </svg>
+      <Heart className={`w-5 h-5 ${active ? 'fill-current' : ''}`} />
     </button>
   );
 }

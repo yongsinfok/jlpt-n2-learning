@@ -4,6 +4,7 @@
 
 import { useEffect, useRef } from 'react';
 import { Button } from './Button';
+import { X } from 'lucide-react';
 
 export interface ModalProps {
   /** 是否显示 */
@@ -97,10 +98,9 @@ export function Modal({
               <button
                 onClick={onClose}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label="关闭"
               >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <X className="w-5 h-5" />
               </button>
             )}
           </div>
@@ -124,7 +124,6 @@ export interface ConfirmModalProps {
   message: string;
   confirmText?: string;
   cancelText?: string;
-  variant?: 'primary' | 'warning' | 'error';
 }
 
 /**
@@ -138,7 +137,6 @@ export function ConfirmModal({
   message,
   confirmText = '确认',
   cancelText = '取消',
-  variant = 'primary',
 }: ConfirmModalProps) {
   const handleConfirm = () => {
     onConfirm();
@@ -152,7 +150,7 @@ export function ConfirmModal({
         <Button variant="secondary" onClick={onClose}>
           {cancelText}
         </Button>
-        <Button variant={variant} onClick={handleConfirm}>
+        <Button variant="primary" onClick={handleConfirm}>
           {confirmText}
         </Button>
       </div>

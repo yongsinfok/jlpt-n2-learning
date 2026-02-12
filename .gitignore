@@ -22,4 +22,4 @@ Thumbs.db
 npm-debug.log*
 
 # Debug
-.cache/
+.cache/.firecrawl/

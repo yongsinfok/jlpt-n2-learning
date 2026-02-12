@@ -9,6 +9,7 @@ import { getRecentExerciseRecords } from '@/db/operations';
 import { getWeekDates } from '@/utils/dateHelper';
 import { ProgressDashboard } from '@/components/progress/ProgressDashboard';
 import { WeeklyChart } from '@/components/progress/WeeklyChart';
+import { Button } from '@/components/common';
 
 export function ProgressPage() {
   const navigate = useNavigate();

@@ -153,7 +153,10 @@ async function generateLessonsAndGrammar(sentences: Sentence[]): Promise<void> {
   const lessons: Lesson[] = Array.from(lessonsMap.entries()).map(([id, grammarSet]) => ({
     id,
     grammarPoints: Array.from(grammarSet),
+    grammarPointCount: Array.from(grammarSet).length,
     sentenceCount: sentences.filter(s => s.lessonNumber === id).length,
+    title: `Lesson ${id}`,
+    description: `Learn lesson ${id} grammar points`,
     isUnlocked: id === 1, // 只有第1课默认解锁
     isCompleted: false,
     completionRate: 0,
@@ -216,8 +219,12 @@ async function initializeDailyGoal(): Promise<void> {
  * 初始化成就
  */
 async function initializeAchievements(): Promise<void> {
-  const achievements: Achievement[] = ACHIEVEMENTS.map(a => ({
-    ...a,
+  const achievements: Achievement[] = ACHIEVEMENTS.map((a) => ({
+    id: a.id,
+    name: a.name,
+    description: a.description,
+    icon: a.icon,
+    condition: a.condition,
     isUnlocked: false,
   }));
 

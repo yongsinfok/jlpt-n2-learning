@@ -8,10 +8,18 @@ export interface Lesson {
   grammarPoints: string[];
   /** 例句总数 */
   sentenceCount: number;
+  /** 语法点数量 */
+  grammarPointCount: number;
+  /** 课程标题 */
+  title: string;
+  /** 课程描述 */
+  description?: string;
   /** 是否解锁 */
   isUnlocked: boolean;
   /** 是否完成 */
   isCompleted: boolean;
   /** 完成度 (0-100) */
   completionRate: number;
+  /** 学习进度 */
+  progress?: number;
 }

@@ -5,6 +5,7 @@
 
 import { BookOpen, Target, TrendingUp, Award } from 'lucide-react';
 import { useMemo } from 'react';
+import { formatDuration } from '@/utils/dateHelper';
 
 interface OverallProgress {
   lessons: number;
@@ -63,15 +64,6 @@ export function ProgressDashboard({
   weakGrammarPoints,
   onPracticeWeakPoints,
 }: ProgressDashboardProps) {
-  const formatTime = (seconds: number): string => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-
-    if (hours > 0) {
-      return `${hours}小时${minutes}分钟`;
-    }
-    return `${minutes}分钟`;
-  };
 
   const totalMastery = useMemo(() => {
     return (
@@ -144,15 +136,15 @@ export function ProgressDashboard({
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">{formatTime(studyTimeStats.total)}</p>
+            <p className="text-3xl font-bold text-gray-900">{formatDuration(studyTimeStats.total)}</p>
             <p className="text-sm text-gray-600 mt-1">总学习时长</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">{formatTime(studyTimeStats.averageDaily)}</p>
+            <p className="text-3xl font-bold text-gray-900">{formatDuration(studyTimeStats.averageDaily)}</p>
             <p className="text-sm text-gray-600 mt-1">平均每天</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-blue-600">{formatTime(studyTimeStats.thisWeek)}</p>
+            <p className="text-3xl font-bold text-blue-600">{formatDuration(studyTimeStats.thisWeek)}</p>
             <p className="text-sm text-gray-600 mt-1">本周学习</p>
           </div>
         </div>

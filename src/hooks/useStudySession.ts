@@ -30,19 +30,18 @@ export function useStudySession(options: StudySessionOptions = {}) {
    * 开始学习会话
    */
   const startSession = useCallback(() => {
+    const now = Date.now();
     setIsActive(true);
-    setStartTime(Date.now());
+    setStartTime(now);
     setSessionSentences(new Set());
 
     // 自动记录时长
     if (autoTrack) {
       intervalRef.current = window.setInterval(() => {
-        if (startTime) {
-          addStudyTime(1); // 每秒增加1秒
-        }
+        addStudyTime(1); // 每秒增加1秒
       }, 1000);
     }
-  }, [autoTrack, startTime, addStudyTime]);
+  }, [autoTrack, addStudyTime]);
 
   /**
    * 结束学习会话
