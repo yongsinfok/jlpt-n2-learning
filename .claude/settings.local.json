@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(ui-ux-pro-max)",
+      "Bash(python3:*)",
+      "WebSearch",
+      "mcp__plugin_serena_serena__get_symbols_overview",
+      "mcp__plugin_serena_serena__read_file",
+      "mcp__plugin_serena_serena__list_dir"
+    ]
+  }
+}
