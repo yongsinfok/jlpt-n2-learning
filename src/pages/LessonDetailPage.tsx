@@ -114,7 +114,7 @@ export function LessonDetailPage() {
   }
 
   return (
-    <div className="pb-20">
+    <div className="min-h-screen bg-washi bg-seigaiha pb-20">
       {/* Header Section - Glass */}
       <div className="sticky top-0 z-10 backdrop-blur-xl bg-white/30 border-b border-gray-200/50">
         <div className="max-w-4xl mx-auto px-4 py-4 sm:px-6">
