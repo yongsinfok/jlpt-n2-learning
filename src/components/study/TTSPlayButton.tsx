@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Play, Square, Volume2 } from 'lucide-react';
+import { Play, Square, Volume2, Pause } from 'lucide-react';
 
 export function TTSPlayButton({ text }: { text: string }) {
-    const [status, setStatus] = useState<'idle' | 'playing' | 'error'>('idle');
+    const [status, setStatus] = useState<'idle' | 'playing' | 'paused' | 'error'>('idle');
     const [errorMsg, setErrorMsg] = useState('');
 
     useEffect(() => {
@@ -30,9 +30,16 @@ export function TTSPlayButton({ text }: { text: string }) {
         setStatus('idle');
     };
 
-    const playText = () => {
+    const togglePlay = () => {
         if (status === 'playing') {
-            stopPlayback();
+            window.speechSynthesis.pause();
+            setStatus('paused');
+            return;
+        }
+
+        if (status === 'paused') {
+            window.speechSynthesis.resume();
+            setStatus('playing');
             return;
         }
 
@@ -91,8 +98,11 @@ export function TTSPlayButton({ text }: { text: string }) {
 
             utterance.onerror = (e) => {
                 console.error('Speech synthesis error', e);
-                setStatus('error');
-                setErrorMsg('部分语音朗读失败');
+                // 忽略被手动取消或暂停导致的错误
+                if (e.error !== 'interrupted' && e.error !== 'canceled') {
+                    setStatus('error');
+                    setErrorMsg('部分语音朗读失败');
+                }
             };
 
             try {
@@ -115,23 +125,39 @@ export function TTSPlayButton({ text }: { text: string }) {
                     <p className="text-xs text-text-secondary line-clamp-1">
                         {status === 'idle' && '系统原生引擎，极速秒读'}
                         {status === 'playing' && '正在朗读解析文本...'}
+                        {status === 'paused' && '已暂停'}
                         {status === 'error' && <span className="text-error">{errorMsg}</span>}
                     </p>
                 </div>
             </div>
 
-            <button
-                onClick={playText}
-                className={`w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center transition-all ${status === 'playing'
-                    ? 'bg-primary text-white shadow-glow'
-                    : status === 'error'
-                        ? 'bg-error/10 text-error'
-                        : 'bg-white hover:bg-primary/10 text-primary border border-primary/20'
-                    }`}
-            >
-                {status === 'idle' || status === 'error' ? <Play size={20} className="ml-1" /> : null}
-                {status === 'playing' ? <Square size={16} fill="currentColor" /> : null}
-            </button>
+            <div className="flex items-center gap-2">
+                {(status === 'playing' || status === 'paused') && (
+                    <button
+                        onClick={stopPlayback}
+                        className="w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center bg-error/10 text-error hover:bg-error/20 transition-all border border-error/20"
+                        title="停止"
+                    >
+                        <Square size={14} fill="currentColor" />
+                    </button>
+                )}
+
+                <button
+                    onClick={togglePlay}
+                    className={`w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center transition-all ${status === 'playing'
+                        ? 'bg-primary text-white shadow-glow'
+                        : status === 'paused'
+                            ? 'bg-primary/20 text-primary'
+                            : status === 'error'
+                                ? 'bg-error/10 text-error'
+                                : 'bg-white hover:bg-primary/10 text-primary border border-primary/20'
+                        }`}
+                >
+                    {status === 'idle' || status === 'error' ? <Play size={20} className="ml-1" /> : null}
+                    {status === 'playing' ? <Pause size={20} /> : null}
+                    {status === 'paused' ? <Play size={20} className="ml-1" /> : null}
+                </button>
+            </div>
         </div>
     );
 }
