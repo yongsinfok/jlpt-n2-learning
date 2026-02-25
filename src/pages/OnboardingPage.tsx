@@ -133,7 +133,7 @@ export function OnboardingPage() {
                     className={`
                       w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
                       ${index <= currentStepIndex
-                        ? 'bg-ai-DEFAULT text-white shadow-washi'
+                        ? 'bg-ai text-white shadow-washi'
                         : 'bg-sumi-100 text-sumi-400'
                       }
                       ${index === currentStepIndex ? 'ring-4 ring-ai-100' : ''}
@@ -145,12 +145,12 @@ export function OnboardingPage() {
                       <span className="text-sm font-medium">{index + 1}</span>
                     )}
                   </button>
-                  <span className={`text-xs mt-1 font-maru ${index <= currentStepIndex ? 'text-ai-DEFAULT' : 'text-sumi-400'}`}>
+                  <span className={`text-xs mt-1 font-maru ${index <= currentStepIndex ? 'text-ai' : 'text-sumi-400'}`}>
                     {step.label}
                   </span>
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`flex-1 h-0.5 mx-2 transition-colors duration-300 ${index < currentStepIndex ? 'bg-ai-DEFAULT' : 'bg-sumi-200'}`} />
+                  <div className={`flex-1 h-0.5 mx-2 transition-colors duration-300 ${index < currentStepIndex ? 'bg-ai' : 'bg-sumi-200'}`} />
                 )}
               </div>
             ))}
@@ -172,10 +172,10 @@ export function OnboardingPage() {
               {/* Decorative elements */}
               <div className="text-6xl mb-6 animate-float">🎌</div>
 
-              <h1 className="font-serif display-display-md text-sumi-DEFAULT mb-4">
+              <h1 className="font-serif display-display-md text-sumi mb-4">
                 ようこそ！
               </h1>
-              <h2 className="font-serif text-3xl text-ai-DEFAULT mb-6">
+              <h2 className="font-serif text-3xl text-ai mb-6">
                 欢迎来到 N2 学习之旅
               </h2>
 
@@ -186,17 +186,17 @@ export function OnboardingPage() {
 
               <div className="grid grid-cols-3 gap-6 my-12">
                 <div className="text-center">
-                  <div className="text-3xl font-serif font-bold text-ai-DEFAULT mb-2">26</div>
+                  <div className="text-3xl font-serif font-bold text-ai mb-2">26</div>
                   <div className="text-sm text-sumi-500">课程</div>
                   <div className="text-xs text-sumi-400 font-maru">レッスン</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-serif font-bold text-matcha-DEFAULT mb-2">138</div>
+                  <div className="text-3xl font-serif font-bold text-matcha mb-2">138</div>
                   <div className="text-sm text-sumi-500">语法点</div>
                   <div className="text-xs text-sumi-400 font-maru">文法</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-serif font-bold text-kincha-DEFAULT mb-2">500+</div>
+                  <div className="text-3xl font-serif font-bold text-kincha mb-2">500+</div>
                   <div className="text-sm text-sumi-500">例句</div>
                   <div className="text-xs text-sumi-400 font-maru">例文</div>
                 </div>
@@ -205,7 +205,7 @@ export function OnboardingPage() {
               <div className="flex justify-center">
                 <button
                   onClick={handleNext}
-                  className="group bg-ai-DEFAULT hover:bg-ai-600 text-white px-8 py-4 rounded-lg shadow-washi hover:shadow-washi-md transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-3"
+                  className="group bg-ai hover:bg-ai-600 text-white px-8 py-4 rounded-lg shadow-washi hover:shadow-washi-md transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-3"
                 >
                   <span className="font-medium">开始设置</span>
                   <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -219,7 +219,7 @@ export function OnboardingPage() {
         {currentStep === 'features' && (
           <div className="animate-slide-up">
             <div className="japanese-card p-12">
-              <h2 className="font-serif text-3xl text-sumi-DEFAULT mb-3 text-center">
+              <h2 className="font-serif text-3xl text-sumi mb-3 text-center">
                 平台功能
               </h2>
               <p className="text-sumi-500 text-center mb-10 font-maru">
@@ -230,11 +230,11 @@ export function OnboardingPage() {
                 {/* Feature 1 */}
                 <div className="bg-gradient-to-br from-ai-50 to-white p-6 rounded-xl border-2 border-ai-100 hover:border-ai-300 transition-all duration-300 hover:shadow-washi-sm">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-ai-DEFAULT flex items-center justify-center text-white shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-ai flex items-center justify-center text-white shrink-0">
                       <BookOpen size={24} />
                     </div>
                     <div>
-                      <h3 className="font-serif font-bold text-sumi-DEFAULT mb-2">
+                      <h3 className="font-serif font-bold text-sumi mb-2">
                         系统化学习
                       </h3>
                       <p className="text-sumi-600 text-sm">
@@ -250,11 +250,11 @@ export function OnboardingPage() {
                 {/* Feature 2 */}
                 <div className="bg-gradient-to-br from-matcha-50 to-white p-6 rounded-xl border-2 border-matcha-100 hover:border-matcha-300 transition-all duration-300 hover:shadow-washi-sm">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-matcha-DEFAULT flex items-center justify-center text-white shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-matcha flex items-center justify-center text-white shrink-0">
                       <Target size={24} />
                     </div>
                     <div>
-                      <h3 className="font-serif font-bold text-sumi-DEFAULT mb-2">
+                      <h3 className="font-serif font-bold text-sumi mb-2">
                         智能练习
                       </h3>
                       <p className="text-sumi-600 text-sm">
@@ -270,11 +270,11 @@ export function OnboardingPage() {
                 {/* Feature 3 */}
                 <div className="bg-gradient-to-br from-kincha-50 to-white p-6 rounded-xl border-2 border-kincha-100 hover:border-kincha-300 transition-all duration-300 hover:shadow-washi-sm">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-kincha-DEFAULT flex items-center justify-center text-white shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-kincha flex items-center justify-center text-white shrink-0">
                       <Clock size={24} />
                     </div>
                     <div>
-                      <h3 className="font-serif font-bold text-sumi-DEFAULT mb-2">
+                      <h3 className="font-serif font-bold text-sumi mb-2">
                         间隔复习
                       </h3>
                       <p className="text-sumi-600 text-sm">
@@ -290,11 +290,11 @@ export function OnboardingPage() {
                 {/* Feature 4 */}
                 <div className="bg-gradient-to-br from-shu-50 to-white p-6 rounded-xl border-2 border-shu-100 hover:border-shu-300 transition-all duration-300 hover:shadow-washi-sm">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-shu-DEFAULT flex items-center justify-center text-white shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-shu flex items-center justify-center text-white shrink-0">
                       <Sparkles size={24} />
                     </div>
                     <div>
-                      <h3 className="font-serif font-bold text-sumi-DEFAULT mb-2">
+                      <h3 className="font-serif font-bold text-sumi mb-2">
                         进度追踪
                       </h3>
                       <p className="text-sumi-600 text-sm">
@@ -311,13 +311,13 @@ export function OnboardingPage() {
               <div className="flex justify-between">
                 <button
                   onClick={handleBack}
-                  className="px-6 py-3 text-sumi-600 hover:text-ai-DEFAULT transition-colors flex items-center gap-2"
+                  className="px-6 py-3 text-sumi-600 hover:text-ai transition-colors flex items-center gap-2"
                 >
                   返回
                 </button>
                 <button
                   onClick={handleNext}
-                  className="group bg-ai-DEFAULT hover:bg-ai-600 text-white px-8 py-3 rounded-lg shadow-washi hover:shadow-washi-md transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2"
+                  className="group bg-ai hover:bg-ai-600 text-white px-8 py-3 rounded-lg shadow-washi hover:shadow-washi-md transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2"
                 >
                   下一步
                   <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -331,7 +331,7 @@ export function OnboardingPage() {
         {currentStep === 'goals' && (
           <div className="animate-slide-up">
             <div className="japanese-card p-12">
-              <h2 className="font-serif text-3xl text-sumi-DEFAULT mb-3 text-center">
+              <h2 className="font-serif text-3xl text-sumi mb-3 text-center">
                 选择学习目标
               </h2>
               <p className="text-sumi-500 text-center mb-10 font-maru">
@@ -346,15 +346,15 @@ export function OnboardingPage() {
                     className={`
                       relative p-6 rounded-xl border-2 transition-all duration-300 text-left
                       ${selectedGoal === goal.id
-                        ? 'border-ai-DEFAULT bg-ai-50 shadow-washi-md scale-105'
+                        ? 'border-ai bg-ai-50 shadow-washi-md scale-105'
                         : 'border-sumi-200 bg-white hover:border-ai-300 hover:shadow-washi-sm'
                       }
                     `}
                   >
-                    <div className={`mb-4 ${selectedGoal === goal.id ? 'text-ai-DEFAULT' : 'text-sumi-400'}`}>
+                    <div className={`mb-4 ${selectedGoal === goal.id ? 'text-ai' : 'text-sumi-400'}`}>
                       {goal.icon}
                     </div>
-                    <h3 className={`font-serif font-bold mb-2 ${selectedGoal === goal.id ? 'text-ai-DEFAULT' : 'text-sumi-DEFAULT'}`}>
+                    <h3 className={`font-serif font-bold mb-2 ${selectedGoal === goal.id ? 'text-ai' : 'text-sumi'}`}>
                       {goal.title}
                     </h3>
                     <p className="text-xs text-sumi-400 font-maru mb-2">
@@ -364,7 +364,7 @@ export function OnboardingPage() {
                       {goal.description}
                     </p>
                     {selectedGoal === goal.id && (
-                      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-ai-DEFAULT flex items-center justify-center">
+                      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-ai flex items-center justify-center">
                         <CheckCircle size={16} className="text-white" />
                       </div>
                     )}
@@ -375,13 +375,13 @@ export function OnboardingPage() {
               <div className="flex justify-between">
                 <button
                   onClick={handleBack}
-                  className="px-6 py-3 text-sumi-600 hover:text-ai-DEFAULT transition-colors flex items-center gap-2"
+                  className="px-6 py-3 text-sumi-600 hover:text-ai transition-colors flex items-center gap-2"
                 >
                   返回
                 </button>
                 <button
                   onClick={handleNext}
-                  className="group bg-ai-DEFAULT hover:bg-ai-600 text-white px-8 py-3 rounded-lg shadow-washi hover:shadow-washi-md transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2"
+                  className="group bg-ai hover:bg-ai-600 text-white px-8 py-3 rounded-lg shadow-washi hover:shadow-washi-md transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2"
                 >
                   下一步
                   <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -395,7 +395,7 @@ export function OnboardingPage() {
         {currentStep === 'time' && (
           <div className="animate-slide-up">
             <div className="japanese-card p-12">
-              <h2 className="font-serif text-3xl text-sumi-DEFAULT mb-3 text-center">
+              <h2 className="font-serif text-3xl text-sumi mb-3 text-center">
                 设置每日学习时间
               </h2>
               <p className="text-sumi-500 text-center mb-10 font-maru">
@@ -410,15 +410,15 @@ export function OnboardingPage() {
                     className={`
                       relative p-8 rounded-xl border-2 transition-all duration-300 text-center
                       ${selectedTime === time.id
-                        ? 'border-ai-DEFAULT bg-ai-50 shadow-washi-md scale-105'
+                        ? 'border-ai bg-ai-50 shadow-washi-md scale-105'
                         : 'border-sumi-200 bg-white hover:border-ai-300 hover:shadow-washi-sm'
                       }
                     `}
                   >
-                    <div className={`mb-4 inline-block ${selectedTime === time.id ? 'text-ai-DEFAULT' : 'text-sumi-400'}`}>
+                    <div className={`mb-4 inline-block ${selectedTime === time.id ? 'text-ai' : 'text-sumi-400'}`}>
                       {time.icon}
                     </div>
-                    <div className={`font-serif text-4xl font-bold mb-2 ${selectedTime === time.id ? 'text-ai-DEFAULT' : 'text-sumi-DEFAULT'}`}>
+                    <div className={`font-serif text-4xl font-bold mb-2 ${selectedTime === time.id ? 'text-ai' : 'text-sumi'}`}>
                       {time.minutes}
                     </div>
                     <div className={`text-sm mb-1 ${selectedTime === time.id ? 'text-ai-700' : 'text-sumi-600'}`}>
@@ -428,7 +428,7 @@ export function OnboardingPage() {
                       {time.titleJa}
                     </div>
                     {selectedTime === time.id && (
-                      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-ai-DEFAULT flex items-center justify-center">
+                      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-ai flex items-center justify-center">
                         <CheckCircle size={16} className="text-white" />
                       </div>
                     )}
@@ -448,13 +448,13 @@ export function OnboardingPage() {
               <div className="flex justify-between">
                 <button
                   onClick={handleBack}
-                  className="px-6 py-3 text-sumi-600 hover:text-ai-DEFAULT transition-colors flex items-center gap-2"
+                  className="px-6 py-3 text-sumi-600 hover:text-ai transition-colors flex items-center gap-2"
                 >
                   返回
                 </button>
                 <button
                   onClick={handleNext}
-                  className="group bg-ai-DEFAULT hover:bg-ai-600 text-white px-8 py-3 rounded-lg shadow-washi hover:shadow-washi-md transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2"
+                  className="group bg-ai hover:bg-ai-600 text-white px-8 py-3 rounded-lg shadow-washi hover:shadow-washi-md transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2"
                 >
                   下一步
                   <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -471,7 +471,7 @@ export function OnboardingPage() {
               {/* Decorative elements */}
               <div className="text-6xl mb-6">🎉</div>
 
-              <h2 className="font-serif text-3xl text-sumi-DEFAULT mb-3">
+              <h2 className="font-serif text-3xl text-sumi mb-3">
                 设置完成！
               </h2>
               <p className="text-sumi-500 font-maru mb-8">
@@ -480,19 +480,19 @@ export function OnboardingPage() {
 
               <div className="bg-gradient-to-r from-ai-50 to-matcha-50 rounded-xl p-6 mb-8 max-w-md mx-auto">
                 <div className="flex items-center justify-center gap-3 mb-4">
-                  <CheckCircle size={24} className="text-matcha-DEFAULT" />
-                  <span className="font-serif font-bold text-sumi-DEFAULT">您的学习计划</span>
+                  <CheckCircle size={24} className="text-matcha" />
+                  <span className="font-serif font-bold text-sumi">您的学习计划</span>
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-sumi-600">学习目标：</span>
-                    <span className="font-medium text-sumi-DEFAULT">
+                    <span className="font-medium text-sumi">
                       {learningGoals.find(g => g.id === selectedGoal)?.title}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sumi-600">每日时间：</span>
-                    <span className="font-medium text-sumi-DEFAULT">
+                    <span className="font-medium text-sumi">
                       {studyTimes.find(t => t.id === selectedTime)?.title}
                     </span>
                   </div>
@@ -509,13 +509,13 @@ export function OnboardingPage() {
               <div className="flex justify-center gap-4">
                 <button
                   onClick={handleBack}
-                  className="px-6 py-3 text-sumi-600 hover:text-ai-DEFAULT transition-colors"
+                  className="px-6 py-3 text-sumi-600 hover:text-ai transition-colors"
                 >
                   返回修改
                 </button>
                 <button
                   onClick={handleComplete}
-                  className="group bg-ai-DEFAULT hover:bg-ai-600 text-white px-10 py-4 rounded-lg shadow-washi hover:shadow-washi-md transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-3"
+                  className="group bg-ai hover:bg-ai-600 text-white px-10 py-4 rounded-lg shadow-washi hover:shadow-washi-md transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-3"
                 >
                   <span className="font-medium">开始学习</span>
                   <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />

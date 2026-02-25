@@ -8,6 +8,7 @@ import { useState, useEffect, useMemo, memo } from 'react';
 import { Star, ArrowLeft, ArrowRight, EyeOff } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import { AudioPlayer } from './AudioPlayer';
+import { TTSPlayButton } from './TTSPlayButton';
 import type { Sentence } from '@/types';
 
 export interface StudyCardProps {
@@ -100,13 +101,12 @@ export const StudyCard = memo(function StudyCard({
           {Array.from({ length: Math.min(totalCount, 12) }).map((_, idx) => (
             <div
               key={idx}
-              className={`h-full flex-1 rounded-full transition-all duration-500 ${
-                idx < currentIndex
-                  ? 'bg-gradient-to-r from-primary to-secondary'
-                  : idx === currentIndex
+              className={`h-full flex-1 rounded-full transition-all duration-500 ${idx < currentIndex
+                ? 'bg-gradient-to-r from-primary to-secondary'
+                : idx === currentIndex
                   ? 'bg-gradient-to-r from-primary to-secondary scale-y-150 shadow-glow'
                   : 'bg-gray-200'
-              }`}
+                }`}
               style={{ transitionDelay: `${idx * 20}ms` }}
             />
           ))}
@@ -198,14 +198,17 @@ export const StudyCard = memo(function StudyCard({
             >
               <div className="text-text-secondary text-sm leading-relaxed max-w-none">
                 {wordByWord && (wordByWord.includes('<') ? (
-                  <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(wordByWord, {
-                    ALLOWED_TAGS: ['h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'div', 'span'],
-                    ALLOWED_ATTR: ['class']
-                  })}} />
+                  <div dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(wordByWord, {
+                      ALLOWED_TAGS: ['h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'div', 'span'],
+                      ALLOWED_ATTR: ['class']
+                    })
+                  }} />
                 ) : (
                   <p className="whitespace-pre-wrap">{wordByWord}</p>
                 ))}
               </div>
+              {wordByWord && <TTSPlayButton text={wordByWord} />}
             </ExpandableCard>
           </div>
         </div>
@@ -311,7 +314,7 @@ function ExpandableCard({
   return (
     <div className={`
       overflow-hidden transition-all duration-500 ease-out
-      ${show ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+      ${show ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}
     `}>
       <div className={`
         ${color.bg} backdrop-blur-sm border ${color.border} rounded-xl p-5
