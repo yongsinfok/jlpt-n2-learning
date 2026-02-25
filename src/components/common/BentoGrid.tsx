@@ -9,7 +9,7 @@ import { cn } from '@/utils/cn';
 // Types
 // ========================================
 
-export interface BentoCardProps {
+export interface BentoCardProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
   className?: string;
   variant?: 'default' | 'sakura' | 'matcha' | 'ai' | 'featured' | 'animated';
@@ -18,6 +18,7 @@ export interface BentoCardProps {
   rowSpan?: 1 | 2;
   onClick?: () => void;
   as?: React.ElementType;
+  href?: string;
 }
 
 export interface BentoGridProps {
@@ -50,6 +51,7 @@ export function BentoCard({
   rowSpan = 1,
   onClick,
   as: Component = 'div',
+  ...props
 }: BentoCardProps) {
   const variantClasses = {
     default: 'bento-card',
@@ -90,6 +92,7 @@ export function BentoCard({
         className
       )}
       onClick={onClick}
+      {...props}
     >
       {children}
     </Component>

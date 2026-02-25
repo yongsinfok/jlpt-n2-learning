@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { LessonCard } from '@/components/study';
 import { getAllLessons } from '@/db/operations';
 import type { Lesson } from '@/types';
-import { Flame, Target, BookOpen, Brain, Zap, Filter } from 'lucide-react';
+import { Flame, Target, BookOpen, Brain, Zap } from 'lucide-react';
 import { BentoGrid, BentoCard, BentoStat, BentoCardHeader, BentoCardTitle, BentoCardBody } from '@/components/common/BentoGrid';
 
 /**
@@ -210,31 +210,28 @@ export function LessonListPage() {
           <div className="glass-card-subtle rounded-2xl p-2 inline-flex gap-2">
             <button
               onClick={() => setFilter('all')}
-              className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${
-                filter === 'all'
+              className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${filter === 'all'
                   ? 'bg-ai text-washi shadow-lg'
                   : 'text-sumi/70 hover:text-sumi hover:bg-ai/10'
-              }`}
+                }`}
             >
               全部课程 <span className="ml-1 opacity-70">({stats.total})</span>
             </button>
             <button
               onClick={() => setFilter('inProgress')}
-              className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${
-                filter === 'inProgress'
+              className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${filter === 'inProgress'
                   ? 'bg-sakura text-sumi shadow-lg'
                   : 'text-sumi/70 hover:text-sumi hover:bg-sakura/10'
-              }`}
+                }`}
             >
               进行中 <span className="ml-1 opacity-70">({stats.inProgress})</span>
             </button>
             <button
               onClick={() => setFilter('completed')}
-              className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${
-                filter === 'completed'
+              className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${filter === 'completed'
                   ? 'bg-matcha text-washi shadow-lg'
                   : 'text-sumi/70 hover:text-sumi hover:bg-matcha/10'
-              }`}
+                }`}
             >
               已完成 <span className="ml-1 opacity-70">({stats.completed})</span>
             </button>
