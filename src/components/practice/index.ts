@@ -1,8 +1,4 @@
-/**
- * 练习模块组件导出
- */
-
-export { FillBlankQuiz } from './FillBlankQuiz';
-export { MultipleChoiceQuiz } from './MultipleChoiceQuiz';
-export { QuestionCard } from './QuestionCard';
-export { QuizResult } from './QuizResult';
+export { GamifiedQuiz } from "./GamifiedQuiz";
+export { AchievementSystem } from "./AchievementSystem";
+export { MissionSystem } from "./MissionSystem";
+export { ProgressGamification } from "./ProgressGamification";
