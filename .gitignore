@@ -25,3 +25,10 @@ npm-debug.log*
 .cache/.firecrawl/
 
 .vercel
+
+# Test screenshots and reports
+*.png
+test_*.png
+responsive-*.png
+console-*.txt
+*_console.txt
