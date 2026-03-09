@@ -5,7 +5,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
-import { StudyCard } from '@/components/study';
+import { StudyCard, TeacherTriggers, type TeacherEmotion } from '@/components/study';
+import { Live2DTeacher } from '@/components/study/Live2DTeacher';
 import { useStudyStore } from '@/stores/studyStore';
 import {
   getSentencesByGrammarPoint,
@@ -42,6 +43,10 @@ export function StudyPage() {
   const [showCompletion, setShowCompletion] = useState(false);
   const [learnedSentencesInSession, setLearnedSentencesInSession] = useState<Set<string>>(new Set());
 
+  // 老师状态
+  const [teacherEmotion, setTeacherEmotion] = useState<TeacherEmotion>('encouraging');
+  const [teacherMessage, setTeacherMessage] = useState<string | undefined>();
+
   useEffect(() => {
     if (!grammarId) {
       navigate('/lessons');
@@ -71,6 +76,10 @@ export function StudyPage() {
 
       setGrammarPoint(gpData);
       setCurrentSentences(sentencesData);
+
+      // 开始学习时老师鼓励！
+      setTeacherEmotion(TeacherTriggers.start());
+      setTeacherMessage(`一緒に「${gpData.id}」を勉強しよう！`);
 
       // 获取所属课程信息
       const lessonData = await getLessonById(gpData.lessonNumber);
@@ -105,6 +114,10 @@ export function StudyPage() {
       await markSentenceAsLearned(sentence.id);
       setLearnedSentencesInSession(prev => new Set(prev).add(sentence.id));
 
+      // 更新老师情绪 - 答对啦！
+      setTeacherEmotion(TeacherTriggers.correct());
+      setTeacherMessage(undefined);
+
       // 检查是否完成所有例句
       const allLearned = currentSentences.every(s =>
         learnedSentencesInSession.has(s.id) || s.id === sentence.id
@@ -113,6 +126,9 @@ export function StudyPage() {
       if (allLearned) {
         // 标记语法点为已学习
         await markGrammarAsLearned(grammarPoint.id);
+
+        // 完成时老师感到骄傲！
+        setTeacherEmotion(TeacherTriggers.complete());
 
         // 如果是课程的最后一个语法点，可能需要解锁下一课
         const progress = await getUserProgress();
@@ -270,6 +286,14 @@ export function StudyPage() {
   // ========================================
   return (
     <div className="min-h-screen bg-washi bg-seigaiha">
+      {/* Live2D 风格老师 */}
+      <Live2DTeacher
+        emotion={teacherEmotion}
+        customMessage={teacherMessage}
+        size="md"
+        position="bottom-right"
+      />
+
       {/* 返回按钮 */}
       <button
         onClick={handleBackToGrammar}
