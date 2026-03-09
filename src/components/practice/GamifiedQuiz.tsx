@@ -4,8 +4,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { Flame, Zap, Clock, Trophy, Star, Timer } from 'lucide-react';
-import type { Sentence, QuizOption } from '@/types';
+import { Flame, Zap, Clock, Trophy, Star } from 'lucide-react';
 
 export interface GamifiedQuizProps {
   questions: Array<{
@@ -77,9 +76,6 @@ export const GamifiedQuiz = ({
   // 当前问题
   const currentQuestion = questions[currentQuestionIndex];
 
-  // 剩余时间进度
-  const timeProgress = useMemo(() => (60 - timeLeft) / 60 * 100, [timeLeft]);
-
   // 计算总题数
   const totalQuestions = questions.length;
   const progress = useMemo(() => (currentQuestionIndex + 1) / totalQuestions * 100, [currentQuestionIndex, totalQuestions]);
@@ -94,7 +90,7 @@ export const GamifiedQuiz = ({
 
   // 倒计时
   useEffect(() => {
-    let timer: NodeJS.Timeout | null = null;
+    let timer: ReturnType<typeof setInterval> | null = null;
 
     if (isPlaying && timeLeft > 0) {
       timer = setInterval(() => {
@@ -102,7 +98,9 @@ export const GamifiedQuiz = ({
       }, 1000);
     }
 
-    return () => clearInterval(timer);
+    return () => {
+      if (timer) clearInterval(timer);
+    };
   }, [isPlaying]);
 
   // 开始游戏
@@ -201,10 +199,10 @@ export const GamifiedQuiz = ({
                 <button
                   key={idx}
                   onClick={() => calculateScore(option === currentQuestion.correct)}
-                  disabled={isPlaying}
+                  disabled={!isPlaying || showCorrect || showIncorrect}
                   className={`
                     p-6 text-xl font-semibold rounded-2xl transition-all duration-200
-                    ${isPlaying
+                    ${!isPlaying || showCorrect || showIncorrect
                       ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                       : 'bg-white text-gray-800 hover:scale-105 hover:shadow-xl border-2 border-gray-200'
                     }
@@ -220,7 +218,7 @@ export const GamifiedQuiz = ({
               onClick={togglePause}
               className="w-full py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-lg font-semibold rounded-xl hover:shadow-lg transition-all duration-300"
             >
-              {isPlaying ? '⏸️ 暂停' : '▶️ 继续'}
+              {!isPlaying ? '▶️ 继续' : '⏸️ 暂停'}
             </button>
           </div>
         )}

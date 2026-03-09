@@ -2,9 +2,9 @@
  * 进度游戏化组件 - 可视化学习热力图、成就完成率、XP 曲线
  */
 
-import { useState, useEffect, useMemo } from 'react';
-import { TrendingUp, BarChart3, LineChart, Calendar } from 'lucide-react';
-import Recharts from 'recharts';
+import { useState, useMemo } from 'react';
+import { TrendingUp, BarChart3, Calendar } from 'lucide-react';
+import { LineChart as RechartsLineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 export interface ProgressGamificationProps {
   studyData: {
@@ -60,7 +60,7 @@ export const ProgressGamification = ({
   // 计算成就完成率
   const completionRate = useMemo(() => {
     if (achievements.length === 0) return 0;
-    return Math.round((achievements.filter(a => a.unlocked).length / achievements.length) * 100);
+    return Math.round((achievements.filter(a => a.unlockedAt).length / achievements.length) * 100);
   }, [achievements]);
 
   return (
@@ -143,49 +143,44 @@ export const ProgressGamification = ({
         <div>
           <h3 className="text-2xl font-bold text-gray-800 mb-4">📊 XP 成长曲线</h3>
           <div className="h-96 bg-gray-50 rounded-xl p-4">
-            <Recharts width="100%" height="100%">
-              <LineChart
-                width="100%"
-                height="100%"
+            <ResponsiveContainer width="100%" height="100%">
+              <RechartsLineChart
                 data={xpChartData}
                 margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
               >
                 <XAxis
                   dataKey="date"
-                  tickFormatter={(value) => {
+                  tickFormatter={(value: string) => {
                     const date = new Date(value);
                     return `${date.getMonth() + 1}/${date.getDate()}`;
                   }}
                 />
                 <YAxis
                   yAxisId="xp"
-                  labelFormatter={(value) => `${Math.round(value)} XP`}
+                  tickFormatter={(value: number) => `${Math.round(value)} XP`}
                 />
                 <Tooltip
-                  formatter={(value, name, props) => {
-                    return (
-                      <div className="bg-white p-2 rounded-lg shadow-lg">
-                        <p className="font-bold text-gray-800">{props.date}</p>
-                        <p className="text-sm text-gray-600">
-                          获得: +{value} XP
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          总计: {props.total} XP
-                        </p>
-                      </div>
-                    );
+                  formatter={(value: any, name: any) => {
+                    return [
+                      value ?? 0,
+                      name === 'xp' ? 'XP' : name ?? '',
+                    ];
+                  }}
+                  labelFormatter={(label: any) => {
+                    return `日期: ${String(label ?? '')}`;
                   }}
                 />
                 <Line
+                  yAxisId="xp"
                   type="monotone"
-                  dataKey="xp"
+                  dataKey="total"
                   stroke="#4f46e5"
                   strokeWidth={3}
                   dot={{ fill: "#4f46e5" }}
                   activeDot={{ r: 8 }}
                 />
-              </LineChart>
-            </Recharts>
+              </RechartsLineChart>
+            </ResponsiveContainer>
           </div>
         </div>
       )}
@@ -199,8 +194,7 @@ export const ProgressGamification = ({
               const date = new Date();
               date.setDate(date.getDate() - idx);
               const dateStr = date.toLocaleDateString('zh-CN');
-              
-              const dayData = studyData.find(d => d.date === dateStr);
+
               const dayAchievements = achievements.filter(a => {
                 const achievementDate = a.unlockedAt.split('T')[0];
                 return achievementDate === dateStr;
@@ -243,7 +237,7 @@ export const ProgressGamification = ({
             <div className="text-2xl font-semibold">成就完成率</div>
           </div>
           <div className="text-center text-indigo-100 mt-2">
-            {achievements.filter(a => a.unlocked).length} / {achievements.length}
+            {achievements.filter(a => a.unlockedAt).length} / {achievements.length}
           </div>
         </div>
         

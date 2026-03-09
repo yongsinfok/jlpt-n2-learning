@@ -83,7 +83,6 @@ export const AchievementSystem = ({ xp, level, achievements, onAchievementUnlock
 
   // 计算下一级所需的 XP
   const nextLevel = LEVELS.find(l => l.level === level + 1);
-  const xpToNextLevel = nextLevel ? nextLevel.minXP - xp : 0;
   const progress = nextLevel ? Math.min(100, (xp / nextLevel.minXP) * 100) : 0;
 
   // 检查新解锁的成就
@@ -130,7 +129,12 @@ export const AchievementSystem = ({ xp, level, achievements, onAchievementUnlock
         {ACHIEVEMENTS.map((achievement) => (
           <div
             key={achievement.id}
-            onClick={() => achievement.unlocked && setSelectedAchievement(achievement)}
+            onClick={() => {
+              if (achievement.unlocked) {
+                setSelectedAchievement(achievement);
+                setShowModal(true);
+              }
+            }}
             className={`
               bg-white rounded-2xl p-6 shadow-lg border-2
               transition-all duration-300

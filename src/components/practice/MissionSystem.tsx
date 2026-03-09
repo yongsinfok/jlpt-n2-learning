@@ -2,7 +2,7 @@
  * 任务系统 - 每日目标、连续学习天数、完成奖励
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Calendar, Target, CheckCircle2, Zap, Award, TrendingUp } from 'lucide-react';
 
 export interface Mission {
@@ -75,16 +75,6 @@ export const MissionSystem = ({
     setTimeout(() => setShowConfetti(false), 3000);
   }, [onCompleteMission]);
 
-  // 格式化时间显示
-  const formatMinutes = (minutes: number) => {
-    if (minutes >= 60) {
-      const hours = Math.floor(minutes / 60);
-      const mins = minutes % 60;
-      return `${hours}小时${mins}分`;
-    }
-    return `${minutes}分钟`;
-  };
-
   return (
     <div className="bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 p-8 rounded-3xl">
       {/* 标题栏 */}
@@ -116,6 +106,7 @@ export const MissionSystem = ({
             </div>
           </div>
         </div>
+      </div>
 
       {/* 任务列表 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
