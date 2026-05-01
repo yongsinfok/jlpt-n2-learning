@@ -3,8 +3,10 @@
    Simple. Elegant. Minimal. Browser-Friendly.
    ======================================== */
 
-/* Import Inter font with display swap for better loading */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+/* Webfonts: Inter (UI body), Noto Sans JP (Japanese body),
+   Noto Serif JP / Mincho (display, the heart of the design),
+   JetBrains Mono (numerics + meta). */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
@@ -93,6 +95,64 @@
   --duration-fast: 150ms;
   --duration-base: 250ms;
   --duration-slow: 350ms;
+
+  /* ===== Mix-D design tokens (和紙×硝子) ===== */
+  /* Base — washi paper feel */
+  --washi:           #FAFAF5;
+  --washi-dim:       #F2F0E8;
+  --hairline:        #E5E2D6;
+  --hairline-strong: #C9C5B4;
+  --sumi:            #1A1A1A;
+  --sumi-soft:       #5A5854;
+  --sumi-mute:       #8C8A82;
+
+  /* Year-round signature accent — bengara terracotta */
+  --bengara:         #C04A1A;
+  --bengara-soft:    rgba(192, 74, 26, 0.08);
+
+  /* Seasonal modulator — JS may swap these on month change.
+     Default: summer (matcha + kincha gradient).
+     Swap rules: spring=sakura, summer=matcha, autumn=kincha, winter=yuki. */
+  --season:          #6B8E23;
+  --season-2:        #B68B4C;
+  --season-glow:     rgba(107, 142, 35, 0.12);
+  --season-soft:     rgba(107, 142, 35, 0.04);
+
+  /* Fonts */
+  --font-mincho:     'Noto Serif JP', 'Yu Mincho', '游明朝', 'Hiragino Mincho Pro', serif;
+  --font-ui:         'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-numeric:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* Glass surface (use sparingly — one featured card per page) */
+  --glass-bg:        rgba(255, 252, 248, 0.65);
+  --glass-bg-strong: rgba(255, 252, 248, 0.78);
+  --glass-edge:      rgba(255, 255, 255, 0.7);
+  --glass-shadow:    0 1px 2px rgba(31,27,23,0.04), 0 16px 40px rgba(31,27,23,0.06);
+
+  /* Safe-area envelopes for iOS PWA standalone */
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left:   env(safe-area-inset-left, 0px);
+  --safe-right:  env(safe-area-inset-right, 0px);
+}
+
+[data-season="spring"] {
+  --season:      #FFB7C5;
+  --season-2:    #E899AA;
+  --season-glow: rgba(255, 183, 197, 0.18);
+  --season-soft: rgba(255, 183, 197, 0.06);
+}
+[data-season="autumn"] {
+  --season:      #B68B4C;
+  --season-2:    #C04A1A;
+  --season-glow: rgba(182, 139, 76, 0.14);
+  --season-soft: rgba(182, 139, 76, 0.05);
+}
+[data-season="winter"] {
+  --season:      #8395A8;
+  --season-2:    #2A3F8F;
+  --season-glow: rgba(131, 149, 168, 0.16);
+  --season-soft: rgba(131, 149, 168, 0.05);
 }
 
 /* ========================================
@@ -1890,4 +1950,450 @@ mark.grammar-highlight {
   padding: 0 0.25em;
   border-radius: 0.25rem;
   font-weight: 600;
+}
+
+/* ========================================
+   PWA banner (install prompt + update notice)
+   Used by src/components/common/PWABanner.tsx
+   ======================================== */
+.pwa-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  background: rgba(250, 250, 245, 0.85);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid #E5E2D6;
+  font-size: 13px;
+  color: #5A5854;
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+.pwa-banner-text { flex: 1; min-width: 0; }
+.pwa-banner-action {
+  font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+  font-size: 13px;
+  color: #1A1A1A;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #C04A1A;
+  padding: 2px 4px 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pwa-banner-action:hover { color: #C04A1A; }
+.pwa-banner-close {
+  background: transparent;
+  border: none;
+  color: #8C8A82;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+.pwa-banner-close:hover { color: #1A1A1A; background: rgba(0,0,0,0.04); }
+.pwa-banner-update { background: rgba(192, 74, 26, 0.06); }
+.pwa-banner-update .pwa-banner-action { border-bottom-color: #1A1A1A; }
+.text-bengara { color: #C04A1A; }
+.text-sumi-soft { color: #5A5854; }
+
+/* ========================================
+   Safe-area helpers — used across the app
+   for iOS PWA standalone mode
+   ======================================== */
+.pad-safe-top    { padding-top:    max(0px, env(safe-area-inset-top)); }
+.pad-safe-bottom { padding-bottom: max(0px, env(safe-area-inset-bottom)); }
+.pad-safe-x      {
+  padding-left:  max(0px, env(safe-area-inset-left));
+  padding-right: max(0px, env(safe-area-inset-right));
+}
+.pad-safe-all {
+  padding-top:    max(0px, env(safe-area-inset-top));
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+  padding-left:   max(0px, env(safe-area-inset-left));
+  padding-right:  max(0px, env(safe-area-inset-right));
+}
+
+/* ========================================
+   Mix-D utilities (和紙×硝子)
+   ======================================== */
+
+/* Page shell — washi background + paper grain texture overlay.
+   Apply on the outermost div of each page. */
+.page-shell {
+  min-height: 100vh;
+  background: var(--washi);
+  color: var(--sumi);
+  position: relative;
+}
+.page-shell::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+  pointer-events: none;
+  z-index: 0;
+}
+.page-shell > * { position: relative; z-index: 1; }
+
+/* Featured glass card — use exactly ONE per page for the hero element. */
+.featured-glass {
+  background: linear-gradient(135deg, var(--glass-bg-strong) 0%, var(--season-glow) 140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--glass-edge);
+  border-radius: 20px;
+  box-shadow: var(--glass-shadow);
+}
+
+/* Hairline-bordered surface — the default everywhere */
+.hairline-card {
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  background: rgba(255, 252, 248, 0.4);
+}
+
+/* Numbered editorial section eyebrow ("— I", "— II", "— III") */
+.section-eyebrow {
+  font-family: var(--font-mincho);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--sumi-mute);
+}
+
+/* Section title pair — Japanese serif on top, monospace meta below */
+.section-title-jp {
+  font-family: var(--font-mincho);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--sumi);
+  letter-spacing: -0.005em;
+  line-height: 1.2;
+}
+.section-title-meta {
+  font-family: var(--font-numeric);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--sumi-mute);
+  text-transform: uppercase;
+}
+
+/* Bengara underline link — serif typography, terracotta accent */
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mincho);
+  font-size: 15px;
+  color: var(--sumi);
+  text-decoration: none;
+  border-bottom: 1px solid var(--bengara);
+  padding-bottom: 2px;
+  transition: color var(--duration-base) var(--ease-default);
+}
+.cta-link:hover { color: var(--bengara); }
+.cta-link .arrow { color: var(--bengara); transition: transform var(--duration-slow) var(--ease-default); }
+.cta-link:hover .arrow { transform: translateX(3px); }
+
+/* Streak / hero number — bengara→season gradient on display digit */
+.hero-number {
+  font-family: var(--font-mincho);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--bengara) 0%, var(--season-2) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Due-status pill — used on review queue, etc. */
+.due-pill {
+  font-family: var(--font-numeric);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.due-pill.now   { background: var(--bengara-soft); color: var(--bengara); }
+.due-pill.soon  { background: rgba(182, 139, 76, 0.12); color: var(--season-2); }
+.due-pill.later { background: var(--washi-dim); color: var(--sumi-mute); }
+
+/* Sticky bottom-tab-bar (mobile only) — iOS HIG-style with safe-area */
+.tab-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 50;
+  display: none;
+  background: rgba(250, 250, 245, 0.85);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-top: 1px solid var(--hairline);
+  padding: 8px max(8px, var(--safe-left)) calc(8px + var(--safe-bottom)) max(8px, var(--safe-right));
+}
+.tab-bar.show-mobile { display: flex; }
+.tab-bar a {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 0 4px;
+  text-decoration: none;
+  color: var(--sumi-mute);
+  font-family: var(--font-mincho);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  transition: color var(--duration-base);
+}
+.tab-bar a.active { color: var(--bengara); }
+.tab-bar a svg { width: 22px; height: 22px; stroke-width: 1.6; }
+
+/* Hide tab bar on desktop (≥ 1024px) */
+@media (min-width: 1024px) {
+  .tab-bar.show-mobile { display: none; }
+}
+
+/* Page main padding for mobile tab bar — adds bottom space when tab bar present */
+@media (max-width: 1023px) {
+  .has-tab-bar { padding-bottom: calc(72px + var(--safe-bottom)); }
+}
+
+/* ========================================
+   ═══ MIX-D OVERRIDES (和紙×硝子) ═══
+   These re-skin existing classes used across the 13 pages so a single
+   CSS update propagates the new design system without rewriting each
+   page.  Override order: later rules win, so these must stay below the
+   legacy class defs above.
+   ======================================== */
+
+/* Surface treatments — was: heavy blue-shadowed white glass.
+   Now: hairline-bordered washi paper, no shadow on default,
+   one featured-glass per page for the hero element. */
+.glass-card {
+  background: rgba(255, 252, 248, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.glass-card-subtle {
+  background: rgba(255, 252, 248, 0.4);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.glass-card-strong {
+  background: linear-gradient(135deg, var(--glass-bg-strong) 0%, var(--season-glow) 140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--glass-edge);
+  border-radius: 20px;
+  box-shadow: var(--glass-shadow);
+}
+
+/* Card primitive used by some legacy pages — now hairline+washi */
+.card {
+  background: rgba(255, 252, 248, 0.6);
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  box-shadow: none;
+  user-select: auto;
+  -webkit-user-select: auto;
+}
+.card:hover {
+  transform: none;
+  box-shadow: 0 1px 2px rgba(31,27,23,0.04), 0 8px 24px rgba(31,27,23,0.05);
+  background: rgba(255, 252, 248, 0.85);
+}
+
+/* Bento card — collapse to washi hairline cards but preserve grid layout */
+.bento-card {
+  background: rgba(255, 252, 248, 0.5);
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  box-shadow: none;
+  padding: 28px;
+  transition: background var(--duration-slow) var(--ease-default), border-color var(--duration-slow) var(--ease-default);
+}
+.bento-card:hover {
+  background: rgba(255, 252, 248, 0.85);
+  border-color: var(--hairline-strong);
+  transform: none;
+}
+.bento-card-featured {
+  background: linear-gradient(135deg, var(--glass-bg-strong) 0%, var(--season-glow) 140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow);
+}
+.bento-card-featured::before { display: none; }
+.bento-card-sakura,
+.bento-card-matcha,
+.bento-card-ai {
+  background: rgba(255, 252, 248, 0.5);
+  border: 1px solid var(--hairline);
+}
+
+.bento-card-title {
+  font-family: var(--font-mincho);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--sumi);
+  letter-spacing: -0.005em;
+}
+.bento-card-subtitle {
+  font-family: var(--font-numeric);
+  font-size: 11px;
+  color: var(--sumi-mute);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Buttons — primary, secondary, undo earlier saturated styles */
+.btn-modern-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  background: var(--sumi);
+  color: var(--washi);
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: 15px;
+  border: 1px solid var(--sumi);
+  cursor: pointer;
+  transition: transform var(--duration-base) var(--ease-default),
+              background var(--duration-base) var(--ease-default);
+}
+.btn-modern-primary:hover {
+  background: var(--bengara);
+  border-color: var(--bengara);
+  transform: translateY(-1px);
+}
+
+.btn-glass {
+  background: var(--sumi);
+  color: var(--washi);
+  border: 1px solid var(--sumi);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 4px 12px rgba(31,27,23,0.15);
+  border-radius: 10px;
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  transition: background var(--duration-base) var(--ease-default), transform var(--duration-base) var(--ease-default);
+}
+.btn-glass:hover {
+  background: var(--bengara);
+  border-color: var(--bengara);
+  box-shadow: 0 6px 18px rgba(192,74,26,0.25);
+  transform: translateY(-1px) scale(1);
+}
+.btn-glass-sakura {
+  background: var(--bengara);
+  color: var(--washi);
+  border: 1px solid var(--bengara);
+  box-shadow: 0 4px 12px rgba(192,74,26,0.20);
+  border-radius: 10px;
+  font-family: var(--font-mincho);
+  font-weight: 500;
+}
+.btn-glass-sakura:hover {
+  background: #9A3B14;
+  border-color: #9A3B14;
+}
+
+/* Glow + animated borders — quiet down */
+.glass-glow::before { display: none; }
+.shadow-glow { box-shadow: 0 4px 16px rgba(192,74,26,0.18) !important; }
+
+/* Progress bars — washi-tinted */
+.progress-bar { background: rgba(31,27,23,0.06); }
+.progress-fill,
+.progress-fill-gradient {
+  background: linear-gradient(90deg, var(--bengara), var(--season));
+}
+
+/* nav-tab (used by legacy Header — kept for compat, restyled to mincho) */
+.nav-tab {
+  font-family: var(--font-mincho);
+  color: var(--sumi-soft);
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 0;
+  border-bottom: 1px solid transparent;
+  transition: color var(--duration-base);
+  text-decoration: none;
+  font-size: 15px;
+}
+.nav-tab.active {
+  color: var(--sumi);
+  border-bottom-color: var(--bengara);
+}
+.nav-tab:hover { color: var(--sumi); }
+
+/* Generic typography hint — h1/h2 inside page-shell pull mincho serif unless overridden */
+.page-shell h1,
+.page-shell h2 {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Replace stark white bg-neutral / bg-white background usage on pages
+   that haven't been rewritten yet — they sit inside page-shell already
+   so they get the washi base; we just neutralize their hard white */
+/* Neutralize hard white/grey page backgrounds on the OUTERMOST page wrapper
+   so washi shows through. This pattern matches `<div class="min-h-screen bg-...">`
+   that legacy pages use as their root. */
+.page-shell > main > * > .min-h-screen.bg-white,
+.page-shell > main > * > .min-h-screen.bg-neutral,
+.page-shell > main > * > .min-h-screen.bg-gray-50,
+.page-shell > main > * > .min-h-screen.bg-gray-100,
+.page-shell > main > .min-h-screen.bg-white,
+.page-shell > main > .min-h-screen.bg-neutral,
+.page-shell > main > .min-h-screen.bg-gray-50,
+.page-shell > main > .min-h-screen.bg-gray-100 {
+  background-color: transparent !important;
+}
+/* Cards / panels that use bg-white inside pages — give them washi */
+.page-shell .bg-white:not(button):not(input):not(select):not(textarea):not(.glass-card):not(.glass-card-strong):not(.glass-card-subtle) {
+  background-color: rgba(255, 252, 248, 0.6) !important;
+}
+
+/* Badge — consistent with washi palette */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  font-family: var(--font-numeric);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  background: var(--washi-dim);
+  color: var(--sumi-soft);
+  border: 1px solid var(--hairline);
+}
+
+/* Gradient text helper — bengara→season */
+.gradient-text {
+  background: linear-gradient(135deg, var(--bengara) 0%, var(--season-2) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

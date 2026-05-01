@@ -15,6 +15,8 @@ import { ErrorBoundary, PageLoading } from '@/components/common';
 // 布局组件
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { MobileTabBar } from '@/components/layout/MobileTabBar';
+import { PWABanner } from '@/components/common/PWABanner';
 
 // 懒加载页面组件 - 代码分割
 const HomePage = lazy(() => import('@/pages/HomePage').then(m => ({ default: m.HomePage })));
@@ -140,10 +142,12 @@ function RootLayout({ children }: { children: React.ReactNode }) {
  */
 function LayoutWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen page-shell flex flex-col">
+      <PWABanner />
       <Header />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 has-tab-bar">{children}</main>
       <Footer />
+      <MobileTabBar />
     </div>
   );
 }

@@ -108,6 +108,9 @@ export default {
           light: '#333333',
           lighter: '#4D4D4D',
           dark: '#000000',
+          // Mix-D semantic tones
+          soft: '#5A5854',
+          mute: '#8C8A82',
           50: '#F7F7F7',
           100: '#EFEFEF',
           200: '#DFDFDF',
@@ -136,6 +139,67 @@ export default {
           800: '#80611F',
           900: '#644817',
         },
+        // 弁柄 - Bengara (year-round signature accent in mix-D system)
+        bengara: {
+          DEFAULT: '#C04A1A',
+          50:  '#FBEDE7',
+          100: '#F6D9CC',
+          200: '#ECB199',
+          300: '#E08A66',
+          400: '#D26439',
+          500: '#C04A1A',
+          600: '#9A3B14',
+          700: '#732C0F',
+          800: '#4D1D0A',
+          900: '#260E05',
+        },
+        // 金茶 - Kincha (autumn seasonal)
+        kincha: {
+          DEFAULT: '#B68B4C',
+          50:  '#FAF4EA',
+          100: '#F4E8D2',
+          200: '#E5CDA1',
+          300: '#D5B370',
+          400: '#C39955',
+          500: '#B68B4C',
+          600: '#8E6A35',
+          700: '#664A23',
+          800: '#3D2D14',
+          900: '#1F1709',
+        },
+        // 朱 - Shu (vermillion — used by OnboardingPage feature card)
+        shu: {
+          DEFAULT: '#D9381E',
+          50:  '#FCEAE6',
+          100: '#F8D2CB',
+          200: '#F0A698',
+          300: '#E87A65',
+          400: '#E14F33',
+          500: '#D9381E',
+          600: '#A82A14',
+          700: '#771F0E',
+          800: '#481208',
+          900: '#260904',
+        },
+        // 雪 - Yuki (winter seasonal)
+        yuki: {
+          DEFAULT: '#8395A8',
+          50:  '#F0F3F7',
+          100: '#DDE3EB',
+          200: '#BCC7D6',
+          300: '#9AABC1',
+          400: '#8395A8',
+          500: '#6B7E92',
+          600: '#566677',
+          700: '#404D5A',
+          800: '#2A333D',
+          900: '#151A1F',
+        },
+        // Hairline divider (washi-paper border tone)
+        hairline: {
+          DEFAULT: '#E5E2D6',
+          strong: '#C9C5B4',
+        },
         // Semantic colors
         success: '#6B8E23',
         warning: '#D4AF37',
@@ -153,6 +217,8 @@ export default {
         display: ['Inter', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
         jp: ['Noto Sans JP', 'sans-serif'],
+        // Mix-D Mincho display: heart of 和紙×硝子 system
+        mincho: ['Noto Serif JP', 'Yu Mincho', '游明朝', 'Hiragino Mincho Pro', 'serif'],
       },
       fontSize: {
         // MUCH LARGER font sizes for better readability

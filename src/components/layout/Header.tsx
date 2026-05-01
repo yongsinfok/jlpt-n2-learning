@@ -1,283 +1,135 @@
-/**
- * Header Component - Modern Clean Design
- */
-
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef, useCallback, memo } from 'react';
+import { Settings, Trophy, HelpCircle, AlertTriangle, ChevronDown } from 'lucide-react';
 import { ROUTES } from '@/utils/constants';
-import { Home, BookOpen, Brain, TrendingUp, Settings, Menu, X, ChevronDown, Trophy, HelpCircle, Search, Heart } from 'lucide-react';
 
-/**
- * Navigation links
- */
-const navLinks = [
-  { path: ROUTES.HOME, label: "TODAY'S JLPT", labelShort: 'TODAY', icon: Home },
-  { path: ROUTES.LESSONS, label: 'レッスン', labelShort: 'レッスン', icon: BookOpen },
-  { path: ROUTES.PRACTICE, label: '練習', labelShort: '練習', icon: Brain },
-  { path: ROUTES.PROGRESS, label: '進度', labelShort: '進度', icon: TrendingUp },
-] as const;
+const NAV_LINKS = [
+  { to: ROUTES.HOME,     label: '今日' },
+  { to: ROUTES.LESSONS,  label: 'レッスン' },
+  { to: ROUTES.PRACTICE, label: '練習' },
+  { to: ROUTES.REVIEW,   label: '復習' },
+  { to: ROUTES.PROGRESS, label: '進度' },
+];
 
-/**
- * Settings menu items
- */
-const settingsMenuItems = [
-  { path: ROUTES.SETTINGS, label: '系统设置', icon: Settings },
-  { path: ROUTES.ACHIEVEMENTS, label: '我的成就', icon: Trophy },
-  { path: ROUTES.ONBOARDING, label: '新手引导', icon: HelpCircle },
-] as const;
+const MENU_ITEMS = [
+  { to: ROUTES.SETTINGS,     label: '系统设置', icon: Settings },
+  { to: ROUTES.ACHIEVEMENTS, label: '我的成就', icon: Trophy },
+  { to: ROUTES.ONBOARDING,   label: '新手引导', icon: HelpCircle },
+];
 
-/**
- * Header Component - Modern Clean Design
- */
 export const Header = memo(function Header() {
   const location = useLocation();
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isFavorite, setIsFavorite] = useState(false);
-  const settingsRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-  // Click outside to close settings menu
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (settingsRef.current && !settingsRef.current.contains(event.target as Node)) {
-        setIsSettingsOpen(false);
-      }
+    const onClickOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
   }, []);
 
-  // Handle reset data functionality
-  const handleResetData = useCallback(() => {
+  // Close menu on route change
+  useEffect(() => { setOpen(false); }, [location.pathname]);
+
+  const onResetData = useCallback(() => {
     if (confirm('确定要重置所有学习数据吗？此操作不可撤销。')) {
       localStorage.clear();
+      indexedDB.deleteDatabase('JLPTN2DB');
       window.location.reload();
     }
-    setIsSettingsOpen(false);
+    setOpen(false);
   }, []);
 
-  // Toggle handlers
-  const toggleSettings = useCallback(() => setIsSettingsOpen(prev => !prev), []);
-  const toggleMobileMenu = useCallback(() => setIsMobileMenuOpen(prev => !prev), []);
-  const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), []);
-  const handleSettingsClick = useCallback(() => setIsSettingsOpen(false), []);
-
-  // Check if path is active
-  const isActive = useCallback((path: string) => {
-    if (path === ROUTES.HOME) {
-      return location.pathname === ROUTES.HOME;
-    }
-    return location.pathname.startsWith(path);
-  }, [location.pathname]);
-
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Left: Logo + Tagline */}
+    <header className="sticky top-0 z-40 border-b border-hairline bg-washi/80 backdrop-blur-xl pad-safe-top pad-safe-x">
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
+        <div className="flex items-center justify-between h-14 sm:h-16">
+          {/* Brand */}
           <Link
             to={ROUTES.HOME}
-            className="flex items-center gap-3 group"
-            aria-label="JLPT N2 学习平台 - 返回首页"
+            className="flex items-baseline gap-3 group"
+            aria-label="JLPT N2 — 返回首页"
           >
-            {/* Logo */}
-            <div className="flex flex-col">
-              <span className="font-display font-bold text-logo text-primary">
-                JLPT N2
-              </span>
-              <span className="text-small text-neutral-dark">
-                日本語学習プラットフォーム
-              </span>
-            </div>
+            <span className="font-mincho text-[20px] sm:text-[22px] font-medium tracking-[-0.01em] text-sumi">
+              JLPT N2
+            </span>
+            <span className="hidden sm:inline-block font-mono text-[10px] tracking-[0.2em] text-sumi-mute uppercase">
+              日本語学習
+            </span>
           </Link>
 
-          {/* Center: Navigation Tabs */}
-          <nav className="hidden md:flex items-center" role="navigation" aria-label="主导航">
-            {navLinks.map((link) => {
-              const active = isActive(link.path);
-              return (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className={`nav-tab ${active ? 'active' : ''}`}
-                  aria-current={active ? 'page' : undefined}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+          {/* Desktop nav (hidden on mobile — bottom tab bar handles it) */}
+          <nav className="hidden lg:flex items-center gap-9" role="navigation" aria-label="主导航">
+            {NAV_LINKS.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                end={link.to === ROUTES.HOME}
+                className={({ isActive }) =>
+                  `font-mincho text-[15px] pb-1 transition-colors ${
+                    isActive
+                      ? 'text-sumi border-b border-bengara'
+                      : 'text-sumi-soft hover:text-sumi'
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
           </nav>
 
-          {/* Right: Search Bar + Heart Icon */}
-          <div className="flex items-center gap-2" ref={settingsRef}>
-            {/* Search Bar - Desktop */}
-            <div className="hidden sm:flex items-center">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-dark" />
-                <input
-                  type="text"
-                  placeholder="搜索..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="input pl-10 pr-4 py-2 w-48 lg:w-64"
-                />
-              </div>
-            </div>
-
-            {/* Heart Icon */}
+          {/* Settings menu */}
+          <div className="relative" ref={ref}>
             <button
-              onClick={() => setIsFavorite(!isFavorite)}
-              className={`heart-btn ${isFavorite ? 'active' : ''}`}
-              aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-              aria-pressed={isFavorite}
+              onClick={() => setOpen((v) => !v)}
+              className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-sumi-soft hover:text-sumi hover:bg-sumi/[0.04] transition-colors"
+              aria-label="设置菜单"
+              aria-expanded={open}
+              aria-haspopup="true"
             >
-              <Heart
-                className={isFavorite ? 'fill-accent text-accent' : ''}
+              <Settings size={18} strokeWidth={1.6} />
+              <ChevronDown
+                size={14}
+                className={`transition-transform ${open ? 'rotate-180' : ''}`}
               />
             </button>
 
-            {/* Settings Dropdown */}
-            <div className="relative">
-              <button
-                onClick={toggleSettings}
-                className="btn-icon"
-                aria-label="设置菜单"
-                aria-expanded={isSettingsOpen}
-                aria-haspopup="true"
+            {open && (
+              <div
+                className="absolute right-0 mt-2 w-56 hairline-card bg-washi shadow-md py-2 animate-fade-in z-50"
+                role="menu"
               >
-                <Settings className="w-5 h-5" />
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${isSettingsOpen ? 'rotate-180' : ''}`}
-                />
-              </button>
-
-              {/* Dropdown Menu */}
-              {isSettingsOpen && (
-                <div
-                  className="absolute right-0 mt-2 w-56 bg-white border border-border rounded-md shadow-card-hover animate-scale-in z-50"
-                  role="menu"
-                  aria-label="设置菜单"
+                {MENU_ITEMS.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-sumi-soft hover:text-sumi hover:bg-washi-dim transition-colors"
+                      role="menuitem"
+                    >
+                      <Icon size={16} strokeWidth={1.6} />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+                <div className="h-px bg-hairline my-1.5" role="separator" />
+                <button
+                  onClick={onResetData}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-bengara hover:bg-bengara/10 transition-colors"
+                  role="menuitem"
                 >
-                  {/* Menu Items */}
-                  {settingsMenuItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <Link
-                        key={item.path}
-                        to={item.path}
-                        onClick={handleSettingsClick}
-                        className="flex items-center gap-3 px-4 py-3 text-body text-neutral-dark hover:bg-neutral hover:text-primary transition-colors"
-                        role="menuitem"
-                      >
-                        <Icon className="w-4 h-4" />
-                        <span>{item.label}</span>
-                      </Link>
-                    );
-                  })}
-
-                  {/* Divider */}
-                  <div className="h-px bg-border" role="separator" />
-
-                  {/* Reset Data Button */}
-                  <button
-                    onClick={handleResetData}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-body text-error hover:bg-error/10 transition-colors text-left"
-                    role="menuitem"
-                  >
-                    <Settings className="w-4 h-4" />
-                    <span>重置数据</span>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={toggleMobileMenu}
-              className="md:hidden btn-icon"
-              aria-label="菜单"
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-menu"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+                  <AlertTriangle size={16} strokeWidth={1.6} />
+                  <span>重置数据</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div
-          id="mobile-menu"
-          className="md:hidden border-t border-border bg-white"
-          role="navigation"
-          aria-label="移动端菜单"
-        >
-          <nav className="px-4 py-4 max-h-[70vh] overflow-y-auto">
-            {/* Mobile Search */}
-            <div className="mb-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-dark" />
-                <input
-                  type="text"
-                  placeholder="搜索..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="input pl-10 pr-4 py-2 w-full"
-                />
-              </div>
-            </div>
-
-            {/* Nav Links */}
-            {navLinks.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.path);
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={closeMobileMenu}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-md font-medium ${
-                    active
-                      ? 'bg-neutral text-primary'
-                      : 'text-neutral-dark hover:bg-neutral hover:text-primary'
-                  } transition-colors`}
-                  aria-current={active ? 'page' : undefined}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-
-            {/* Settings Menu Items */}
-            {settingsMenuItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={closeMobileMenu}
-                  className="flex items-center gap-3 px-4 py-3 rounded-md text-neutral-dark hover:bg-neutral hover:text-primary transition-colors"
-                >
-                  <Icon className="w-5 h-5" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-
-            {/* Mobile Reset Data */}
-            <button
-              onClick={handleResetData}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-md text-error hover:bg-error/10 transition-colors text-left"
-            >
-              <Settings className="w-5 h-5" />
-              <span>重置数据</span>
-            </button>
-          </nav>
-        </div>
-      )}
     </header>
   );
 });
