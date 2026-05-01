@@ -1,8 +1,3 @@
-/**
- * LessonListPage - Bento Grid 2.0 + Enhanced Glassmorphism
- * Japanese-inspired modern design
- */
-
 import { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { LessonCard } from '@/components/study';
@@ -11,13 +6,18 @@ import type { Lesson } from '@/types';
 import { Flame, Target, BookOpen, Brain, Zap } from 'lucide-react';
 import { BentoGrid, BentoCard, BentoStat, BentoCardHeader, BentoCardTitle, BentoCardBody } from '@/components/common/BentoGrid';
 
-/**
- * LessonListPage Component - Japanese Glassmorphism with Bento Grid
- */
+type LessonFilter = 'all' | 'inProgress' | 'completed';
+
+const FILTER_TABS: { key: LessonFilter; label: string; activeClass: string; hoverClass: string }[] = [
+  { key: 'all',        label: '全部课程', activeClass: 'bg-ai text-washi shadow-lg',     hoverClass: 'hover:bg-ai/10' },
+  { key: 'inProgress', label: '进行中',   activeClass: 'bg-sakura text-sumi shadow-lg', hoverClass: 'hover:bg-sakura/10' },
+  { key: 'completed',  label: '已完成',   activeClass: 'bg-matcha text-washi shadow-lg', hoverClass: 'hover:bg-matcha/10' },
+];
+
 export function LessonListPage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'inProgress' | 'completed'>('all');
+  const [filter, setFilter] = useState<LessonFilter>('all');
 
   useEffect(() => {
     loadLessons();
@@ -203,38 +203,21 @@ export function LessonListPage() {
           />
         </BentoGrid>
 
-        {/* ======================================== */}
-        {/* FILTER TABS - Glassmorphism */}
-        {/* ======================================== */}
         <section className="mb-8">
           <div className="glass-card-subtle rounded-2xl p-2 inline-flex gap-2">
-            <button
-              onClick={() => setFilter('all')}
-              className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${filter === 'all'
-                  ? 'bg-ai text-washi shadow-lg'
-                  : 'text-sumi/70 hover:text-sumi hover:bg-ai/10'
-                }`}
-            >
-              全部课程 <span className="ml-1 opacity-70">({stats.total})</span>
-            </button>
-            <button
-              onClick={() => setFilter('inProgress')}
-              className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${filter === 'inProgress'
-                  ? 'bg-sakura text-sumi shadow-lg'
-                  : 'text-sumi/70 hover:text-sumi hover:bg-sakura/10'
-                }`}
-            >
-              进行中 <span className="ml-1 opacity-70">({stats.inProgress})</span>
-            </button>
-            <button
-              onClick={() => setFilter('completed')}
-              className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${filter === 'completed'
-                  ? 'bg-matcha text-washi shadow-lg'
-                  : 'text-sumi/70 hover:text-sumi hover:bg-matcha/10'
-                }`}
-            >
-              已完成 <span className="ml-1 opacity-70">({stats.completed})</span>
-            </button>
+            {FILTER_TABS.map(({ key, label, activeClass, hoverClass }) => {
+              const isActive = filter === key;
+              const count = key === 'all' ? stats.total : stats[key];
+              return (
+                <button
+                  key={key}
+                  onClick={() => setFilter(key)}
+                  className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${isActive ? activeClass : `text-sumi/70 hover:text-sumi ${hoverClass}`}`}
+                >
+                  {label} <span className="ml-1 opacity-70">({count})</span>
+                </button>
+              );
+            })}
           </div>
         </section>
 

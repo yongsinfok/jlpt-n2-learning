@@ -1,15 +1,14 @@
-/**
- * 学习卡片组件 - MODERN ZEN DESIGN
- * Clean. Elegant. Japanese-inspired.
- * 优化版本：XSS 防护、性能优化、可访问性增强
- */
-
 import { useState, useEffect, useMemo, memo } from 'react';
 import { Star, ArrowLeft, ArrowRight, EyeOff } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import { AudioPlayer } from './AudioPlayer';
 import { TTSPlayButton } from './TTSPlayButton';
 import type { Sentence } from '@/types';
+
+const ANALYSIS_SANITIZE_CONFIG = {
+  ALLOWED_TAGS: ['h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'div', 'span'],
+  ALLOWED_ATTR: ['class'],
+};
 
 export interface StudyCardProps {
   sentence: Sentence;
@@ -25,10 +24,6 @@ export interface StudyCardProps {
   className?: string;
 }
 
-/**
- * 学习卡片组件 - Modern Glassmorphism Design
- * 优雅的玻璃拟态设计，渐变背景
- */
 export const StudyCard = memo(function StudyCard({
   sentence,
   grammarPoint,
@@ -44,13 +39,11 @@ export const StudyCard = memo(function StudyCard({
 }: StudyCardProps) {
   const { sentence: text, furigana, translation, audioPath, wordByWord } = sentence;
 
-  // 状态
   const [showFurigana, setShowFurigana] = useState(true);
   const [showTranslation, setShowTranslation] = useState(true);
   const [showAnalysis, setShowAnalysis] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // 重置状态当句子改变时
   useEffect(() => {
     setIsTransitioning(true);
     setShowFurigana(true);
@@ -60,7 +53,6 @@ export const StudyCard = memo(function StudyCard({
     return () => clearTimeout(timer);
   }, [sentence.id]);
 
-  // 高亮语法点 - 使用 useMemo 优化性能，并使用 DOMPurify 防止 XSS
   const highlightedGrammar = useMemo(() => {
     if (!text) return '';
     const escapedGrammar = grammarPoint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -71,6 +63,11 @@ export const StudyCard = memo(function StudyCard({
       ALLOWED_ATTR: ['class']
     });
   }, [text, grammarPoint]);
+
+  const sanitizedAnalysis = useMemo(() => {
+    if (!wordByWord || !wordByWord.includes('<')) return null;
+    return DOMPurify.sanitize(wordByWord, ANALYSIS_SANITIZE_CONFIG);
+  }, [wordByWord]);
 
   // 键盘快捷键
   useEffect(() => {
@@ -162,11 +159,9 @@ export const StudyCard = memo(function StudyCard({
 
           {/* 可折叠内容区域 - Modern Cards */}
           <div className="w-full max-w-2xl space-y-4">
-            {/* 假名卡片 */}
             <ExpandableCard
               show={showFurigana}
               onToggle={() => setShowFurigana(!showFurigana)}
-              type="furigana"
               label="假名标注"
               shortcut="F"
             >
@@ -175,11 +170,9 @@ export const StudyCard = memo(function StudyCard({
               </p>
             </ExpandableCard>
 
-            {/* 翻译卡片 */}
             <ExpandableCard
               show={showTranslation}
               onToggle={() => setShowTranslation(!showTranslation)}
-              type="translation"
               label="中文翻译"
               shortcut="T"
             >
@@ -188,25 +181,16 @@ export const StudyCard = memo(function StudyCard({
               </p>
             </ExpandableCard>
 
-            {/* 解析卡片 */}
             <ExpandableCard
               show={showAnalysis}
               onToggle={() => setShowAnalysis(!showAnalysis)}
-              type="analysis"
               label="逐词解析"
               shortcut="A"
             >
               <div className="text-text-secondary text-sm leading-relaxed max-w-none">
-                {wordByWord && (wordByWord.includes('<') ? (
-                  <div dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(wordByWord, {
-                      ALLOWED_TAGS: ['h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'div', 'span'],
-                      ALLOWED_ATTR: ['class']
-                    })
-                  }} />
-                ) : (
-                  <p className="whitespace-pre-wrap">{wordByWord}</p>
-                ))}
+                {sanitizedAnalysis !== null
+                  ? <div dangerouslySetInnerHTML={{ __html: sanitizedAnalysis }} />
+                  : wordByWord && <p className="whitespace-pre-wrap">{wordByWord}</p>}
               </div>
               {wordByWord && <TTSPlayButton text={wordByWord} />}
             </ExpandableCard>
@@ -262,63 +246,29 @@ export const StudyCard = memo(function StudyCard({
         </kbd>
       </div>
 
-      {/* Grammar highlight inline styles - Modern */}
-      <style>{`
-        mark.grammar-highlight {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: #FFFFFF;
-          padding: 0 0.25em;
-          border-radius: 0.25rem;
-          font-weight: 600;
-        }
-      `}</style>
     </div>
   );
 });
 
-/**
- * 可折叠卡片组件 - Modern Design
- */
 function ExpandableCard({
   show,
   onToggle,
-  type,
   label,
   shortcut,
   children
 }: {
   show: boolean;
   onToggle: () => void;
-  type: 'furigana' | 'translation' | 'analysis';
   label: string;
   shortcut: string;
   children: React.ReactNode;
 }) {
-  const colors = {
-    furigana: {
-      bg: 'bg-white/40',
-      border: 'border-gray-200'
-    },
-    translation: {
-      bg: 'bg-white/40',
-      border: 'border-gray-200'
-    },
-    analysis: {
-      bg: 'bg-white/60',
-      border: 'border-gray-200'
-    }
-  };
-
-  const color = colors[type];
-
   return (
     <div className={`
       overflow-hidden transition-all duration-500 ease-out
       ${show ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}
     `}>
-      <div className={`
-        ${color.bg} backdrop-blur-sm border ${color.border} rounded-xl p-5
-      `}>
+      <div className="bg-white/40 backdrop-blur-sm border border-gray-200 rounded-xl p-5">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold tracking-wide text-text-primary">
@@ -339,9 +289,6 @@ function ExpandableCard({
   );
 }
 
-/**
- * 导航按钮组件 - Modern Design
- */
 function NavButton({
   onClick,
   disabled,

@@ -1,13 +1,9 @@
-/**
- * 首次使用引导页 - Japanese Onboarding Style
- * 多步骤引导用户完成初始设置
- */
-
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, ChevronRight, Clock, Target, BookOpen, Sparkles } from 'lucide-react';
 
 type OnboardingStep = 'welcome' | 'features' | 'goals' | 'time' | 'complete';
+type FeatureTone = 'ai' | 'matcha' | 'kincha' | 'shu';
 
 interface LearningGoal {
   id: string;
@@ -24,6 +20,39 @@ interface StudyTime {
   minutes: number;
   icon: React.ReactNode;
 }
+
+interface Feature {
+  tone: FeatureTone;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  titleJa: string;
+}
+
+// Full literal class strings so Tailwind's content scanner picks them up.
+const TONE_STYLES: Record<FeatureTone, { card: string; icon: string }> = {
+  ai:     { card: 'bg-gradient-to-br from-ai-50 to-white border-2 border-ai-100 hover:border-ai-300',         icon: 'bg-ai' },
+  matcha: { card: 'bg-gradient-to-br from-matcha-50 to-white border-2 border-matcha-100 hover:border-matcha-300', icon: 'bg-matcha' },
+  kincha: { card: 'bg-gradient-to-br from-kincha-50 to-white border-2 border-kincha-100 hover:border-kincha-300', icon: 'bg-kincha' },
+  shu:    { card: 'bg-gradient-to-br from-shu-50 to-white border-2 border-shu-100 hover:border-shu-300',          icon: 'bg-shu' },
+};
+
+const STEPS: { key: OnboardingStep; label: string }[] = [
+  { key: 'welcome',  label: '欢迎' },
+  { key: 'features', label: '功能' },
+  { key: 'goals',    label: '目标' },
+  { key: 'time',     label: '时间' },
+  { key: 'complete', label: '完成' },
+];
+
+const STEP_KEYS = STEPS.map(s => s.key);
+
+const features: Feature[] = [
+  { tone: 'ai',     icon: <BookOpen size={24} />, title: '系统化学习', description: '26 个课程，循序渐进掌握 N2 语法要点', titleJa: 'レッスン別に文法を学習' },
+  { tone: 'matcha', icon: <Target size={24} />,   title: '智能练习',   description: '多种练习模式，巩固所学知识',           titleJa: '様々な練習モード' },
+  { tone: 'kincha', icon: <Clock size={24} />,    title: '间隔复习',   description: '基于遗忘曲线的科学复习系统',           titleJa: '忘却曲線に基づいた復習' },
+  { tone: 'shu',    icon: <Sparkles size={24} />, title: '进度追踪',   description: '可视化学习数据，了解自己的进步',       titleJa: '学習進捗の可視化' },
+];
 
 const learningGoals: LearningGoal[] = [
   {
@@ -79,31 +108,19 @@ export function OnboardingPage() {
   const [selectedGoal, setSelectedGoal] = useState<string>('regular');
   const [selectedTime, setSelectedTime] = useState<string>('30');
 
-  const steps: { key: OnboardingStep; label: string }[] = [
-    { key: 'welcome', label: '欢迎' },
-    { key: 'features', label: '功能' },
-    { key: 'goals', label: '目标' },
-    { key: 'time', label: '时间' },
-    { key: 'complete', label: '完成' },
-  ];
-
-  const currentStepIndex = steps.findIndex(s => s.key === currentStep);
+  const currentStepIndex = STEP_KEYS.indexOf(currentStep);
 
   const handleNext = useCallback(() => {
-    const stepOrder: OnboardingStep[] = ['welcome', 'features', 'goals', 'time', 'complete'];
-    const currentIndex = stepOrder.indexOf(currentStep);
-    if (currentIndex < stepOrder.length - 1) {
-      setCurrentStep(stepOrder[currentIndex + 1]);
+    if (currentStepIndex < STEP_KEYS.length - 1) {
+      setCurrentStep(STEP_KEYS[currentStepIndex + 1]);
     }
-  }, [currentStep]);
+  }, [currentStepIndex]);
 
   const handleBack = useCallback(() => {
-    const stepOrder: OnboardingStep[] = ['welcome', 'features', 'goals', 'time', 'complete'];
-    const currentIndex = stepOrder.indexOf(currentStep);
-    if (currentIndex > 0) {
-      setCurrentStep(stepOrder[currentIndex - 1]);
+    if (currentStepIndex > 0) {
+      setCurrentStep(STEP_KEYS[currentStepIndex - 1]);
     }
-  }, [currentStep]);
+  }, [currentStepIndex]);
 
   const handleComplete = useCallback(() => {
     // Save preferences to localStorage
@@ -125,11 +142,11 @@ export function OnboardingPage() {
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-ai-100">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            {steps.map((step, index) => (
+            {STEPS.map((step, index) => (
               <div key={step.key} className="flex items-center flex-1">
                 <div className="flex flex-col items-center flex-1">
                   <button
-                    onClick={() => setCurrentStep(step.key as OnboardingStep)}
+                    onClick={() => setCurrentStep(step.key)}
                     className={`
                       w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
                       ${index <= currentStepIndex
@@ -149,7 +166,7 @@ export function OnboardingPage() {
                     {step.label}
                   </span>
                 </div>
-                {index < steps.length - 1 && (
+                {index < STEPS.length - 1 && (
                   <div className={`flex-1 h-0.5 mx-2 transition-colors duration-300 ${index < currentStepIndex ? 'bg-ai' : 'bg-sumi-200'}`} />
                 )}
               </div>
@@ -227,85 +244,23 @@ export function OnboardingPage() {
               </p>
 
               <div className="grid md:grid-cols-2 gap-6 mb-10">
-                {/* Feature 1 */}
-                <div className="bg-gradient-to-br from-ai-50 to-white p-6 rounded-xl border-2 border-ai-100 hover:border-ai-300 transition-all duration-300 hover:shadow-washi-sm">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-ai flex items-center justify-center text-white shrink-0">
-                      <BookOpen size={24} />
-                    </div>
-                    <div>
-                      <h3 className="font-serif font-bold text-sumi mb-2">
-                        系统化学习
-                      </h3>
-                      <p className="text-sumi-600 text-sm">
-                        26 个课程，循序渐进掌握 N2 语法要点
-                      </p>
-                      <p className="text-sumi-400 text-xs font-maru mt-1">
-                        レッスン別に文法を学習
-                      </p>
+                {features.map(({ tone, icon, title, description, titleJa }) => (
+                  <div
+                    key={title}
+                    className={`${TONE_STYLES[tone].card} p-6 rounded-xl transition-all duration-300 hover:shadow-washi-sm`}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className={`w-12 h-12 rounded-lg ${TONE_STYLES[tone].icon} flex items-center justify-center text-white shrink-0`}>
+                        {icon}
+                      </div>
+                      <div>
+                        <h3 className="font-serif font-bold text-sumi mb-2">{title}</h3>
+                        <p className="text-sumi-600 text-sm">{description}</p>
+                        <p className="text-sumi-400 text-xs font-maru mt-1">{titleJa}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-
-                {/* Feature 2 */}
-                <div className="bg-gradient-to-br from-matcha-50 to-white p-6 rounded-xl border-2 border-matcha-100 hover:border-matcha-300 transition-all duration-300 hover:shadow-washi-sm">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-matcha flex items-center justify-center text-white shrink-0">
-                      <Target size={24} />
-                    </div>
-                    <div>
-                      <h3 className="font-serif font-bold text-sumi mb-2">
-                        智能练习
-                      </h3>
-                      <p className="text-sumi-600 text-sm">
-                        多种练习模式，巩固所学知识
-                      </p>
-                      <p className="text-sumi-400 text-xs font-maru mt-1">
-                        様々な練習モード
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Feature 3 */}
-                <div className="bg-gradient-to-br from-kincha-50 to-white p-6 rounded-xl border-2 border-kincha-100 hover:border-kincha-300 transition-all duration-300 hover:shadow-washi-sm">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-kincha flex items-center justify-center text-white shrink-0">
-                      <Clock size={24} />
-                    </div>
-                    <div>
-                      <h3 className="font-serif font-bold text-sumi mb-2">
-                        间隔复习
-                      </h3>
-                      <p className="text-sumi-600 text-sm">
-                        基于遗忘曲线的科学复习系统
-                      </p>
-                      <p className="text-sumi-400 text-xs font-maru mt-1">
-                        忘却曲線に基づいた復習
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Feature 4 */}
-                <div className="bg-gradient-to-br from-shu-50 to-white p-6 rounded-xl border-2 border-shu-100 hover:border-shu-300 transition-all duration-300 hover:shadow-washi-sm">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-shu flex items-center justify-center text-white shrink-0">
-                      <Sparkles size={24} />
-                    </div>
-                    <div>
-                      <h3 className="font-serif font-bold text-sumi mb-2">
-                        进度追踪
-                      </h3>
-                      <p className="text-sumi-600 text-sm">
-                        可视化学习数据，了解自己的进步
-                      </p>
-                      <p className="text-sumi-400 text-xs font-maru mt-1">
-                        学習 progress の可視化
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
 
               <div className="flex justify-between">

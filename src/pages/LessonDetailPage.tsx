@@ -1,18 +1,10 @@
-/**
- * 课程详情页 - MODERN ZEN DESIGN
- * Clean. Elegant. Japanese-inspired.
- */
-
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, BookOpen, FileText, CheckCircle2 } from 'lucide-react';
 import { getLessonById, getGrammarPointsByLesson, getUserProgress } from '@/db/operations';
 import type { Lesson, GrammarPoint, UserProgress } from '@/types';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 
-/**
- * 课程详情页面
- */
 export function LessonDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -46,23 +38,30 @@ export function LessonDetailPage() {
     }
   };
 
-  // 获取语法点的学习进度
+  const learnedSentenceSet = useMemo(
+    () => new Set(userProgress?.learnedSentences ?? []),
+    [userProgress]
+  );
+
+  const learnedGrammarSet = useMemo(
+    () => new Set(userProgress?.learnedGrammar.map(g => g.grammarId) ?? []),
+    [userProgress]
+  );
+
   const getGrammarProgress = useCallback((grammarId: string) => {
     if (!userProgress || !lesson) return 0;
-    const learned = userProgress.learnedGrammar.find(g => g.grammarId === grammarId);
-    if (!learned) return 0;
+    if (!learnedGrammarSet.has(grammarId)) return 0;
 
     const grammarPoint = grammarPoints.find(g => g.id === grammarId);
     if (!grammarPoint || grammarPoint.sentenceCount === 0) return 100;
 
-    const learnedSentencesInGrammar = userProgress.learnedSentences.filter(id =>
-      grammarPoint.sentenceIds.includes(id)
-    );
+    let count = 0;
+    for (const id of grammarPoint.sentenceIds) {
+      if (learnedSentenceSet.has(id)) count++;
+    }
+    return Math.round((count / grammarPoint.sentenceCount) * 100);
+  }, [userProgress, lesson, grammarPoints, learnedSentenceSet, learnedGrammarSet]);
 
-    return Math.round((learnedSentencesInGrammar.length / grammarPoint.sentenceCount) * 100);
-  }, [userProgress, lesson, grammarPoints]);
-
-  // 找到第一个未完成的语法点
   const findFirstIncompleteGrammar = useCallback(() => {
     for (const gp of grammarPoints) {
       if (getGrammarProgress(gp.id) < 100) {
@@ -87,7 +86,7 @@ export function LessonDetailPage() {
     navigate(`/grammar/${encodeURIComponent(grammarId)}`);
   };
 
-  const canTakeQuiz = lesson?.completionRate && lesson.completionRate >= 80;
+  const canTakeQuiz = (lesson?.completionRate ?? 0) >= 80;
 
   if (loading) {
     return (

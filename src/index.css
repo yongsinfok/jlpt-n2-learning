@@ -1882,3 +1882,12 @@ th {
   transform: translateX(-100%);
   animation: shimmer 2.5s infinite;
 }
+
+/* Grammar point highlight inside StudyCard sentence */
+mark.grammar-highlight {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #FFFFFF;
+  padding: 0 0.25em;
+  border-radius: 0.25rem;
+  font-weight: 600;
+}
