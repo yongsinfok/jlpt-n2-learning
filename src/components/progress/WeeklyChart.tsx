@@ -50,9 +50,9 @@ export function WeeklyChart({
   };
 
   const getBarColor = (value: number, isToday: boolean): string => {
-    if (value === 0) return 'bg-gray-200';
-    if (isToday) return 'bg-gradient-to-t from-blue-500 to-blue-400';
-    return 'bg-gradient-to-t from-blue-400 to-blue-300';
+    if (value === 0) return 'bg-surface-dim';
+    if (isToday) return 'bg-gradient-to-t from-accent to-accent/70';
+    return 'bg-gradient-to-t from-accent/60 to-accent/40';
   };
 
   const getTotalCount = (day: DailyData): number => {
@@ -68,15 +68,15 @@ export function WeeklyChart({
   const max = getMaxValue();
 
   return (
-    <div className="bg-white rounded-xl p-6 border border-gray-200">
+    <div className="bg-surface rounded-xl p-6 border border-border">
       {/* 标题 */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <BarChart3 className="text-blue-600 w-5 h-5" />
-          <h3 className="font-semibold text-gray-900">本周学习</h3>
+          <BarChart3 className="text-accent w-5 h-5" />
+          <h3 className="font-semibold text-ink">本周学习</h3>
         </div>
-        <div className="text-sm text-gray-600">
-          总计: <span className="font-bold text-blue-600">{getTotalForWeek()}</span> {' '}
+        <div className="text-sm text-ink-soft">
+          总计: <span className="font-bold text-accent">{getTotalForWeek()}</span> {' '}
           {dataType === 'grammar' ? '个语法点' : dataType === 'sentence' ? '个例句' : '项'}
         </div>
       </div>
@@ -92,14 +92,14 @@ export function WeeklyChart({
               {/* 数量标签 */}
               {count > 0 && (
                 <span className={`text-xs font-medium ${
-                  day.isToday ? 'text-blue-600' : 'text-gray-600'
+                  day.isToday ? 'text-accent' : 'text-ink-soft'
                 }`}>
                   {count}
                 </span>
               )}
 
               {/* 柱状图 */}
-              <div className="w-full flex-1 flex items-end justify-center bg-gray-50 rounded-t-lg relative overflow-hidden">
+              <div className="w-full flex-1 flex items-end justify-center bg-surface-dim rounded-t-lg relative overflow-hidden">
                 <div
                   className={`
                     w-full max-w-[40px] rounded-t-lg transition-all duration-300
@@ -110,13 +110,13 @@ export function WeeklyChart({
 
                 {/* 今天标记 */}
                 {day.isToday && (
-                  <div className="absolute inset-0 border-2 border-blue-300 rounded-t-lg pointer-events-none" />
+                  <div className="absolute inset-0 border-2 border-accent/50 rounded-t-lg pointer-events-none" />
                 )}
               </div>
 
               {/* 星期标签 */}
               <span className={`text-xs font-medium ${
-                day.isToday ? 'text-blue-600 font-bold' : 'text-gray-500'
+                day.isToday ? 'text-accent font-bold' : 'text-ink-mute'
               }`}>
                 {WEEKDAYS[day.date.getDay()]}
               </span>
@@ -126,7 +126,7 @@ export function WeeklyChart({
       </div>
 
       {/* Y轴刻度 */}
-      <div className="flex justify-between text-xs text-gray-400 px-2 mb-2">
+      <div className="flex justify-between text-xs text-ink-faint px-2 mb-2">
         <span>{max}</span>
         <span>{Math.round(max / 2)}</span>
         <span>0</span>
@@ -135,27 +135,27 @@ export function WeeklyChart({
       {/* 空状态 */}
       {getTotalForWeek() === 0 && (
         <div className="text-center py-8">
-          <p className="text-gray-500 text-sm">本周还没有学习记录</p>
-          <p className="text-gray-400 text-xs mt-1">开始学习后这里会显示你的进度</p>
+          <p className="text-ink-mute text-sm">本周还没有学习记录</p>
+          <p className="text-ink-faint text-xs mt-1">开始学习后这里会显示你的进度</p>
         </div>
       )}
 
       {/* 统计信息 */}
       {getTotalForWeek() > 0 && (
-        <div className="pt-4 border-t border-gray-100 grid grid-cols-3 gap-4 text-center">
+        <div className="pt-4 border-t border-border grid grid-cols-3 gap-4 text-center">
           <div>
-            <p className="text-xs text-gray-500">最多一天</p>
-            <p className="text-lg font-bold text-blue-600">{max}</p>
+            <p className="text-xs text-ink-mute">最多一天</p>
+            <p className="text-lg font-bold text-accent">{max}</p>
           </div>
           <div>
-            <p className="text-xs text-gray-500">学习天数</p>
-            <p className="text-lg font-bold text-blue-600">
+            <p className="text-xs text-ink-mute">学习天数</p>
+            <p className="text-lg font-bold text-accent">
               {weeklyData.filter(d => getTotalCount(d) > 0).length}
             </p>
           </div>
           <div>
-            <p className="text-xs text-gray-500">日均</p>
-            <p className="text-lg font-bold text-blue-600">
+            <p className="text-xs text-ink-mute">日均</p>
+            <p className="text-lg font-bold text-accent">
               {Math.round(getTotalForWeek() / 7)}
             </p>
           </div>

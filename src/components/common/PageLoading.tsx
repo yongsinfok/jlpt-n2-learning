@@ -48,7 +48,7 @@ export function PageLoading({ message = '加载中...' }: PageLoadingProps) {
  */
 export function SkeletonCard({ className = '' }: { className?: string }) {
   return (
-    <div className={`bg-white/90 backdrop-blur rounded-3xl shadow-lg border border-sumi-100 p-6 ${className}`}>
+    <div className={`bg-surface/90 backdrop-blur rounded-3xl shadow-lg border border-border p-6 ${className}`}>
       {/* Header skeleton */}
       <div className="flex items-center gap-4 mb-6">
         <div className="w-14 h-14 bg-neutral-100 rounded-2xl animate-pulse" />

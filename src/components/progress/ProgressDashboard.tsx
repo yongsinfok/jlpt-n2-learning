@@ -78,21 +78,21 @@ export function ProgressDashboard({
   return (
     <div className="space-y-6">
       {/* 总体进度 */}
-      <section className="bg-white rounded-xl p-6 border border-gray-200">
-        <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Target className="w-5 h-5 text-blue-600" />
+      <section className="bg-surface rounded-xl p-6 border border-border">
+        <h2 className="text-lg font-bold text-ink mb-4 flex items-center gap-2">
+          <Target className="w-5 h-5 text-accent" />
           总体进度
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* 课程进度 */}
           <div>
             <div className="flex justify-between mb-2">
-              <span className="text-sm text-gray-600">已完成课程</span>
-              <span className="font-bold text-blue-600">{Math.round(overallProgress.lessons)}%</span>
+              <span className="text-sm text-ink-soft">已完成课程</span>
+              <span className="font-bold text-accent">{Math.round(overallProgress.lessons)}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
+            <div className="w-full bg-surface-dim rounded-full h-3">
               <div
-                className="bg-gradient-to-r from-blue-400 to-blue-600 h-3 rounded-full transition-all"
+                className="bg-gradient-to-r from-accent/70 to-accent h-3 rounded-full transition-all"
                 style={{ width: `${Math.min(overallProgress.lessons, 100)}%` }}
               />
             </div>
@@ -101,12 +101,12 @@ export function ProgressDashboard({
           {/* 语法点进度 */}
           <div>
             <div className="flex justify-between mb-2">
-              <span className="text-sm text-gray-600">已学习语法点</span>
-              <span className="font-bold text-purple-600">{Math.round(overallProgress.grammar)}%</span>
+              <span className="text-sm text-ink-soft">已学习语法点</span>
+              <span className="font-bold text-accent">{Math.round(overallProgress.grammar)}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
+            <div className="w-full bg-surface-dim rounded-full h-3">
               <div
-                className="bg-gradient-to-r from-purple-400 to-purple-600 h-3 rounded-full transition-all"
+                className="bg-gradient-to-r from-accent/50 to-accent h-3 rounded-full transition-all"
                 style={{ width: `${Math.min(overallProgress.grammar, 100)}%` }}
               />
             </div>
@@ -115,12 +115,12 @@ export function ProgressDashboard({
           {/* 例句进度 */}
           <div>
             <div className="flex justify-between mb-2">
-              <span className="text-sm text-gray-600">已学习例句</span>
-              <span className="font-bold text-green-600">{Math.round(overallProgress.sentences)}%</span>
+              <span className="text-sm text-ink-soft">已学习例句</span>
+              <span className="font-bold text-pine">{Math.round(overallProgress.sentences)}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
+            <div className="w-full bg-surface-dim rounded-full h-3">
               <div
-                className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all"
+                className="bg-gradient-to-r from-pine/60 to-pine h-3 rounded-full transition-all"
                 style={{ width: `${Math.min(overallProgress.sentences, 100)}%` }}
               />
             </div>
@@ -129,77 +129,77 @@ export function ProgressDashboard({
       </section>
 
       {/* 学习时长统计 */}
-      <section className="bg-white rounded-xl p-6 border border-gray-200">
-        <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <BookOpen className="w-5 h-5 text-green-600" />
+      <section className="bg-surface rounded-xl p-6 border border-border">
+        <h2 className="text-lg font-bold text-ink mb-4 flex items-center gap-2">
+          <BookOpen className="w-5 h-5 text-pine" />
           学习时长
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">{formatDuration(studyTimeStats.total)}</p>
-            <p className="text-sm text-gray-600 mt-1">总学习时长</p>
+            <p className="text-3xl font-bold text-ink">{formatDuration(studyTimeStats.total)}</p>
+            <p className="text-sm text-ink-soft mt-1">总学习时长</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">{formatDuration(studyTimeStats.averageDaily)}</p>
-            <p className="text-sm text-gray-600 mt-1">平均每天</p>
+            <p className="text-3xl font-bold text-ink">{formatDuration(studyTimeStats.averageDaily)}</p>
+            <p className="text-sm text-ink-soft mt-1">平均每天</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-blue-600">{formatDuration(studyTimeStats.thisWeek)}</p>
-            <p className="text-sm text-gray-600 mt-1">本周学习</p>
+            <p className="text-3xl font-bold text-accent">{formatDuration(studyTimeStats.thisWeek)}</p>
+            <p className="text-sm text-ink-soft mt-1">本周学习</p>
           </div>
         </div>
       </section>
 
       {/* 练习统计 */}
-      <section className="bg-white rounded-xl p-6 border border-gray-200">
-        <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-purple-600" />
+      <section className="bg-surface rounded-xl p-6 border border-border">
+        <h2 className="text-lg font-bold text-ink mb-4 flex items-center gap-2">
+          <TrendingUp className="w-5 h-5 text-accent" />
           练习统计
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-gray-50 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-gray-900">{practiceStats.totalQuestions}</p>
-            <p className="text-xs text-gray-600 mt-1">总练习题数</p>
+          <div className="bg-surface-dim rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-ink">{practiceStats.totalQuestions}</p>
+            <p className="text-xs text-ink-soft mt-1">总练习题数</p>
           </div>
-          <div className="bg-gray-50 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-blue-600">{Math.round(practiceStats.correctRate)}%</p>
-            <p className="text-xs text-gray-600 mt-1">总正确率</p>
+          <div className="bg-surface-dim rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-accent">{Math.round(practiceStats.correctRate)}%</p>
+            <p className="text-xs text-ink-soft mt-1">总正确率</p>
           </div>
-          <div className="bg-gray-50 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-purple-600">{Math.round(practiceStats.fillBlankRate)}%</p>
-            <p className="text-xs text-gray-600 mt-1">填空题正确率</p>
+          <div className="bg-surface-dim rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-accent">{Math.round(practiceStats.fillBlankRate)}%</p>
+            <p className="text-xs text-ink-soft mt-1">填空题正确率</p>
           </div>
-          <div className="bg-gray-50 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-green-600">{Math.round(practiceStats.choiceRate)}%</p>
-            <p className="text-xs text-gray-600 mt-1">选择题正确率</p>
+          <div className="bg-surface-dim rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-pine">{Math.round(practiceStats.choiceRate)}%</p>
+            <p className="text-xs text-ink-soft mt-1">选择题正确率</p>
           </div>
         </div>
       </section>
 
       {/* 掌握程度分布 */}
       {totalMastery > 0 && (
-        <section className="bg-white rounded-xl p-6 border border-gray-200">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <Award className="w-5 h-5 text-amber-600" />
+        <section className="bg-surface rounded-xl p-6 border border-border">
+          <h2 className="text-lg font-bold text-ink mb-4 flex items-center gap-2">
+            <Award className="w-5 h-5 text-amber" />
             掌握程度分布
           </h2>
           <div className="space-y-3">
             {[
-              { level: 5, label: '完全掌握', color: 'bg-green-500', count: masteryDistribution.level5 },
-              { level: 4, label: '熟练掌握', color: 'bg-blue-500', count: masteryDistribution.level4 },
-              { level: 3, label: '基本掌握', color: 'bg-yellow-500', count: masteryDistribution.level3 },
-              { level: 2, label: '初步掌握', color: 'bg-orange-500', count: masteryDistribution.level2 },
-              { level: 1, label: '刚学习', color: 'bg-gray-400', count: masteryDistribution.level1 },
+              { level: 5, label: '完全掌握', color: 'bg-pine', count: masteryDistribution.level5 },
+              { level: 4, label: '熟练掌握', color: 'bg-accent', count: masteryDistribution.level4 },
+              { level: 3, label: '基本掌握', color: 'bg-amber', count: masteryDistribution.level3 },
+              { level: 2, label: '初步掌握', color: 'bg-accent/60', count: masteryDistribution.level2 },
+              { level: 1, label: '刚学习', color: 'bg-ink-faint', count: masteryDistribution.level1 },
             ].map((item) => (
               <div key={item.level} className="flex items-center gap-3">
-                <span className="text-sm text-gray-600 w-20">{item.label}</span>
-                <div className="flex-1 bg-gray-200 rounded-full h-3">
+                <span className="text-sm text-ink-soft w-20">{item.label}</span>
+                <div className="flex-1 bg-surface-dim rounded-full h-3">
                   <div
                     className={`${item.color} h-3 rounded-full transition-all`}
                     style={{ width: `${totalMastery > 0 ? (item.count / totalMastery) * 100 : 0}%` }}
                   />
                 </div>
-                <span className="text-sm font-medium text-gray-900 w-8 text-right">{item.count}</span>
+                <span className="text-sm font-medium text-ink w-8 text-right">{item.count}</span>
               </div>
             ))}
           </div>
@@ -208,24 +208,24 @@ export function ProgressDashboard({
 
       {/* 薄弱知识点 */}
       {weakGrammarPoints.length > 0 && (
-        <section className="bg-white rounded-xl p-6 border border-gray-200">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5 text-red-600" />
+        <section className="bg-surface rounded-xl p-6 border border-border">
+          <h2 className="text-lg font-bold text-ink mb-4 flex items-center gap-2">
+            <Target className="w-5 h-5 text-accent" />
             薄弱知识点
           </h2>
           <div className="space-y-2 mb-4">
             {weakGrammarPoints.slice(0, 5).map((item) => (
               <div
                 key={item.grammarId}
-                className="flex items-center justify-between bg-red-50 rounded-lg p-3 border border-red-100"
+                className="flex items-center justify-between bg-surface-dim rounded-lg p-3 border border-border"
               >
                 <div className="flex-1">
-                  <span className="text-sm font-medium text-gray-900">{item.grammarPoint}</span>
-                  <span className="text-xs text-gray-500 ml-2">
+                  <span className="text-sm font-medium text-ink">{item.grammarPoint}</span>
+                  <span className="text-xs text-ink-mute ml-2">
                     ({item.totalCount} 题)
                   </span>
                 </div>
-                <div className="text-sm font-bold text-red-600">
+                <div className="text-sm font-bold text-accent">
                   {Math.round(item.correctRate)}%
                 </div>
               </div>
@@ -234,7 +234,7 @@ export function ProgressDashboard({
           {onPracticeWeakPoints && (
             <button
               onClick={onPracticeWeakPoints}
-              className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2.5 px-4 rounded-lg transition-colors"
+              className="w-full bg-accent hover:bg-accent-hover text-white font-medium py-2.5 px-4 rounded-lg transition-colors"
             >
               针对性练习
             </button>

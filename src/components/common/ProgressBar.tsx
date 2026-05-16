@@ -51,7 +51,7 @@ export function ProgressBar({
   return (
     <div className={cn('w-full', className)}>
       <div className="flex items-center gap-2">
-        <div className={cn('flex-1 bg-gray-200 rounded-full overflow-hidden', sizeClass)}>
+        <div className={cn('flex-1 bg-surface-dim rounded-full overflow-hidden', sizeClass)}>
           <div
             className={cn(
               'h-full rounded-full transition-all duration-300 ease-out',
@@ -61,7 +61,7 @@ export function ProgressBar({
           />
         </div>
         {showLabel && (
-          <span className="text-sm font-medium text-gray-700 min-w-[3rem] text-right">
+          <span className="text-sm font-medium text-ink-soft min-w-[3rem] text-right">
             {Math.round(clampedProgress)}%
           </span>
         )}

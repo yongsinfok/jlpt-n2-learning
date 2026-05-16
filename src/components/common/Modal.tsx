@@ -81,23 +81,23 @@ export function Modal({
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center ${
-        showOverlay ? 'bg-black/50' : ''
+        showOverlay ? 'bg-ink/50' : ''
       }`}
       onClick={handleOverlayClick}
     >
       <div
         ref={modalRef}
-        className={`bg-white rounded-xl shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-auto ${className}`}
+        className={`bg-surface rounded-xl shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-auto ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* 头部 */}
         {(title || showCloseButton) && (
           <div className="flex items-center justify-between p-4 border-b">
-            {title && <h2 className="text-xl font-semibold text-gray-900">{title}</h2>}
+            {title && <h2 className="text-xl font-semibold text-ink">{title}</h2>}
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-ink-faint hover:text-ink-soft transition-colors"
                 aria-label="关闭"
               >
                 <X className="w-5 h-5" />
@@ -145,7 +145,7 @@ export function ConfirmModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
-      <p className="text-gray-700 mb-6">{message}</p>
+      <p className="text-ink-soft mb-6">{message}</p>
       <div className="flex justify-end gap-3">
         <Button variant="secondary" onClick={onClose}>
           {cancelText}

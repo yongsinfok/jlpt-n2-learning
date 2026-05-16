@@ -20,8 +20,7 @@ export function QuizResult({
 }: QuizResultProps) {
   const getGrade = (accuracy: number) => {
     if (accuracy >= 0.9) return { grade: 'S', color: 'text-amber', bg: 'bg-amber-pale' };
-    if (accuracy >= 0.8) return { grade: 'A', color: 'text-pine', bg: 'bg-pine-pale' };
-    if (accuracy >= 0.7) return { grade: 'B', color: 'text-accent', bg: 'bg-accent-pale' };
+    if (accuracy >= 0.7) return { grade: 'A', color: 'text-pine', bg: 'bg-pine-pale' };
     if (accuracy >= 0.6) return { grade: 'C', color: 'text-amber', bg: 'bg-amber-pale' };
     return { grade: 'D', color: 'text-accent', bg: 'bg-accent-pale' };
   };

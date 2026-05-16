@@ -36,10 +36,10 @@ export function LoadingSpinner({
   const spinner = (
     <div className={`flex flex-col items-center justify-center gap-4 ${className}`}>
       <Loader2
-        className={`${sizeClasses[size]} animate-spin text-primary`}
+        className={`${sizeClasses[size]} animate-spin text-ink`}
       />
       {text && (
-        <p className={`${textSizeClasses[size]} text-neutral-dark font-medium animate-fade-in`}>
+        <p className={`${textSizeClasses[size]} text-ink-soft font-medium animate-fade-in`}>
           {text}
         </p>
       )}
@@ -48,7 +48,7 @@ export function LoadingSpinner({
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm animate-fade-in">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-surface/80 backdrop-blur-sm animate-fade-in">
         {spinner}
       </div>
     );

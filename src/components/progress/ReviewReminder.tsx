@@ -44,9 +44,9 @@ export function ReviewReminder({
   };
 
   const getUrgencyColor = (days: number): string => {
-    if (days <= 0) return 'text-red-600 bg-red-50';
-    if (days <= 2) return 'text-orange-600 bg-orange-50';
-    return 'text-yellow-600 bg-yellow-50';
+    if (days <= 0) return 'text-accent bg-surface-dim';
+    if (days <= 2) return 'text-accent/80 bg-surface-dim';
+    return 'text-amber bg-surface-dim';
   };
 
   const getUrgencyText = (days: number): string => {
@@ -56,24 +56,24 @@ export function ReviewReminder({
   };
 
   return (
-    <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-200">
+    <div className="bg-surface rounded-xl p-6 border border-border">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Bell className="text-amber-600 w-5 h-5" strokeWidth={2.5} />
-          <h3 className="font-semibold text-gray-900">今日需要复习</h3>
+          <Bell className="text-amber w-5 h-5" strokeWidth={2.5} />
+          <h3 className="font-semibold text-ink">今日需要复习</h3>
         </div>
         <button
           onClick={handleDismiss}
-          className="text-gray-400 hover:text-gray-600 text-sm transition-colors"
+          className="text-ink-faint hover:text-ink-soft text-sm transition-colors"
         >
           关闭
         </button>
       </div>
 
-      <p className="text-gray-700 mb-4">
-        <span className="font-bold text-amber-700">{reviewItems.length}</span> 个语法点到期需要复习
+      <p className="text-ink-soft mb-4">
+        <span className="font-bold text-amber">{reviewItems.length}</span> 个语法点到期需要复习
         {estimatedTime && (
-          <span className="text-gray-600 ml-2">
+          <span className="text-ink-soft ml-2">
             · 预计 <Clock className="inline w-4 h-4 mx-1" />
             {estimatedTime} 分钟
           </span>
@@ -86,11 +86,11 @@ export function ReviewReminder({
           {reviewItems.slice(0, 5).map((item) => (
             <div
               key={item.grammarId}
-              className="flex items-center justify-between bg-white rounded-lg p-3 border border-amber-100"
+              className="flex items-center justify-between bg-surface rounded-lg p-3 border border-border"
             >
               <div className="flex-1">
-                <p className="font-medium text-gray-900">{item.grammarPoint}</p>
-                <p className="text-xs text-gray-500">课程 {item.lessonNumber}</p>
+                <p className="font-medium text-ink">{item.grammarPoint}</p>
+                <p className="text-xs text-ink-mute">课程 {item.lessonNumber}</p>
               </div>
               <div className={`px-2 py-1 rounded-full text-xs font-medium ${getUrgencyColor(item.daysSinceReview)}`}>
                 {getUrgencyText(item.daysSinceReview)}
@@ -98,7 +98,7 @@ export function ReviewReminder({
             </div>
           ))}
           {reviewItems.length > 5 && (
-            <p className="text-xs text-gray-500 text-center py-2">
+            <p className="text-xs text-ink-mute text-center py-2">
               还有 {reviewItems.length - 5} 个语法点需要复习...
             </p>
           )}
@@ -109,21 +109,21 @@ export function ReviewReminder({
       <div className="flex gap-3">
         <button
           onClick={handleStartReview}
-          className="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-medium py-2.5 px-4 rounded-lg transition-all shadow-sm hover:shadow flex items-center justify-center gap-2"
+          className="flex-1 bg-amber hover:bg-amber/80 text-white font-medium py-2.5 px-4 rounded-lg transition-all shadow-sm hover:shadow flex items-center justify-center gap-2"
         >
           开始复习
           <ChevronRight className="w-4 h-4" />
         </button>
         <button
           onClick={handleDismiss}
-          className="px-4 py-2.5 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors font-medium"
+          className="px-4 py-2.5 text-ink-soft hover:text-ink hover:bg-surface-dim rounded-lg transition-colors font-medium"
         >
           推迟
         </button>
       </div>
 
       {reviewItems.length >= 5 && (
-        <p className="text-xs text-amber-700 mt-3 text-center">
+        <p className="text-xs text-amber mt-3 text-center">
           积累较多，建议每天复习防止遗忘！
         </p>
       )}

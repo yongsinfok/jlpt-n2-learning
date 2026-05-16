@@ -24,11 +24,11 @@ export function StudyStreak({ streak, showDetails = false }: StudyStreakProps) {
   };
 
   const getStreakColor = (days: number): string => {
-    if (days === 0) return 'text-gray-400';
-    if (days < 7) return 'text-orange-500';
-    if (days < 14) return 'text-orange-600';
-    if (days < 30) return 'text-red-500';
-    return 'text-red-600';
+    if (days === 0) return 'text-ink-faint';
+    if (days < 7) return 'text-amber';
+    if (days < 14) return 'text-accent';
+    if (days < 30) return 'text-accent';
+    return 'text-accent';
   };
 
   const getNextMilestone = (days: number): { target: number; name: string } | null => {
@@ -45,32 +45,32 @@ export function StudyStreak({ streak, showDetails = false }: StudyStreakProps) {
   const progressToNext = nextMilestone ? ((streak / nextMilestone.target) * 100) : 100;
 
   return (
-    <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-6 border border-orange-200">
+    <div className="bg-surface border border-border rounded-xl p-6">
       <div className="flex items-center gap-3 mb-3">
         <div className={`${getStreakColor(streak)}`}>
           <Flame className="w-8 h-8" strokeWidth={2.5} />
         </div>
         <div>
-          <p className="text-sm text-gray-600">连续学习</p>
+          <p className="text-sm text-ink-soft">连续学习</p>
           <p className={`text-3xl font-bold ${getStreakColor(streak)}`}>
             {streak} <span className="text-lg">天</span>
           </p>
         </div>
       </div>
 
-      <p className="text-sm text-gray-700 font-medium mb-3">
+      <p className="text-sm text-ink-soft font-medium mb-3">
         {getStreakMessage(streak)}
       </p>
 
       {showDetails && nextMilestone && streak < 100 && (
         <div className="mt-4">
-          <div className="flex justify-between text-xs text-gray-600 mb-1">
+          <div className="flex justify-between text-xs text-ink-soft mb-1">
             <span>距离{nextMilestone.name}</span>
             <span>{nextMilestone.target - streak}天</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-surface-dim rounded-full h-2">
             <div
-              className="bg-gradient-to-r from-orange-400 to-red-500 h-2 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-accent/60 to-accent h-2 rounded-full transition-all duration-300"
               style={{ width: `${Math.min(progressToNext, 100)}%` }}
             />
           </div>
@@ -78,7 +78,7 @@ export function StudyStreak({ streak, showDetails = false }: StudyStreakProps) {
       )}
 
       {streak === 0 && (
-        <p className="text-xs text-gray-500 mt-2">
+        <p className="text-xs text-ink-mute mt-2">
           每天学习一点点，积累成大进步！
         </p>
       )}

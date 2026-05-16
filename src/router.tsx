@@ -105,7 +105,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   // Loading State - Brutalist
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-surface flex items-center justify-center">
         <LoadingSpinner size="lg" text="正在加载学习数据..." />
       </div>
     );
@@ -115,13 +115,13 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   if (loadError) {
     return (
       <ErrorBoundary>
-        <div className="min-h-screen bg-white flex items-center justify-center p-4">
-          <div className="bg-white border-4 border-black p-8 max-w-md w-full text-center">
-            <div className="p-4 bg-black text-white w-16 h-16 flex items-center justify-center mx-auto mb-6">
+        <div className="min-h-screen bg-bg flex items-center justify-center p-4">
+          <div className="bg-surface border-4 border-border p-8 max-w-md w-full text-center">
+            <div className="p-4 bg-ink text-surface w-16 h-16 flex items-center justify-center mx-auto mb-6">
               <span className="text-3xl">!</span>
             </div>
-            <h2 className="text-xl font-bold text-black uppercase mb-2">加载失败</h2>
-            <p className="text-gray-700 mb-6">{loadError}</p>
+            <h2 className="text-xl font-bold text-ink uppercase mb-2">加载失败</h2>
+            <p className="text-ink-soft mb-6">{loadError}</p>
             <button
               onClick={() => window.location.reload()}
               className="btn-brutalist-primary"
@@ -142,7 +142,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
  */
 function LayoutWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen page-shell flex flex-col">
+    <div className="min-h-screen bg-bg flex flex-col">
       <PWABanner />
       <Header />
       <main className="flex-1 has-tab-bar">{children}</main>
@@ -157,11 +157,11 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
  */
 function NotFoundPage() {
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
-      <div className="bg-white border-4 border-black p-8 max-w-md w-full text-center">
-        <div className="text-6xl font-display font-bold text-black mb-4">404</div>
-        <h1 className="text-2xl font-bold text-black uppercase mb-2">页面未找到</h1>
-        <p className="text-gray-700 mb-6">抱歉，您访问的页面不存在</p>
+    <div className="min-h-screen bg-surface flex items-center justify-center p-4">
+      <div className="bg-surface border-4 border-border p-8 max-w-md w-full text-center">
+        <div className="text-6xl font-display font-bold text-ink mb-4">404</div>
+        <h1 className="text-2xl font-bold text-ink uppercase mb-2">页面未找到</h1>
+        <p className="text-ink-soft mb-6">抱歉，您访问的页面不存在</p>
         <a
           href="/"
           className="btn-brutalist-primary"

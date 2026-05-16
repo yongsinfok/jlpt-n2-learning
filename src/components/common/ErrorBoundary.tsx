@@ -48,7 +48,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
       return (
         <div className="min-h-screen bg-neutral flex items-center justify-center p-4">
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg border border-border p-8 max-w-md w-full text-center">
+          <div className="bg-surface/90 backdrop-blur-sm rounded-3xl shadow-lg border border-border p-8 max-w-md w-full text-center">
             <div className="p-4 bg-neutral rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
               <AlertCircle className="w-8 h-8 text-primary" aria-hidden="true" />
             </div>
