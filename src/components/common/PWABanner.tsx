@@ -22,12 +22,10 @@ export function PWABanner() {
   if (installed) {
     if (updateReady) {
       return (
-        <div className="pwa-banner pwa-banner-update">
+        <div className="flex items-center gap-3 px-4 py-2.5 bg-surface border-b border-border text-sm text-ink-soft sticky top-0 z-50">
           <RefreshCw size={14} className="text-accent" />
-          <span>新版本已下载</span>
-          <button onClick={() => updateReady()} className="pwa-banner-action">
-            重启更新
-          </button>
+          <span className="flex-1">新版本已下載</span>
+          <button onClick={() => updateReady()} className="text-accent font-medium hover:text-accent-hover border-b border-accent">重啟更新</button>
         </div>
       );
     }
@@ -38,17 +36,11 @@ export function PWABanner() {
 
   if (promptInstall) {
     return (
-      <div className="pwa-banner">
-        <Download size={14} className="text-ink-soft" />
-        <span className="pwa-banner-text">添加到主屏幕，离线学习</span>
-        <button onClick={() => promptInstall()} className="pwa-banner-action">
-          安装
-        </button>
-        <button
-          onClick={() => { localStorage.setItem(DISMISS_KEY, String(Date.now())); setDismissed(true); }}
-          className="pwa-banner-close"
-          aria-label="关闭"
-        >
+      <div className="flex items-center gap-3 px-4 py-2.5 bg-surface border-b border-border text-sm text-ink-soft sticky top-0 z-50">
+        <Download size={14} className="text-ink-mute" />
+        <span className="flex-1">添加到主屏幕，離線學習</span>
+        <button onClick={() => promptInstall()} className="text-accent font-medium hover:text-accent-hover border-b border-accent">安裝</button>
+        <button onClick={() => { localStorage.setItem(DISMISS_KEY, String(Date.now())); setDismissed(true); }} className="text-ink-faint hover:text-ink transition-colors" aria-label="關閉">
           <X size={14} />
         </button>
       </div>
@@ -57,15 +49,11 @@ export function PWABanner() {
 
   if (showIosHint) {
     return (
-      <div className="pwa-banner">
-        <span className="pwa-banner-text inline-flex items-center gap-1.5">
-          安装到主屏幕：点击 <Share size={13} className="inline" /> 分享，再选 <Plus size={13} className="inline" /> 添加到主屏幕
+      <div className="flex items-center gap-3 px-4 py-2.5 bg-surface border-b border-border text-sm text-ink-soft sticky top-0 z-50">
+        <span className="flex-1">
+          安裝到主屏幕：點擊 <Share size={13} className="inline" /> 分享，再選 <Plus size={13} className="inline" /> 添加到主屏幕
         </span>
-        <button
-          onClick={() => { localStorage.setItem(DISMISS_KEY, String(Date.now())); setDismissed(true); }}
-          className="pwa-banner-close"
-          aria-label="关闭"
-        >
+        <button onClick={() => { localStorage.setItem(DISMISS_KEY, String(Date.now())); setDismissed(true); }} className="text-ink-faint hover:text-ink transition-colors" aria-label="關閉">
           <X size={14} />
         </button>
       </div>

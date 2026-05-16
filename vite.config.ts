@@ -21,9 +21,11 @@ export default defineConfig({
         start_url: '/',
         scope: '/',
         display: 'standalone',
+        display_override: ['standalone', 'minimal-ui', 'browser'],
         orientation: 'portrait',
-        background_color: '#FAFAF5',
-        theme_color: '#FAFAF5',
+        launch_handler: { client_mode: 'focus-existing' },
+        background_color: '#14100C',
+        theme_color: '#14100C',
         categories: ['education', 'productivity'],
         icons: [
           { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
