@@ -23,7 +23,7 @@ export function PWABanner() {
     if (updateReady) {
       return (
         <div className="pwa-banner pwa-banner-update">
-          <RefreshCw size={14} className="text-bengara" />
+          <RefreshCw size={14} className="text-accent" />
           <span>新版本已下载</span>
           <button onClick={() => updateReady()} className="pwa-banner-action">
             重启更新
@@ -39,7 +39,7 @@ export function PWABanner() {
   if (promptInstall) {
     return (
       <div className="pwa-banner">
-        <Download size={14} className="text-sumi-soft" />
+        <Download size={14} className="text-ink-soft" />
         <span className="pwa-banner-text">添加到主屏幕，离线学习</span>
         <button onClick={() => promptInstall()} className="pwa-banner-action">
           安装

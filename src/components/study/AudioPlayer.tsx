@@ -31,7 +31,7 @@ export const AudioPlayer = memo(function AudioPlayer({
     <div className={`flex items-center gap-3 ${className}`}>
       <button
         onClick={toggle}
-        className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white hover:bg-primary-hover transition-colors"
+        className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-accent text-white hover:bg-accent-hover transition-colors"
         aria-label={isPlaying ? '暂停' : '播放'}
       >
         {isPlaying ? <Pause size={18} /> : <Play size={18} className="ml-0.5" />}
@@ -39,22 +39,22 @@ export const AudioPlayer = memo(function AudioPlayer({
 
       {showProgress && (
         <div className="flex-1 flex items-center gap-2">
-          <span className="text-xs text-gray-500 w-10 text-right" aria-live="off">
+          <span className="text-xs text-ink-mute w-10 text-right" aria-live="off">
             {formatTime(currentTime)}
           </span>
           <div
-            className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden"
+            className="flex-1 bg-surface-dim rounded-full h-2 overflow-hidden"
             role="progressbar"
             aria-valuenow={progress}
             aria-valuemin={0}
             aria-valuemax={100}
           >
             <div
-              className="bg-primary h-full transition-all duration-100"
+              className="bg-accent h-full transition-all duration-100"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <span className="text-xs text-gray-500 w-10" aria-live="off">
+          <span className="text-xs text-ink-mute w-10" aria-live="off">
             {formatTime(duration)}
           </span>
         </div>
@@ -66,7 +66,7 @@ export const AudioPlayer = memo(function AudioPlayer({
             <button
               key={rate}
               onClick={() => setPlaybackRate(rate)}
-              className={`px-2 py-1 text-xs rounded hover:bg-gray-100 transition-colors ${rate === 1.0 ? 'font-medium' : ''}`}
+              className={`px-2 py-1 text-xs rounded hover:bg-surface-hover transition-colors ${rate === 1.0 ? 'font-medium text-accent' : 'text-ink-mute'}`}
               aria-label={`${rate}x 速度`}
             >
               {rate.toFixed(1)}x

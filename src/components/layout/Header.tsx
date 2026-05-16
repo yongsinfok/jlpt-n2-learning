@@ -30,7 +30,6 @@ export const Header = memo(function Header() {
     return () => document.removeEventListener('mousedown', onClickOutside);
   }, []);
 
-  // Close menu on route change
   useEffect(() => { setOpen(false); }, [location.pathname]);
 
   const onResetData = useCallback(() => {
@@ -43,24 +42,22 @@ export const Header = memo(function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-hairline bg-washi/80 backdrop-blur-xl pad-safe-top pad-safe-x">
+    <header className="sticky top-0 z-40 border-b border-border bg-surface/80 backdrop-blur-xl pad-safe-top pad-safe-x">
       <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
         <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* Brand */}
           <Link
             to={ROUTES.HOME}
             className="flex items-baseline gap-3 group"
             aria-label="JLPT N2 — 返回首页"
           >
-            <span className="font-mincho text-[20px] sm:text-[22px] font-medium tracking-[-0.01em] text-sumi">
+            <span className="font-serif text-[20px] sm:text-[22px] font-medium tracking-[-0.01em] text-ink">
               JLPT N2
             </span>
-            <span className="hidden sm:inline-block font-mono text-[10px] tracking-[0.2em] text-sumi-mute uppercase">
+            <span className="hidden sm:inline-block font-mono text-[10px] tracking-[0.2em] text-ink-mute uppercase">
               日本語学習
             </span>
           </Link>
 
-          {/* Desktop nav (hidden on mobile — bottom tab bar handles it) */}
           <nav className="hidden lg:flex items-center gap-9" role="navigation" aria-label="主导航">
             {NAV_LINKS.map((link) => (
               <NavLink
@@ -70,8 +67,8 @@ export const Header = memo(function Header() {
                 className={({ isActive }) =>
                   `font-mincho text-[15px] pb-1 transition-colors ${
                     isActive
-                      ? 'text-sumi border-b border-bengara'
-                      : 'text-sumi-soft hover:text-sumi'
+                      ? 'text-ink border-b border-accent'
+                      : 'text-ink-soft hover:text-ink'
                   }`
                 }
               >
@@ -80,11 +77,10 @@ export const Header = memo(function Header() {
             ))}
           </nav>
 
-          {/* Settings menu */}
           <div className="relative" ref={ref}>
             <button
               onClick={() => setOpen((v) => !v)}
-              className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-sumi-soft hover:text-sumi hover:bg-sumi/[0.04] transition-colors"
+              className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-ink-soft hover:text-ink hover:bg-surface-hover transition-colors"
               aria-label="设置菜单"
               aria-expanded={open}
               aria-haspopup="true"
@@ -98,7 +94,7 @@ export const Header = memo(function Header() {
 
             {open && (
               <div
-                className="absolute right-0 mt-2 w-56 hairline-card bg-washi shadow-md py-2 animate-fade-in z-50"
+                className="absolute right-0 mt-2 w-56 noren-card py-2 shadow-elevated animate-fade-in z-50"
                 role="menu"
               >
                 {MENU_ITEMS.map((item) => {
@@ -108,7 +104,7 @@ export const Header = memo(function Header() {
                       key={item.to}
                       to={item.to}
                       onClick={() => setOpen(false)}
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-sumi-soft hover:text-sumi hover:bg-washi-dim transition-colors"
+                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink-soft hover:text-ink hover:bg-surface-dim transition-colors"
                       role="menuitem"
                     >
                       <Icon size={16} strokeWidth={1.6} />
@@ -116,10 +112,10 @@ export const Header = memo(function Header() {
                     </Link>
                   );
                 })}
-                <div className="h-px bg-hairline my-1.5" role="separator" />
+                <div className="h-px bg-border my-1.5" role="separator" />
                 <button
                   onClick={onResetData}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-bengara hover:bg-bengara/10 transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-accent hover:bg-accent/10 transition-colors"
                   role="menuitem"
                 >
                   <AlertTriangle size={16} strokeWidth={1.6} />

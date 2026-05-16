@@ -1,50 +1,25 @@
-/**
- * ExpandableCard Component - Glassmorphism with Japanese Colors
- * Advanced collapsible card with Framer Motion animations
- */
-
 import { ReactNode, useState, useRef, useEffect, KeyboardEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 export interface ExpandableCardProps {
-  /** Card title */
   title: string;
-  /** Card content */
   children: ReactNode;
-  /** Initial expanded state */
   defaultExpanded?: boolean;
-  /** Card variant */
   variant?: 'default' | 'subtle' | 'strong' | 'accent' | 'profile';
-  /** Theme color */
-  theme?: 'ai' | 'matcha' | 'sakura' | 'sumi' | 'gold';
-  /** Custom icon */
+  theme?: 'accent' | 'pine' | 'amber' | 'ink' | 'gold';
   icon?: ReactNode;
-  /** Additional class name */
   className?: string;
-  /** Disabled state */
   disabled?: boolean;
-  /** On toggle callback */
   onToggle?: (expanded: boolean) => void;
 }
 
-/**
- * ExpandableCard - Bouncy glassmorphism card with spring animations
- *
- * Features:
- * - Spring physics with cubic-bezier easing
- * - Multiple glassmorphism variants
- * - Japanese color theming
- * - Keyboard accessible (Space/Enter to toggle)
- * - Smooth height animation
- * - Hover lift effect
- */
 export function ExpandableCard({
   title,
   children,
   defaultExpanded = false,
   variant = 'default',
-  theme = 'ai',
+  theme = 'accent',
   icon,
   className = '',
   disabled = false,
@@ -54,7 +29,6 @@ export function ExpandableCard({
   const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | 'auto'>('auto');
 
-  // Handle height animation
   useEffect(() => {
     if (isExpanded && contentRef.current) {
       setHeight(contentRef.current.scrollHeight);
@@ -63,7 +37,6 @@ export function ExpandableCard({
     }
   }, [isExpanded]);
 
-  // Toggle handler with keyboard support
   const handleToggle = () => {
     if (disabled) return;
     const newState = !isExpanded;
@@ -71,7 +44,6 @@ export function ExpandableCard({
     onToggle?.(newState);
   };
 
-  // Keyboard handler
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (disabled) return;
     if (e.key === ' ' || e.key === 'Enter') {
@@ -80,25 +52,22 @@ export function ExpandableCard({
     }
   };
 
-  // Variant styles mapping
   const variantStyles = {
-    default: 'glass-card',
-    subtle: 'glass-card-subtle',
-    strong: 'glass-card-strong',
-    accent: 'glass-card-strong glass-glow',
-    profile: 'glass-card-subtle hover-lift',
+    default: 'bg-surface border border-border rounded-[10px] shadow-sm',
+    subtle: 'bg-surface-dim border border-border rounded-[8px]',
+    strong: 'bg-surface border border-border rounded-[10px] shadow-md',
+    accent: 'bg-surface border border-accent/20 rounded-[10px] shadow-sm',
+    profile: 'bg-surface-dim border border-border rounded-[8px]',
   };
 
-  // Theme color mapping for icons
   const themeColors = {
-    ai: 'text-ai-500',
-    matcha: 'text-matcha-500',
-    sakura: 'text-sakura-500',
-    sumi: 'text-sumi-500',
-    gold: 'text-gold-500',
+    accent: 'text-accent',
+    pine: 'text-pine',
+    amber: 'text-amber',
+    ink: 'text-ink-mute',
+    gold: 'text-amber',
   };
 
-  // Spring animation config
   const springConfig = {
     type: 'spring' as const,
     stiffness: 400,
@@ -110,41 +79,36 @@ export function ExpandableCard({
 
   return (
     <motion.div
-      className={`${baseCard} rounded-2xl overflow-hidden ${disabled ? 'opacity-60' : ''} ${className}`}
+      className={`${baseCard} rounded-[10px] overflow-hidden ${disabled ? 'opacity-60' : ''} ${className}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={springConfig}
       whileHover={disabled ? {} : { scale: 1.01, y: -2 }}
       whileTap={disabled ? {} : { scale: 0.99 }}
     >
-      {/* Header - Always visible */}
       <button
         onClick={handleToggle}
         onKeyDown={handleKeyDown}
         disabled={disabled}
         className={`w-full flex items-center justify-between p-6 text-left transition-all ${
-          disabled ? 'cursor-not-allowed' : 'cursor-pointer hover-lift'
+          disabled ? 'cursor-not-allowed' : 'cursor-pointer'
         }`}
         aria-expanded={isExpanded}
         aria-controls="expandable-content"
         aria-disabled={disabled}
       >
-        {/* Left side: Icon + Title */}
         <div className="flex items-center gap-4 flex-1">
-          {/* Custom icon or default theme icon */}
           {icon && (
             <div className={`flex-shrink-0 ${themeColors[theme]}`}>
               {icon}
             </div>
           )}
 
-          {/* Title */}
-          <h3 className="text-xl font-bold text-sumi">
+          <h3 className="text-xl font-bold text-ink">
             {title}
           </h3>
         </div>
 
-        {/* Right side: Chevron (rotates on expand) */}
         <motion.div
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={springConfig}
@@ -154,7 +118,6 @@ export function ExpandableCard({
         </motion.div>
       </button>
 
-      {/* Expandable Content */}
       <AnimatePresence initial={false}>
         {isExpanded && (
           <motion.div

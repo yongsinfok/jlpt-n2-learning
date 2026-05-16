@@ -1,7 +1,3 @@
-/**
- * PracticePage - Modern Clean Design
- */
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -17,7 +13,6 @@ import {
 import { db } from '@/db/schema';
 import type { Lesson } from '@/types';
 
-/** Practice Mode */
 interface PracticeMode {
   id: string;
   title: string;
@@ -29,14 +24,12 @@ interface PracticeMode {
 export function PracticePage() {
   const navigate = useNavigate();
 
-  // State
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [selectedLessons, setSelectedLessons] = useState<number[]>([]);
   const [showFilter, setShowFilter] = useState(false);
   const [wrongAnswersCount, setWrongAnswersCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // Practice modes
   const practiceModes: PracticeMode[] = [
     {
       id: 'fill',
@@ -68,7 +61,6 @@ export function PracticePage() {
     },
   ];
 
-  // Load lessons and wrong answers count
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -96,7 +88,6 @@ export function PracticePage() {
     loadData();
   }, []);
 
-  // Start practice
   const handleStartPractice = (mode: PracticeMode) => {
     if (mode.type === 'wrong') {
       navigate('/wrong-answers');
@@ -113,7 +104,6 @@ export function PracticePage() {
     navigate(`/quiz?${params.toString()}`);
   };
 
-  // Toggle lesson selection
   const toggleLesson = (lessonId: number) => {
     setSelectedLessons(prev =>
       prev.includes(lessonId)
@@ -122,7 +112,6 @@ export function PracticePage() {
     );
   };
 
-  // Toggle all lessons
   const toggleAllLessons = () => {
     if (selectedLessons.length === lessons.length) {
       setSelectedLessons([]);
@@ -131,25 +120,24 @@ export function PracticePage() {
     }
   };
 
-  // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-neutral">
+      <div className="min-h-screen bg-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
-            <div className="w-16 h-16 mx-auto rounded-md bg-border animate-pulse mb-6" />
-            <div className="h-10 bg-border rounded w-48 mx-auto mb-4 animate-pulse" />
-            <div className="h-6 bg-border rounded w-80 mx-auto animate-pulse" />
+            <div className="w-16 h-16 mx-auto rounded-md bg-border/30 animate-pulse mb-6" />
+            <div className="h-10 bg-border/30 rounded w-48 mx-auto mb-4 animate-pulse" />
+            <div className="h-6 bg-border/30 rounded w-80 mx-auto animate-pulse" />
           </div>
 
-          <div className="card p-6 mb-8">
-            <div className="h-10 bg-border rounded-lg w-32 animate-pulse mb-4" />
-            <div className="h-10 bg-border rounded-lg w-24 animate-pulse" />
+          <div className="noren-card p-6 mb-8">
+            <div className="h-10 bg-border/30 rounded-lg w-32 animate-pulse mb-4" />
+            <div className="h-10 bg-border/30 rounded-lg w-24 animate-pulse" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="card h-40 animate-pulse" />
+              <div key={i} className="noren-card h-40 animate-pulse" />
             ))}
           </div>
         </div>
@@ -158,27 +146,25 @@ export function PracticePage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral">
+    <div className="min-h-screen bg-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header */}
         <div className="mb-12 text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-md bg-white shadow-card mb-6">
-            <Target className="w-8 h-8 text-primary" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-md bg-surface shadow-sm mb-6">
+            <Target className="w-8 h-8 text-accent" />
           </div>
-          <h1 className="text-h1 md:text-4xl font-bold text-primary mb-4">练习模式</h1>
-          <p className="text-body text-neutral-dark">通过多样化的练习模式，巩固你的语法知识。</p>
+          <h1 className="text-2xl md:text-3xl font-bold font-mincho text-ink mb-4">练习模式</h1>
+          <p className="text-base text-ink-soft">通过多样化的练习模式，巩固你的语法知识。</p>
         </div>
 
-        {/* Filter Bar */}
-        <div className="card p-6 mb-8">
+        <div className="noren-card p-5 mb-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
               <button
                 onClick={() => setShowFilter(!showFilter)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-md font-medium transition-all ${
                   showFilter
-                    ? 'bg-primary text-white'
-                    : 'bg-white border border-border text-primary hover:bg-neutral'
+                    ? 'bg-accent text-white'
+                    : 'bg-surface border border-border text-ink hover:bg-bg-warm'
                 }`}
               >
                 <Filter className="w-5 h-5" />
@@ -186,7 +172,7 @@ export function PracticePage() {
               </button>
 
               {selectedLessons.length > 0 && (
-                <span className="badge">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent-pale text-accent">
                   已选 {selectedLessons.length} / {lessons.length} 门
                 </span>
               )}
@@ -195,7 +181,7 @@ export function PracticePage() {
             {selectedLessons.length > 0 && (
               <button
                 onClick={() => setSelectedLessons([])}
-                className="flex items-center gap-1.5 text-small text-neutral-dark hover:text-accent transition-colors px-2 py-1 rounded hover:bg-accent/10"
+                className="flex items-center gap-1.5 text-sm text-ink-soft hover:text-accent transition-colors px-2 py-1 rounded hover:bg-accent/10"
               >
                 <X className="w-4 h-4" />
                 清除选择
@@ -203,14 +189,13 @@ export function PracticePage() {
             )}
           </div>
 
-          {/* Lesson Selection Panel */}
           {showFilter && lessons.length > 0 && (
             <div className="mt-6 pt-6 border-t border-border">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-small font-bold text-primary">选择练习范围：</span>
+                <span className="text-sm font-bold font-mincho text-ink">选择练习范围：</span>
                 <button
                   onClick={toggleAllLessons}
-                  className="text-small font-medium text-primary hover:underline"
+                  className="text-sm font-medium text-ink hover:underline"
                 >
                   {selectedLessons.length === lessons.length ? '取消全选' : '全选所有'}
                 </button>
@@ -221,10 +206,10 @@ export function PracticePage() {
                   <button
                     key={lesson.id}
                     onClick={() => toggleLesson(lesson.id)}
-                    className={`px-3 py-2.5 rounded-md text-small font-medium transition-all border ${
+                    className={`px-3 py-2.5 rounded-md text-sm font-medium transition-all border ${
                       selectedLessons.includes(lesson.id)
-                        ? 'bg-primary text-white border-primary'
-                        : 'bg-white text-neutral-dark border-border hover:border-neutral-dark hover:bg-neutral'
+                        ? 'bg-accent text-white border-accent'
+                        : 'bg-surface text-ink-soft border-border hover:border-ink-soft hover:bg-bg-warm'
                     }`}
                   >
                     课程 {lesson.id}
@@ -236,21 +221,20 @@ export function PracticePage() {
 
           {showFilter && lessons.length === 0 && (
             <div className="mt-6 pt-6 border-t border-border text-center py-4">
-              <p className="text-neutral-dark">
+              <p className="text-ink-soft">
                 尚未完成任何课程，请先学习课程内容。
               </p>
             </div>
           )}
         </div>
 
-        {/* Practice Mode Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {practiceModes.map(mode => (
             <button
               key={mode.id}
               onClick={() => handleStartPractice(mode)}
               disabled={mode.type === 'wrong' && wrongAnswersCount === 0}
-              className={`card text-left p-6 sm:p-8 transition-all ${
+              className={`noren-card text-left p-5 sm:p-6 transition-all ${
                 mode.type === 'wrong' && wrongAnswersCount === 0
                   ? 'opacity-60 cursor-not-allowed grayscale'
                   : 'hover:scale-[1.02] cursor-pointer'
@@ -258,16 +242,16 @@ export function PracticePage() {
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-5">
-                  <div className={`p-4 rounded-md bg-neutral ${mode.type === 'wrong' && wrongAnswersCount === 0 ? 'text-neutral-dark' : 'text-primary'}`}>
+                  <div className={`p-4 rounded-md ${mode.type === 'wrong' && wrongAnswersCount === 0 ? 'bg-bg-warm text-ink-mute' : 'bg-bg-warm text-accent'}`}>
                     {mode.icon}
                   </div>
                   <div>
-                    <h3 className="text-h1 text-primary mb-2">{mode.title}</h3>
-                    <p className="text-small text-neutral-dark leading-relaxed max-w-xs">{mode.description}</p>
+                    <h3 className="text-lg font-bold font-mincho text-ink mb-2">{mode.title}</h3>
+                    <p className="text-sm text-ink-soft leading-relaxed max-w-xs">{mode.description}</p>
                   </div>
                 </div>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-neutral ${
-                  mode.type === 'wrong' && wrongAnswersCount === 0 ? 'text-neutral-dark' : 'text-neutral-dark group-hover:text-primary'
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-bg-warm ${
+                  mode.type === 'wrong' && wrongAnswersCount === 0 ? 'text-ink-mute' : 'text-ink-mute group-hover:text-ink'
                 }`}>
                   <ChevronRight size={18} />
                 </div>
@@ -276,13 +260,12 @@ export function PracticePage() {
           ))}
         </div>
 
-        {/* Empty state */}
         {lessons.length === 0 && (
-          <div className="mt-8 bg-warning/10 border border-warning/20 p-4 rounded-md flex items-start gap-3">
-            <div className="mt-0.5 text-warning">
+          <div className="mt-8 bg-amber/10 border border-amber/20 p-4 rounded-md flex items-start gap-3">
+            <div className="mt-0.5 text-amber">
               <HelpCircle size={20} />
             </div>
-            <p className="text-primary text-small">
+            <p className="text-ink text-sm">
               <strong>提示：</strong>
               还没有已完成的课程。请先通过课程列表学习一些语法点，掌握基础后再来进行综合练习。
             </p>

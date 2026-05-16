@@ -12,13 +12,12 @@ const STATUS_LABEL: Record<Status, string> = {
 };
 
 const PLAY_BTN_CLASS: Record<Status, string> = {
-    idle: 'bg-white hover:bg-primary/10 text-primary border border-primary/20',
-    playing: 'bg-primary text-white shadow-glow',
-    paused: 'bg-primary/20 text-primary',
-    error: 'bg-error/10 text-error',
+    idle: 'bg-surface hover:bg-accent-pale text-accent border border-accent/20',
+    playing: 'bg-accent text-white shadow-sm',
+    paused: 'bg-accent-pale text-accent',
+    error: 'bg-accent-pale text-accent',
 };
 
-// Cache voices once. getVoices() returns [] until 'voiceschanged' fires on Chromium.
 let voicesCache: SpeechSynthesisVoice[] = [];
 if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     const refresh = () => { voicesCache = window.speechSynthesis.getVoices(); };
@@ -87,7 +86,6 @@ export function TTSPlayButton({ text }: { text: string }) {
         if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
         setStatus('playing');
 
-        // Prefer Mandarin (zh-CN) over Cantonese (zh-HK) or Taiwanese (zh-TW).
         const jaVoice = voicesCache.find(v => v.lang === 'ja-JP' || v.lang === 'ja_JP') || voicesCache.find(v => v.lang.includes('ja'));
         const zhVoice = voicesCache.find(v => v.lang === 'zh-CN' || v.lang === 'zh_CN') || voicesCache.find(v => v.lang.includes('zh'));
 
@@ -106,7 +104,6 @@ export function TTSPlayButton({ text }: { text: string }) {
 
             utterance.onend = finishIfDone;
             utterance.onerror = (e) => {
-                // Manual cancel/pause emits 'interrupted'/'canceled' on every queued utterance — ignore.
                 if (e.error !== 'interrupted' && e.error !== 'canceled') {
                     console.error('Speech synthesis error', e);
                     setStatus('error');
@@ -124,14 +121,14 @@ export function TTSPlayButton({ text }: { text: string }) {
     const isActive = status === 'playing' || status === 'paused';
 
     return (
-        <div className="mt-4 p-4 glass-card rounded-xl flex items-center justify-between border border-primary/20 bg-primary/5">
+        <div className="mt-4 p-4 bg-surface border border-border rounded-[10px] shadow-sm flex items-center justify-between border border-accent/20 bg-accent-pale">
             <div className="flex items-center gap-3 text-left">
-                <div className="w-10 h-10 flex-shrink-0 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <div className="w-10 h-10 flex-shrink-0 rounded-full bg-accent-pale flex items-center justify-center text-accent">
                     <Volume2 size={20} />
                 </div>
                 <div>
-                    <h4 className="text-sm font-semibold text-text-primary mb-0.5">智能语音朗读</h4>
-                    <p className={`text-xs line-clamp-1 ${status === 'error' ? 'text-error' : 'text-text-secondary'}`}>
+                    <h4 className="text-sm font-semibold text-ink mb-0.5">智能语音朗读</h4>
+                    <p className={`text-xs line-clamp-1 ${status === 'error' ? 'text-accent' : 'text-ink-soft'}`}>
                         {STATUS_LABEL[status]}
                     </p>
                 </div>
@@ -141,7 +138,7 @@ export function TTSPlayButton({ text }: { text: string }) {
                 {isActive && (
                     <button
                         onClick={stopPlayback}
-                        className="w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center bg-error/10 text-error hover:bg-error/20 transition-all border border-error/20"
+                        className="w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center bg-accent-pale text-accent hover:bg-accent-pale transition-all border border-accent/20"
                         title="停止"
                     >
                         <Square size={14} fill="currentColor" />

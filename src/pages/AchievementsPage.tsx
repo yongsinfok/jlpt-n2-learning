@@ -1,5 +1,5 @@
 /**
- * AchievementsPage - Modern Clean Design
+ * AchievementsPage - Noren Warm Design
  */
 
 import { useEffect, useState } from 'react';
@@ -52,73 +52,73 @@ export function AchievementsPage() {
   const totalCount = achievements.length;
 
   return (
-    <div className="min-h-screen bg-neutral">
+    <div className="min-h-screen bg-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <Award className="w-8 h-8 text-warning" />
-            <h1 className="text-h1 md:text-3xl font-bold text-primary">成就徽章</h1>
+            <Award className="w-8 h-8 text-amber" />
+            <h1 className="text-h1 md:text-3xl font-bold text-ink">成就徽章</h1>
           </div>
-          <p className="text-body text-neutral-dark">
-            已解锁: <strong className="text-warning">{unlockedCount}</strong> / {totalCount}
+          <p className="text-base text-ink-soft">
+            已解锁: <strong className="text-amber">{unlockedCount}</strong> / {totalCount}
           </p>
         </div>
 
         {/* Filter */}
-        <div className="card p-6 mb-8">
+        <div className="noren-card p-6 mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             {/* Category filter */}
             <div className="flex items-center gap-2 flex-wrap">
-              <Filter className="w-4 h-4 text-neutral-dark" />
-              <span className="text-small text-neutral-dark">分类:</span>
+              <Filter className="w-4 h-4 text-ink-mute" />
+              <span className="text-xs text-ink-mute">分类:</span>
               <div className="flex gap-2">
                 <button
                   onClick={() => setSelectedCategory('all')}
-                  className={`px-4 py-2 rounded-md text-small font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md text-xs font-medium transition-colors ${
                     selectedCategory === 'all'
-                      ? 'bg-primary text-white'
-                      : 'bg-white border border-border text-primary hover:bg-neutral'
+                      ? 'bg-accent text-white'
+                      : 'bg-surface border border-border text-ink hover:bg-surface-hover'
                   }`}
                 >
                   全部
                 </button>
                 <button
                   onClick={() => setSelectedCategory('learning')}
-                  className={`px-4 py-2 rounded-md text-small font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md text-xs font-medium transition-colors ${
                     selectedCategory === 'learning'
-                      ? 'bg-primary text-white'
-                      : 'bg-white border border-border text-primary hover:bg-neutral'
+                      ? 'bg-accent text-white'
+                      : 'bg-surface border border-border text-ink hover:bg-surface-hover'
                   }`}
                 >
                   学习进度
                 </button>
                 <button
                   onClick={() => setSelectedCategory('practice')}
-                  className={`px-4 py-2 rounded-md text-small font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md text-xs font-medium transition-colors ${
                     selectedCategory === 'practice'
-                      ? 'bg-primary text-white'
-                      : 'bg-white border border-border text-primary hover:bg-neutral'
+                      ? 'bg-accent text-white'
+                      : 'bg-surface border border-border text-ink hover:bg-surface-hover'
                   }`}
                 >
                   练习成绩
                 </button>
                 <button
                   onClick={() => setSelectedCategory('streak')}
-                  className={`px-4 py-2 rounded-md text-small font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md text-xs font-medium transition-colors ${
                     selectedCategory === 'streak'
-                      ? 'bg-primary text-white'
-                      : 'bg-white border border-border text-primary hover:bg-neutral'
+                      ? 'bg-accent text-white'
+                      : 'bg-surface border border-border text-ink hover:bg-surface-hover'
                   }`}
                 >
                   坚持学习
                 </button>
                 <button
                   onClick={() => setSelectedCategory('milestone')}
-                  className={`px-4 py-2 rounded-md text-small font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md text-xs font-medium transition-colors ${
                     selectedCategory === 'milestone'
-                      ? 'bg-primary text-white'
-                      : 'bg-white border border-border text-primary hover:bg-neutral'
+                      ? 'bg-accent text-white'
+                      : 'bg-surface border border-border text-ink hover:bg-surface-hover'
                   }`}
                 >
                   里程碑
@@ -132,9 +132,9 @@ export function AchievementsPage() {
                 type="checkbox"
                 checked={showUnlockedOnly}
                 onChange={(e) => setShowUnlockedOnly(e.target.checked)}
-                className="w-4 h-4 text-primary rounded focus:ring-primary"
+                className="w-4 h-4 text-accent rounded focus:ring-accent/30"
               />
-              <span className="text-small text-primary">只显示已解锁</span>
+              <span className="text-xs text-ink">只显示已解锁</span>
             </label>
           </div>
         </div>
@@ -156,10 +156,10 @@ export function AchievementsPage() {
 
         {/* Empty state */}
         {filteredAchievements.length === 0 && (
-          <div className="card p-12 text-center">
-            <Award className="w-16 h-16 text-neutral-dark mx-auto mb-4" />
-            <h3 className="text-h1 text-primary mb-2">没有找到成就</h3>
-            <p className="text-body text-neutral-dark">
+          <div className="noren-card p-12 text-center">
+            <Award className="w-16 h-16 text-ink-mute mx-auto mb-4" />
+            <h3 className="text-h1 text-ink mb-2">没有找到成就</h3>
+            <p className="text-base text-ink-soft">
               {showUnlockedOnly
                 ? '还没有解锁任何成就，继续学习吧！'
                 : '该分类下没有成就'}
@@ -168,12 +168,12 @@ export function AchievementsPage() {
         )}
 
         {/* Info section */}
-        <div className="card p-6">
-          <h3 className="font-semibold text-primary mb-3 flex items-center gap-2">
-            <Award className="w-5 h-5 text-primary" />
+        <div className="noren-card p-6">
+          <h3 className="font-semibold text-ink mb-3 flex items-center gap-2">
+            <Award className="w-5 h-5 text-accent" />
             关于成就系统
           </h3>
-          <p className="text-small text-primary leading-relaxed">
+          <p className="text-xs text-ink-soft leading-relaxed">
             成就系统旨在激励你坚持学习。当你完成特定目标时，会自动解锁相应的成就徽章。
             成就分为多个类别：学习进度、练习成绩、坚持学习和里程碑等。
             有些成就需要持续努力才能解锁，比如连续学习30天或完成全部课程。

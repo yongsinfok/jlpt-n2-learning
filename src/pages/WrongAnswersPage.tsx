@@ -119,14 +119,13 @@ export function WrongAnswersPage() {
 
   // 开始复习全部错题
   const handleReviewAll = () => {
-    // 这里可以通过后端或前端生成题目
     navigate(`/practice`);
   };
 
   // 加载中
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-bg">
         <LoadingSpinner />
       </div>
     );
@@ -135,15 +134,15 @@ export function WrongAnswersPage() {
   // 空状态
   if (groupedWrongAnswers.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-bg py-8">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">错题本</h1>
-            <p className="text-gray-600">复习你做错的题目，巩固薄弱环节</p>
+            <h1 className="text-h1 md:text-3xl font-bold text-ink mb-2">错题本</h1>
+            <p className="text-ink-soft">复习你做错的题目，巩固薄弱环节</p>
           </div>
 
           <EmptyState
-            icon={<BookX className="w-16 h-16 text-gray-400" />}
+            icon={<BookX className="w-16 h-16 text-ink-mute" />}
             title="暂无错题"
             description={
               filterMode === 'unresolved'
@@ -157,14 +156,14 @@ export function WrongAnswersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-bg py-8">
       <div className="max-w-7xl mx-auto px-4">
         {/* 页面标题 */}
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">错题本</h1>
-              <p className="text-gray-600">
+              <h1 className="text-h1 md:text-3xl font-bold text-ink mb-2">错题本</h1>
+              <p className="text-ink-soft">
                 共 {totalWrongCount} 道错题，{groupedWrongAnswers.length} 个语法点需要复习
               </p>
             </div>
@@ -172,10 +171,10 @@ export function WrongAnswersPage() {
             <div className="flex gap-2">
               <button
                 onClick={() => setShowFilter(!showFilter)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-colors ${
                   showFilter
-                    ? 'bg-primary text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-100'
+                    ? 'bg-accent text-white'
+                    : 'bg-surface text-ink-soft hover:bg-surface-hover'
                 }`}
               >
                 <Filter className="w-5 h-5" />
@@ -184,7 +183,7 @@ export function WrongAnswersPage() {
 
               <button
                 onClick={handleReviewAll}
-                className="px-6 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors"
+                className="px-6 py-2 bg-accent hover:bg-accent-hover text-white font-medium rounded-md transition-colors"
               >
                 复习全部
               </button>
@@ -193,24 +192,24 @@ export function WrongAnswersPage() {
 
           {/* 筛选面板 */}
           {showFilter && (
-            <div className="mt-4 bg-white rounded-lg shadow-md p-4">
+            <div className="mt-4 noren-card p-4">
               <div className="flex gap-2">
                 <button
                   onClick={() => setFilterMode('unresolved')}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md font-medium transition-colors ${
                     filterMode === 'unresolved'
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-accent text-white'
+                      : 'bg-surface-dim text-ink-soft hover:bg-surface-hover'
                   }`}
                 >
                   未掌握
                 </button>
                 <button
                   onClick={() => setFilterMode('all')}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md font-medium transition-colors ${
                     filterMode === 'all'
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-accent text-white'
+                      : 'bg-surface-dim text-ink-soft hover:bg-surface-hover'
                   }`}
                 >
                   全部
@@ -225,14 +224,14 @@ export function WrongAnswersPage() {
           {groupedWrongAnswers.map(group => (
             <div
               key={group.grammarPoint}
-              className="bg-white rounded-xl shadow-md overflow-hidden"
+              className="noren-card overflow-hidden"
             >
               {/* 语法点标题 */}
-              <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+              <div className="bg-bg-warm px-6 py-4 border-b border-border">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <h3 className="text-lg font-bold text-gray-900">{group.grammarPoint}</h3>
-                    <span className="px-3 py-1 bg-error-light text-error text-sm font-medium rounded-full">
+                    <h3 className="text-lg font-bold text-ink">{group.grammarPoint}</h3>
+                    <span className="px-3 py-1 bg-accent/10 text-accent text-sm font-medium rounded-full">
                       {group.wrongAnswers.length} 道错题
                     </span>
                   </div>
@@ -240,7 +239,7 @@ export function WrongAnswersPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleReviewGrammar(group.grammarPoint)}
-                      className="flex items-center gap-1 px-4 py-2 bg-primary hover:bg-primary-hover text-white text-sm font-medium rounded-lg transition-colors"
+                      className="flex items-center gap-1 px-4 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-medium rounded-md transition-colors"
                     >
                       <RotateCcw className="w-4 h-4" />
                       复习此语法点
@@ -250,26 +249,26 @@ export function WrongAnswersPage() {
               </div>
 
               {/* 错题详情列表 */}
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-border-light">
                 {group.wrongAnswers.map(wrong => (
                   <div
                     key={wrong.id}
-                    className="px-6 py-4 hover:bg-gray-50 transition-colors"
+                    className="px-6 py-4 hover:bg-surface-hover transition-colors"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         {/* 例句 */}
                         {wrong.sentence && (
                           <div className="mb-2">
-                            <p className="text-gray-900 font-medium">{wrong.sentence.sentence}</p>
-                            <p className="text-sm text-gray-600 mt-1">{wrong.sentence.translation}</p>
+                            <p className="text-ink font-medium">{wrong.sentence.sentence}</p>
+                            <p className="text-sm text-ink-soft mt-1">{wrong.sentence.translation}</p>
                           </div>
                         )}
 
                         {/* 统计信息 */}
-                        <div className="flex items-center gap-6 text-sm text-gray-500">
+                        <div className="flex items-center gap-6 text-sm text-ink-mute">
                           <div className="flex items-center gap-1">
-                            <AlertCircle className="w-4 h-4 text-error" />
+                            <AlertCircle className="w-4 h-4 text-accent" />
                             答错 {wrong.wrongCount} 次
                           </div>
                           <div className="flex items-center gap-1">
@@ -277,7 +276,7 @@ export function WrongAnswersPage() {
                             最后答错于 {formatDate(wrong.lastWrongDate)}
                           </div>
                           {wrong.resolved && (
-                            <div className="flex items-center gap-1 text-success">
+                            <div className="flex items-center gap-1 text-pine">
                               <CheckCircle2 className="w-4 h-4" />
                               已掌握（连续答对 {wrong.correctStreak} 次）
                             </div>
@@ -287,7 +286,7 @@ export function WrongAnswersPage() {
 
                       <button
                         onClick={() => navigate(`/quiz?type=fill&grammar=${encodeURIComponent(group.grammarPoint)}&count=3`)}
-                        className="flex-shrink-0 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors"
+                        className="flex-shrink-0 px-4 py-2 bg-surface-dim hover:bg-surface-hover text-ink-soft text-sm font-medium rounded-md transition-colors"
                       >
                         练习
                         <ChevronRight className="w-4 h-4 inline ml-1" />
@@ -301,8 +300,8 @@ export function WrongAnswersPage() {
         </div>
 
         {/* 提示信息 */}
-        <div className="mt-8 bg-info-light border-l-4 border-info p-4 rounded-lg">
-          <p className="text-gray-700">
+        <div className="mt-8 noren-card border-l-4 border-accent p-4">
+          <p className="text-ink-soft">
             <strong>提示：</strong>
             连续答对一道错题 3 次后，该题目会从错题本中移除。建议定期复习错题，巩固薄弱环节。
           </p>

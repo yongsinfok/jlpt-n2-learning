@@ -1,18 +1,13 @@
-import { useState, useEffect, useMemo, memo } from 'react';
-import { Star, ArrowLeft, ArrowRight, EyeOff } from 'lucide-react';
-import DOMPurify from 'dompurify';
+import { useState, useMemo, memo } from 'react';
+import { ChevronDown, ChevronUp, Check } from 'lucide-react';
 import { AudioPlayer } from './AudioPlayer';
-import { TTSPlayButton } from './TTSPlayButton';
+import DOMPurify from 'dompurify';
 import type { Sentence } from '@/types';
-
-const ANALYSIS_SANITIZE_CONFIG = {
-  ALLOWED_TAGS: ['h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'div', 'span'],
-  ALLOWED_ATTR: ['class'],
-};
 
 export interface StudyCardProps {
   sentence: Sentence;
   grammarPoint: string;
+  grammarExplanation?: string;
   currentIndex: number;
   totalCount: number;
   onUnderstood?: () => void;
@@ -21,12 +16,12 @@ export interface StudyCardProps {
   isFirst?: boolean;
   isLast?: boolean;
   isLearned?: boolean;
-  className?: string;
 }
 
 export const StudyCard = memo(function StudyCard({
   sentence,
   grammarPoint,
+  grammarExplanation,
   currentIndex,
   totalCount,
   onUnderstood,
@@ -35,286 +30,166 @@ export const StudyCard = memo(function StudyCard({
   isFirst = false,
   isLast = false,
   isLearned = false,
-  className = '',
 }: StudyCardProps) {
   const { sentence: text, furigana, translation, audioPath, wordByWord } = sentence;
+  const [showAnalysis, setShowAnalysis] = useState(false);
+  const [showGrammarNote, setShowGrammarNote] = useState(false);
+  const [celebrate, setCelebrate] = useState(false);
 
-  const [showFurigana, setShowFurigana] = useState(true);
-  const [showTranslation, setShowTranslation] = useState(true);
-  const [showAnalysis, setShowAnalysis] = useState(true);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  useEffect(() => {
-    setIsTransitioning(true);
-    setShowFurigana(true);
-    setShowTranslation(true);
-    setShowAnalysis(true);
-    const timer = setTimeout(() => setIsTransitioning(false), 300);
-    return () => clearTimeout(timer);
-  }, [sentence.id]);
-
-  const highlightedGrammar = useMemo(() => {
+  const highlighted = useMemo(() => {
     if (!text) return '';
-    const escapedGrammar = grammarPoint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(${escapedGrammar})`, 'g');
-    const result = text.replace(regex, '<mark class="grammar-highlight">$1</mark>');
-    return DOMPurify.sanitize(result, {
-      ALLOWED_TAGS: ['mark'],
-      ALLOWED_ATTR: ['class']
-    });
+    const esc = grammarPoint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return DOMPurify.sanitize(
+      text.replace(new RegExp(`(${esc})`, 'g'), '<mark class="grammar-highlight">$1</mark>'),
+      { ALLOWED_TAGS: ['mark'], ALLOWED_ATTR: ['class'] }
+    );
   }, [text, grammarPoint]);
 
-  const sanitizedAnalysis = useMemo(() => {
+  const analysisHtml = useMemo(() => {
     if (!wordByWord || !wordByWord.includes('<')) return null;
-    return DOMPurify.sanitize(wordByWord, ANALYSIS_SANITIZE_CONFIG);
+    return DOMPurify.sanitize(wordByWord, {
+      ALLOWED_TAGS: ['h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'div', 'span'],
+      ALLOWED_ATTR: ['class'],
+    });
   }, [wordByWord]);
 
-  // 键盘快捷键
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (['input', 'textarea'].includes((e.target as HTMLElement).tagName.toLowerCase())) return;
+  const handleUnderstood = () => {
+    setCelebrate(true);
+    setTimeout(() => setCelebrate(false), 600);
+    onUnderstood?.();
+  };
 
-      if (e.key === 'f' || e.key === 'F') { e.preventDefault(); setShowFurigana(v => !v); }
-      if (e.key === 't' || e.key === 'T') { e.preventDefault(); setShowTranslation(v => !v); }
-      if (e.key === 'a' || e.key === 'A') { e.preventDefault(); setShowAnalysis(v => !v); }
-      if (e.key === 'ArrowLeft' && !isFirst && onPrevious) { e.preventDefault(); onPrevious(); }
-      if (e.key === 'ArrowRight' && !isLast && onNext) { e.preventDefault(); onNext(); }
-      if (e.key === ' ' && !e.repeat) { e.preventDefault(); /* Play audio */ }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isFirst, isLast, onPrevious, onNext]);
+  const progress = ((currentIndex + 1) / totalCount) * 100;
 
   return (
-    <div className={`relative w-full max-w-4xl mx-auto ${className}`}>
-      {/* 顶部进度条 - Modern Design */}
-      <div className="flex items-center justify-between mb-8 px-2">
-        <span className="text-xs font-medium tracking-wide text-text-secondary">
-          Sentence <span className="font-semibold text-primary">{String(currentIndex + 1).padStart(2, '0')}</span>
-          <span className="text-text-muted mx-1">/</span>
-          {String(totalCount).padStart(2, '0')}
+    <div className="space-y-5">
+      {/* Progress bar */}
+      <div className="flex items-center gap-4">
+        <span className="font-mono text-xs text-ink-mute min-w-[4rem]">
+          {String(currentIndex + 1).padStart(2, '0')}/{String(totalCount).padStart(2, '0')}
         </span>
-        <div className="flex gap-1.5 h-1.5 flex-1 max-w-[240px] mx-6">
-          {Array.from({ length: Math.min(totalCount, 12) }).map((_, idx) => (
-            <div
-              key={idx}
-              className={`h-full flex-1 rounded-full transition-all duration-500 ${idx < currentIndex
-                ? 'bg-gradient-to-r from-primary to-secondary'
-                : idx === currentIndex
-                  ? 'bg-gradient-to-r from-primary to-secondary scale-y-150 shadow-glow'
-                  : 'bg-gray-200'
-                }`}
-              style={{ transitionDelay: `${idx * 20}ms` }}
-            />
-          ))}
+        <div className="flex-1 h-1.5 bg-border-light rounded-full overflow-hidden">
+          <div
+            className="h-full rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${progress}%`, background: 'var(--accent)' }}
+          />
         </div>
-        <div className="flex items-center text-xs text-text-secondary">
-          {isLearned ? (
-            <span className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-primary to-secondary text-white font-medium text-xs rounded-full shadow-sm">
-              <Star size={12} className="fill-white" />
-              <span>已掌握</span>
-            </span>
-          ) : (
-            <span className="px-3 py-1.5 bg-white/50 backdrop-blur-sm text-text-secondary font-medium text-xs rounded-full border border-gray-200">
-              学习中
-            </span>
-          )}
-        </div>
+        {isLearned && (
+          <span className="flex items-center gap-1 text-xs text-pine font-medium">
+            <Check size={14} />已完成
+          </span>
+        )}
       </div>
 
-      {/* 主卡片 - Modern Glassmorphism Design */}
-      <div className={`
-        glass-card-strong p-10 md:p-14 text-center relative
-        transition-all duration-500
-        ${isTransitioning ? 'opacity-50 scale-[0.98]' : 'opacity-100 scale-100'}
-      `}>
-        {/* 主要内容区 */}
-        <div className="relative flex flex-col items-center">
-
-          {/* 语法点标签 - Modern Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/10 to-secondary/10 text-primary font-medium text-xs mb-8 rounded-full border border-primary/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
-            <span>{grammarPoint}</span>
+      {/* Sentence card */}
+      <div className={`bg-surface border border-border rounded-[14px] shadow-sm overflow-hidden transition-all duration-300 ${celebrate ? 'scale-[1.01]' : ''}`}>
+        {/* Grammar header */}
+        <div className="px-6 pt-6 pb-3 border-b border-border/50">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => setShowGrammarNote(v => !v)}
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent-pale text-accent rounded-full text-sm font-medium hover:bg-accent-soft transition-colors"
+            >
+              <span>{grammarPoint}</span>
+              {grammarExplanation && (
+                showGrammarNote ? <ChevronUp size={14} /> : <ChevronDown size={14} />
+              )}
+            </button>
+            {audioPath && <AudioPlayer audioPath={audioPath} showProgress={false} showPlaybackRate={false} />}
           </div>
-
-          {/* 主句显示 - 大号字体 */}
-          <div className="mb-8 w-full min-h-[140px] flex items-center justify-center">
-            <p
-              className="text-3xl sm:text-4xl md:text-5xl leading-tight text-text-primary transition-all duration-500"
-              style={{
-                fontFamily: '"Inter", "Noto Sans JP", sans-serif',
-                fontWeight: 600,
-                letterSpacing: '-0.02em'
-              }}
-              dangerouslySetInnerHTML={{ __html: highlightedGrammar }}
-            />
-          </div>
-
-          {/* 音频播放器 - Modern Style */}
-          {audioPath && (
-            <div className="mb-8">
-              <AudioPlayer audioPath={audioPath} />
-            </div>
+          {showGrammarNote && grammarExplanation && (
+            <p className="mt-3 text-sm text-ink-soft leading-relaxed pl-3 border-l-2 border-accent-soft">
+              {grammarExplanation}
+            </p>
           )}
+        </div>
 
-          {/* 可折叠内容区域 - Modern Cards */}
-          <div className="w-full max-w-2xl space-y-4">
-            <ExpandableCard
-              show={showFurigana}
-              onToggle={() => setShowFurigana(!showFurigana)}
-              label="假名标注"
-              shortcut="F"
-            >
-              <p className="text-2xl text-text-primary font-semibold tracking-wide" style={{ fontFamily: '"Noto Sans JP", sans-serif' }}>
-                {furigana}
-              </p>
-            </ExpandableCard>
+        {/* Sentence - hero */}
+        <div className="px-6 py-8 text-center">
+          <p
+            className="text-2xl sm:text-3xl md:text-4xl leading-relaxed text-ink"
+            style={{ fontFamily: '"Noto Serif JP", "Yu Mincho", serif', fontWeight: 500, letterSpacing: '0.02em' }}
+            dangerouslySetInnerHTML={{ __html: highlighted }}
+          />
+        </div>
 
-            <ExpandableCard
-              show={showTranslation}
-              onToggle={() => setShowTranslation(!showTranslation)}
-              label="中文翻译"
-              shortcut="T"
-            >
-              <p className="text-lg text-text-secondary leading-relaxed">
-                {translation}
-              </p>
-            </ExpandableCard>
+        {/* Furigana - subtle */}
+        {furigana && furigana !== text && (
+          <div className="px-6 pb-2 text-center">
+            <p className="text-sm text-ink-faint" style={{ fontFamily: '"Noto Sans JP", sans-serif', letterSpacing: '0.04em' }}>
+              {furigana}
+            </p>
+          </div>
+        )}
 
-            <ExpandableCard
-              show={showAnalysis}
-              onToggle={() => setShowAnalysis(!showAnalysis)}
-              label="逐词解析"
-              shortcut="A"
+        {/* Translation */}
+        {translation && (
+          <div className="px-6 pb-6">
+            <p className="text-base text-ink-soft leading-relaxed text-center">
+              {translation}
+            </p>
+          </div>
+        )}
+
+        {/* Word analysis toggle */}
+        {(wordByWord) && (
+          <div className="border-t border-border/50">
+            <button
+              onClick={() => setShowAnalysis(v => !v)}
+              className="w-full flex items-center justify-between px-6 py-3 text-sm text-ink-mute hover:text-ink hover:bg-surface-dim transition-colors"
             >
-              <div className="text-text-secondary text-sm leading-relaxed max-w-none">
-                {sanitizedAnalysis !== null
-                  ? <div dangerouslySetInnerHTML={{ __html: sanitizedAnalysis }} />
-                  : wordByWord && <p className="whitespace-pre-wrap">{wordByWord}</p>}
+              <span>逐詞解析</span>
+              {showAnalysis ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+            {showAnalysis && (
+              <div className="px-6 pb-5">
+                <div className="bg-bg-warm rounded-[10px] p-4 text-sm text-ink-soft leading-relaxed">
+                  {analysisHtml
+                    ? <div dangerouslySetInnerHTML={{ __html: analysisHtml }} />
+                    : <p className="whitespace-pre-wrap">{wordByWord}</p>
+                  }
+                </div>
               </div>
-              {wordByWord && <TTSPlayButton text={wordByWord} />}
-            </ExpandableCard>
+            )}
           </div>
-        </div>
+        )}
       </div>
 
-      {/* 底部导航 - Modern Design */}
-      <div className="mt-6 flex items-center justify-between gap-4">
-        <NavButton
+      {/* Navigation */}
+      <div className="flex items-center gap-3">
+        <button
           onClick={onPrevious}
           disabled={isFirst}
-          icon={<ArrowLeft size={20} />}
-          label="上一句"
-        />
-
-        <button
-          onClick={onUnderstood}
-          className={`
-            flex-1 max-w-md flex items-center justify-center gap-3 py-4 px-8
-            font-semibold text-base transition-all duration-300 rounded-xl
-            ${isLearned
-              ? 'bg-gradient-to-r from-success to-success/80 text-white shadow-glow'
-              : 'bg-gradient-to-r from-primary to-secondary text-white shadow-glow hover:shadow-lg hover:-translate-y-0.5'
-            }
-          `}
+          className="w-12 h-12 rounded-[10px] flex items-center justify-center bg-surface border border-border text-ink-soft hover:bg-surface-hover disabled:opacity-30 disabled:cursor-not-allowed transition-all"
         >
-          <Star size={20} className={isLearned ? 'fill-white' : 'fill-white/30'} />
-          {isLearned ? '已掌握' : '我已理解'}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
         </button>
 
-        <NavButton
+        <button
+          onClick={handleUnderstood}
+          className={`flex-1 py-3.5 rounded-[10px] font-semibold text-base transition-all duration-300 ${
+            isLearned
+              ? 'bg-pine-pale text-pine border border-pine/30'
+              : 'bg-accent text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0'
+          } ${celebrate ? 'scale-[1.03]' : ''}`}
+        >
+          {isLearned ? (
+            <span className="flex items-center justify-center gap-2"><Check size={18} /> 已掌握</span>
+          ) : (
+            <span className="flex items-center justify-center gap-2">
+              <Check size={18} /> 理解了，下一句
+            </span>
+          )}
+        </button>
+
+        <button
           onClick={onNext}
           disabled={isLast}
-          icon={<ArrowRight size={20} />}
-          label="下一句"
-        />
+          className="w-12 h-12 rounded-[10px] flex items-center justify-center bg-surface border border-border text-ink-soft hover:bg-surface-hover disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
       </div>
-
-      {/* 键盘快捷键提示 - Modern */}
-      <div className="mt-8 flex justify-center gap-3 text-xs text-text-secondary">
-        <kbd className="flex items-center gap-1.5 px-3 py-2 glass-card rounded-lg">
-          <span className="font-mono font-medium">F</span> 假名
-        </kbd>
-        <kbd className="flex items-center gap-1.5 px-3 py-2 glass-card rounded-lg">
-          <span className="font-mono font-medium">T</span> 翻译
-        </kbd>
-        <kbd className="flex items-center gap-1.5 px-3 py-2 glass-card rounded-lg">
-          <span className="font-mono font-medium">A</span> 解析
-        </kbd>
-        <kbd className="flex items-center gap-1.5 px-3 py-2 glass-card rounded-lg">
-          <span className="font-mono font-medium">←→</span> 切换
-        </kbd>
-      </div>
-
     </div>
   );
 });
-
-function ExpandableCard({
-  show,
-  onToggle,
-  label,
-  shortcut,
-  children
-}: {
-  show: boolean;
-  onToggle: () => void;
-  label: string;
-  shortcut: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className={`
-      overflow-hidden transition-all duration-500 ease-out
-      ${show ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}
-    `}>
-      <div className="bg-white/40 backdrop-blur-sm border border-gray-200 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold tracking-wide text-text-primary">
-              {label}
-            </span>
-          </div>
-          <button
-            onClick={onToggle}
-            className="p-2 bg-gradient-to-r from-primary/10 to-secondary/10 text-primary rounded-lg hover:from-primary/20 hover:to-secondary/20 transition-all"
-            title={`Toggle (${shortcut})`}
-          >
-            <EyeOff size={14} />
-          </button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function NavButton({
-  onClick,
-  disabled,
-  icon,
-  label
-}: {
-  onClick?: () => void;
-  disabled?: boolean;
-  icon: React.ReactNode;
-  label: string;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={`
-        w-14 h-14 rounded-xl flex items-center justify-center
-        transition-all duration-300 font-medium
-        ${disabled
-          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-          : 'bg-gradient-to-br from-primary to-secondary text-white shadow-glow hover:shadow-lg hover:-translate-y-0.5'
-        }
-      `}
-      title={label}
-    >
-      {icon}
-    </button>
-  );
-}

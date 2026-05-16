@@ -1,5 +1,5 @@
 /**
- * ProgressPage - Modern Clean Design
+ * ProgressPage - Noren Warm Design
  */
 
 import { useEffect, useState } from 'react';
@@ -179,11 +179,11 @@ export function ProgressPage() {
 
   if (!userProgress) {
     return (
-      <div className="min-h-screen bg-neutral">
+      <div className="min-h-screen bg-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="card p-12 text-center">
-            <h1 className="text-h1 md:text-2xl font-bold text-primary mb-2">还没有学习记录</h1>
-            <p className="text-body text-neutral-dark mb-6">开始学习后，这里会显示你的学习进度</p>
+          <div className="noren-card p-12 text-center">
+            <h1 className="text-h1 md:text-2xl font-bold text-ink mb-2">还没有学习记录</h1>
+            <p className="text-base text-ink-soft mb-6">开始学习后，这里会显示你的学习进度</p>
             <Button variant="primary" asChild>
               <button onClick={() => navigate('/lessons')}>开始学习</button>
             </Button>
@@ -194,12 +194,12 @@ export function ProgressPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral">
+    <div className="min-h-screen bg-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-h1 md:text-3xl font-bold text-primary mb-2">学习进度</h1>
-          <p className="text-body text-neutral-dark">查看你的学习统计数据和进度</p>
+          <h1 className="text-h1 md:text-3xl font-bold text-ink mb-2">学习进度</h1>
+          <p className="text-base text-ink-soft">查看你的学习统计数据和进度</p>
         </div>
 
         {/* Weekly Chart */}

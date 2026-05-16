@@ -1,17 +1,10 @@
-/**
- * 填空题练习组件
- * 提供完整的填空题练习体验，包括题目展示、进度导航
- */
-
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
 import { QuestionCard } from './QuestionCard';
 import type { QuizQuestion } from '@/types';
 
 interface FillBlankQuizProps {
-  /** 题目列表 */
   questions: QuizQuestion[];
-  /** 完成测试回调 */
   onComplete: (result: {
     totalQuestions: number;
     correctCount: number;
@@ -24,9 +17,7 @@ interface FillBlankQuizProps {
       correctAnswer: string;
     }>;
   }) => void;
-  /** 退出练习回调 */
   onExit?: () => void;
-  /** 是否显示解析 */
   showExplanation?: boolean;
 }
 
@@ -43,7 +34,6 @@ export function FillBlankQuiz({
   const [startTime] = useState(Date.now());
   const [timeSpent, setTimeSpent] = useState(0);
 
-  // 更新计时
   useEffect(() => {
     if (!isSubmitted) {
       const interval = setInterval(() => {
@@ -58,13 +48,11 @@ export function FillBlankQuiz({
   const answeredCount = userAnswers.size;
   const progress = answeredCount / questions.length;
 
-  // 处理选择答案
   const handleSelectAnswer = (answer: string) => {
     setUserAnswers(prev => new Map(prev).set(currentQuestion.id, answer));
     setShowExplanation(true);
   };
 
-  // 下一题
   const handleNext = () => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(prev => prev + 1);
@@ -72,7 +60,6 @@ export function FillBlankQuiz({
     }
   };
 
-  // 上一题
   const handlePrevious = () => {
     if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
@@ -80,7 +67,6 @@ export function FillBlankQuiz({
     }
   };
 
-  // 提交测试
   const handleSubmit = () => {
     if (answeredCount < questions.length) {
       const confirmed = confirm(
@@ -91,7 +77,6 @@ export function FillBlankQuiz({
 
     setIsSubmitted(true);
 
-    // 计算结果
     let correctCount = 0;
     const results = questions.map(question => {
       const userAnswer = userAnswers.get(question.id) || '';
@@ -115,24 +100,22 @@ export function FillBlankQuiz({
     });
   };
 
-  // 格式化时间
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // 如果没有题目
   if (questions.length === 0) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-xl shadow-md p-8 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">暂无题目</h2>
-          <p className="text-gray-600 mb-4">请先学习一些语法点再来练习吧！</p>
+        <div className="noren-card p-8 text-center">
+          <h2 className="text-xl font-bold font-mincho text-ink mb-2">暂无题目</h2>
+          <p className="text-ink-soft mb-4">请先学习一些语法点再来练习吧！</p>
           {onExit && (
             <button
               onClick={onExit}
-              className="px-6 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors"
+              className="px-6 py-2 bg-accent hover:bg-accent-hover text-white font-medium rounded-lg transition-colors"
             >
               返回
             </button>
@@ -144,34 +127,31 @@ export function FillBlankQuiz({
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* 顶部进度栏 */}
-      <div className="bg-white rounded-lg shadow-md p-4 mb-6 sticky top-4 z-10">
+      <div className="noren-card p-4 mb-6 sticky top-4 z-10">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium text-gray-600">
+            <span className="text-sm font-medium text-ink-soft">
               进度: {currentIndex + 1} / {questions.length}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-ink-mute">
               已答: {answeredCount} / {questions.length}
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">用时:</span>
-            <span className="text-sm font-mono font-bold text-gray-900">
+            <span className="text-sm text-ink-soft">用时:</span>
+            <span className="text-sm font-mono font-bold text-ink">
               {formatTime(timeSpent)}
             </span>
           </div>
         </div>
 
-        {/* 进度条 */}
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-border-light rounded-full h-2">
           <div
-            className="bg-primary h-2 rounded-full transition-all duration-300"
+            className="bg-accent h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress * 100}%` }}
           />
         </div>
 
-        {/* 题目导航点 */}
         <div className="flex gap-1 mt-3 flex-wrap">
           {questions.map((q, index) => {
             const isAnswered = userAnswers.has(q.id);
@@ -185,10 +165,10 @@ export function FillBlankQuiz({
                 }}
                 className={`w-8 h-8 rounded-full text-xs font-medium transition-colors ${
                   isCurrent
-                    ? 'bg-primary text-white'
+                    ? 'bg-accent text-white'
                     : isAnswered
-                    ? 'bg-success text-white'
-                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                    ? 'bg-pine text-white'
+                    : 'bg-border-light text-ink-mute hover:bg-border-strong'
                 }`}
                 aria-label={`跳转到题目 ${index + 1}`}
               >
@@ -199,7 +179,6 @@ export function FillBlankQuiz({
         </div>
       </div>
 
-      {/* 题目卡片 */}
       {currentQuestion && (
         <QuestionCard
           question={currentQuestion}
@@ -211,12 +190,11 @@ export function FillBlankQuiz({
         />
       )}
 
-      {/* 导航按钮 */}
       <div className="flex items-center justify-between mt-6">
         <button
           onClick={handlePrevious}
           disabled={currentIndex === 0}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 text-gray-700 font-medium rounded-lg transition-colors"
+          className="flex items-center gap-2 px-4 py-2 border border-border bg-surface hover:bg-surface-hover disabled:opacity-50 disabled:cursor-not-allowed text-ink-soft font-medium rounded-lg transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
           上一题
@@ -226,7 +204,7 @@ export function FillBlankQuiz({
           {onExit && !isSubmitted && (
             <button
               onClick={onExit}
-              className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition-colors"
+              className="px-4 py-2 border border-border bg-surface hover:bg-surface-hover text-ink-soft font-medium rounded-lg transition-colors"
             >
               退出练习
             </button>
@@ -235,7 +213,7 @@ export function FillBlankQuiz({
           {isSubmitted ? (
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center gap-2 px-6 py-2 bg-success hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
+              className="flex items-center gap-2 px-6 py-2 bg-pine hover:bg-pine-light text-white font-medium rounded-lg transition-colors"
             >
               <CheckCircle2 className="w-5 h-5" />
               查看结果
@@ -246,14 +224,14 @@ export function FillBlankQuiz({
                 <button
                   onClick={handleSubmit}
                   disabled={!hasAnswer}
-                  className="px-6 py-2 bg-primary hover:bg-primary-hover disabled:bg-gray-300 disabled:text-gray-500 text-white font-medium rounded-lg transition-colors"
+                  className="px-6 py-2 bg-accent hover:bg-accent-hover disabled:opacity-50 disabled:text-ink-mute text-white font-medium rounded-lg transition-colors"
                 >
                   提交答案
                 </button>
               ) : (
                 <button
                   onClick={handleNext}
-                  className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-white font-medium rounded-lg transition-colors"
                 >
                   下一题
                   <ChevronRight className="w-5 h-5" />
@@ -266,7 +244,7 @@ export function FillBlankQuiz({
         <button
           onClick={handleNext}
           disabled={currentIndex === questions.length - 1}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 text-gray-700 font-medium rounded-lg transition-colors"
+          className="flex items-center gap-2 px-4 py-2 border border-border bg-surface hover:bg-surface-hover disabled:opacity-50 disabled:cursor-not-allowed text-ink-soft font-medium rounded-lg transition-colors"
         >
           下一题
           <ChevronRight className="w-5 h-5" />

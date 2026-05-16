@@ -40,15 +40,15 @@ export function AchievementBadge({
   const getCategoryColor = (cat?: string): string => {
     switch (cat) {
       case 'learning':
-        return 'from-blue-400 to-blue-600';
+        return 'bg-accent/80';
       case 'practice':
-        return 'from-purple-400 to-purple-600';
+        return 'bg-pine/80';
       case 'streak':
-        return 'from-orange-400 to-red-600';
+        return 'bg-amber/80';
       case 'milestone':
-        return 'from-yellow-400 to-amber-600';
+        return 'bg-accent/80';
       default:
-        return 'from-gray-400 to-gray-600';
+        return 'bg-ink-mute';
     }
   };
 
@@ -66,10 +66,10 @@ export function AchievementBadge({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`
-        relative rounded-xl p-4 border-2 transition-all duration-200 cursor-pointer
+        noren-card p-4 transition-all duration-200 cursor-pointer text-center
         ${isUnlocked
-          ? 'bg-gradient-to-br from-yellow-50 to-amber-50 border-yellow-300 hover:shadow-lg hover:scale-105'
-          : 'bg-gray-50 border-gray-200 opacity-60 hover:opacity-80'
+          ? 'hover:shadow-card-hover hover:scale-[1.03]'
+          : 'opacity-55 hover:opacity-80 bg-surface-dim'
         }
       `}
     >
@@ -79,49 +79,49 @@ export function AchievementBadge({
         ${isUnlocked ? 'scale-100' : 'grayscale scale-75'}
         ${isHovered ? 'scale-110' : ''}
       `}>
-        {isUnlocked ? icon : <Lock className="w-8 h-8 text-gray-400" />}
+        {isUnlocked ? icon : <Lock className="w-8 h-8 text-ink-mute mx-auto" />}
       </div>
 
       {/* 成就名称 */}
-      <h4 className={`font-semibold mb-1 ${isUnlocked ? 'text-gray-900' : 'text-gray-500'}`}>
+      <h4 className={`font-semibold mb-1 ${isUnlocked ? 'text-ink' : 'text-ink-mute'}`}>
         {name}
       </h4>
 
       {/* 成就描述（显示详情时） */}
       {showDetails && (
-        <p className={`text-sm mb-2 ${isUnlocked ? 'text-gray-600' : 'text-gray-400'}`}>
+        <p className={`text-sm mb-2 ${isUnlocked ? 'text-ink-soft' : 'text-ink-mute'}`}>
           {description}
         </p>
       )}
 
       {/* 解锁状态 */}
       {isUnlocked ? (
-        <div className="flex items-center gap-1 text-xs">
-          <div className="w-2 h-2 bg-green-500 rounded-full" />
-          <span className="text-green-600 font-medium">已解锁</span>
+        <div className="flex items-center justify-center gap-1 text-xs">
+          <div className="w-2 h-2 bg-pine rounded-full" />
+          <span className="text-pine font-medium">已解锁</span>
           {unlockedDate && (
-            <span className="text-gray-500 ml-1">
+            <span className="text-ink-mute ml-1">
               ({formatDate(unlockedDate)})
             </span>
           )}
         </div>
       ) : (
-        <div className="flex items-center gap-1 text-xs">
-          <div className="w-2 h-2 bg-gray-300 rounded-full" />
-          <span className="text-gray-500">未解锁</span>
+        <div className="flex items-center justify-center gap-1 text-xs">
+          <div className="w-2 h-2 bg-border-strong rounded-full" />
+          <span className="text-ink-mute">未解锁</span>
         </div>
       )}
 
       {/* 悬停提示 */}
       {isHovered && !showDetails && (
-        <div className="absolute inset-0 bg-white bg-opacity-95 rounded-xl p-3 flex items-center justify-center text-center z-10">
-          <p className="text-sm text-gray-700">{description}</p>
+        <div className="absolute inset-0 bg-surface rounded-[10px] p-3 flex items-center justify-center text-center z-10 border border-border">
+          <p className="text-sm text-ink-soft">{description}</p>
         </div>
       )}
 
       {/* 分类标签（可选） */}
       {category && isUnlocked && (
-        <div className={`absolute top-2 right-2 px-2 py-0.5 rounded-full text-xs text-white bg-gradient-to-r ${getCategoryColor(category)}`}>
+        <div className={`absolute top-2 right-2 px-2 py-0.5 rounded-full text-xs text-white ${getCategoryColor(category)}`}>
           {getCategoryLabel(category)}
         </div>
       )}

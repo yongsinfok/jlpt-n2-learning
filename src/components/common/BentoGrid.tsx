@@ -1,13 +1,4 @@
-/**
- * BentoGrid - Modular card-based layout component
- * Inspired by Apple's iOS 17+ design language
- */
-
 import { cn } from '@/utils/cn';
-
-// ========================================
-// Types
-// ========================================
 
 export interface BentoCardProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
@@ -37,10 +28,6 @@ export interface BentoStatProps {
   iconVariant?: 'ai' | 'sakura' | 'matcha' | 'gold';
   className?: string;
 }
-
-// ========================================
-// BentoCard Component
-// ========================================
 
 export function BentoCard({
   children,
@@ -99,10 +86,6 @@ export function BentoCard({
   );
 }
 
-// ========================================
-// BentoGrid Component
-// ========================================
-
 export function BentoGrid({
   children,
   className,
@@ -129,10 +112,6 @@ export function BentoGrid({
     </div>
   );
 }
-
-// ========================================
-// BentoStat Component
-// ========================================
 
 export function BentoStat({
   value,
@@ -161,10 +140,6 @@ export function BentoStat({
   );
 }
 
-// ========================================
-// BentoCardHeader Component
-// ========================================
-
 export function BentoCardHeader({
   children,
   className,
@@ -174,10 +149,6 @@ export function BentoCardHeader({
 }) {
   return <div className={cn('bento-card-header', className)}>{children}</div>;
 }
-
-// ========================================
-// BentoCardTitle Component
-// ========================================
 
 export function BentoCardTitle({
   children,
@@ -189,10 +160,6 @@ export function BentoCardTitle({
   return <h3 className={cn('bento-card-title', className)}>{children}</h3>;
 }
 
-// ========================================
-// BentoCardSubtitle Component
-// ========================================
-
 export function BentoCardSubtitle({
   children,
   className,
@@ -202,10 +169,6 @@ export function BentoCardSubtitle({
 }) {
   return <p className={cn('bento-card-subtitle', className)}>{children}</p>;
 }
-
-// ========================================
-// BentoCardBody Component
-// ========================================
 
 export function BentoCardBody({
   children,
@@ -217,10 +180,6 @@ export function BentoCardBody({
   return <div className={cn('bento-card-body', className)}>{children}</div>;
 }
 
-// ========================================
-// BentoCardFooter Component
-// ========================================
-
 export function BentoCardFooter({
   children,
   className,
@@ -230,10 +189,6 @@ export function BentoCardFooter({
 }) {
   return <div className={cn('bento-card-footer', className)}>{children}</div>;
 }
-
-// ========================================
-// Preset Bento Cards
-// ========================================
 
 interface QuickActionCardProps {
   title: string;
@@ -265,13 +220,13 @@ export function QuickActionCard({
           {icon}
         </div>
         <div className="flex-1">
-          <h4 className="text-xl font-bold text-sumi mb-1 group-hover:text-ai transition-colors">
+          <h4 className="text-xl font-bold text-ink mb-1 group-hover:text-accent transition-colors">
             {title}
           </h4>
-          <p className="text-base text-sumi/70">{description}</p>
+          <p className="text-base text-ink-soft">{description}</p>
         </div>
         <svg
-          className="w-6 h-6 text-sumi/50 group-hover:text-sakura transition-colors flex-shrink-0"
+          className="w-6 h-6 text-ink-soft group-hover:text-accent transition-colors flex-shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -315,10 +270,10 @@ export function ProgressCard({
     >
       <div className="flex items-center gap-4 mb-5">
         <div className={cn('bento-icon', `bento-icon-${color}`)}>{icon}</div>
-        <span className="text-lg font-semibold text-sumi">{title}</span>
+        <span className="text-lg font-semibold text-ink">{title}</span>
       </div>
-      <div className="text-5xl font-bold text-sumi mb-2">{current}</div>
-      <div className="text-base text-sumi/70 mb-4">共 {total} 个</div>
+      <div className="text-5xl font-bold text-ink mb-2">{current}</div>
+      <div className="text-base text-ink-soft mb-4">共 {total} 个</div>
       <div className="progress-bar h-2 glass-card-subtle">
         <div
           className="progress-fill-gradient h-2"
