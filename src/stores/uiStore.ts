@@ -1,6 +1,6 @@
 /**
- * 设置状态管理
- * 注意：大多数设置已经集成在 userStore 中，此 store 用于扩展设置需求
+ * UI 状态管理（侧边栏、Toast、成就弹窗等）
+ * 用户设置见 userStore.settings
  */
 
 import { create } from 'zustand';
@@ -21,9 +21,9 @@ interface UIState {
 }
 
 /**
- * 设置 Store
+ * UI Store
  */
-interface SettingsStore extends UIState {
+interface UIStore extends UIState {
   /** 切换侧边栏 */
   toggleSidebar: () => void;
   /** 关闭侧边栏 */
@@ -38,35 +38,20 @@ interface SettingsStore extends UIState {
   hideAchievement: () => void;
 }
 
-/**
- * 创建设置 Store
- */
-export const useSettingsStore = create<SettingsStore>()(
+export const useUIStore = create<UIStore>()(
   persist(
     (set) => ({
-      // 初始状态
       isSidebarOpen: false,
       showGoalCompleteToast: false,
       showAchievementUnlock: false,
       unlockedAchievementId: null,
 
-      // 切换侧边栏
       toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
-
-      // 关闭侧边栏
       closeSidebar: () => set({ isSidebarOpen: false }),
-
-      // 显示目标完成提示
       showGoalComplete: () => set({ showGoalCompleteToast: true }),
-
-      // 隐藏目标完成提示
       hideGoalComplete: () => set({ showGoalCompleteToast: false }),
-
-      // 显示成就解锁
       showAchievement: (achievementId) =>
         set({ showAchievementUnlock: true, unlockedAchievementId: achievementId }),
-
-      // 隐藏成就解锁
       hideAchievement: () =>
         set({ showAchievementUnlock: false, unlockedAchievementId: null }),
     }),

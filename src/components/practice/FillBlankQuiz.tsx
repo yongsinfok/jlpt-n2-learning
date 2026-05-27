@@ -28,7 +28,7 @@ export function FillBlankQuiz({
   showExplanation: initialShowExplanation = false,
 }: FillBlankQuizProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [userAnswers, setUserAnswers] = useState<Map<string, string>>(new Map());
+  const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showExplanation, setShowExplanation] = useState(initialShowExplanation);
   const [startTime] = useState(Date.now());
@@ -44,12 +44,12 @@ export function FillBlankQuiz({
   }, [isSubmitted, startTime]);
 
   const currentQuestion = questions[currentIndex];
-  const hasAnswer = currentQuestion && userAnswers.has(currentQuestion.id);
-  const answeredCount = userAnswers.size;
+  const hasAnswer = currentQuestion && userAnswers[currentQuestion.id] !== undefined;
+  const answeredCount = Object.keys(userAnswers).length;
   const progress = answeredCount / questions.length;
 
   const handleSelectAnswer = (answer: string) => {
-    setUserAnswers(prev => new Map(prev).set(currentQuestion.id, answer));
+    setUserAnswers(prev => ({ ...prev, [currentQuestion.id]: answer }));
     setShowExplanation(true);
   };
 
@@ -79,7 +79,7 @@ export function FillBlankQuiz({
 
     let correctCount = 0;
     const results = questions.map(question => {
-      const userAnswer = userAnswers.get(question.id) || '';
+      const userAnswer = userAnswers[question.id] || '';
       const isCorrect = userAnswer === question.correctAnswer;
       if (isCorrect) correctCount++;
 
@@ -154,7 +154,7 @@ export function FillBlankQuiz({
 
         <div className="flex gap-1 mt-3 flex-wrap">
           {questions.map((q, index) => {
-            const isAnswered = userAnswers.has(q.id);
+            const isAnswered = q.id in userAnswers;
             const isCurrent = index === currentIndex;
             return (
               <button
@@ -183,7 +183,7 @@ export function FillBlankQuiz({
         <QuestionCard
           question={currentQuestion}
           isSubmitted={isSubmitted}
-          userAnswer={userAnswers.get(currentQuestion.id)}
+          userAnswer={userAnswers[currentQuestion.id]}
           onSelectAnswer={handleSelectAnswer}
           showExplanation={showExplanation}
           onToggleExplanation={() => setShowExplanation(prev => !prev)}
