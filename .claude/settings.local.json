@@ -8,7 +8,15 @@
       "mcp__plugin_serena_serena__read_file",
       "mcp__plugin_serena_serena__list_dir",
       "mcp__plugin_playwright_playwright__browser_navigate",
-      "mcp__plugin_playwright_playwright__browser_take_screenshot"
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "Bash(npx skills *)",
+      "Bash(npx -y skills add alchaincyf/huashu-design --yes --agent claude-code)",
+      "Bash(sed -i 's/userAnswers\\\\.has\\(q\\\\.id\\)/q.id in userAnswers/' \"src/components/practice/FillBlankQuiz.tsx\")",
+      "Bash(sed -i 's/userAnswers\\\\.get\\(currentQuestion\\\\.id\\)/userAnswers[currentQuestion.id]/' \"src/components/practice/FillBlankQuiz.tsx\")"
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo ''); echo \"📁 ${PWD##*/} ${BRANCH:+(git:$BRANCH)} | $(date +%H:%M)\""
   }
 }

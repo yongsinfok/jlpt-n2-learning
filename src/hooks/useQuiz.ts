@@ -108,7 +108,7 @@ export function useQuiz() {
     }> = [];
 
     for (const question of questions) {
-      const userAnswer = userAnswers.get(question.id) || '';
+      const userAnswer = userAnswers[question.id] || '';
       const isCorrect = userAnswer === question.correctAnswer;
 
       if (isCorrect) correctCount++;

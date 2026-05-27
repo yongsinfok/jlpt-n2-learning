@@ -14,7 +14,7 @@ interface QuizStore {
   /** 当前题目索引 */
   currentQuestionIndex: number;
   /** 用户答案 */
-  userAnswers: Map<string, string>;
+  userAnswers: Record<string, string>;
   /** 是否已完成 */
   isCompleted: boolean;
   /** 测试结果 */
@@ -53,7 +53,7 @@ export const useQuizStore = create<QuizStore>()((set, get) => ({
   // 初始状态
   questions: [],
   currentQuestionIndex: 0,
-  userAnswers: new Map(),
+  userAnswers: {},
   isCompleted: false,
   result: null,
   startTime: null,
@@ -64,7 +64,7 @@ export const useQuizStore = create<QuizStore>()((set, get) => ({
     set({
       questions,
       currentQuestionIndex: 0,
-      userAnswers: new Map(),
+      userAnswers: {},
       isCompleted: false,
       result: null,
       startTime: Date.now(),
@@ -73,11 +73,9 @@ export const useQuizStore = create<QuizStore>()((set, get) => ({
 
   // 提交答案
   submitAnswer: (questionId, answer) =>
-    set((state) => {
-      const newAnswers = new Map(state.userAnswers);
-      newAnswers.set(questionId, answer);
-      return { userAnswers: newAnswers };
-    }),
+    set((state) => ({
+      userAnswers: { ...state.userAnswers, [questionId]: answer },
+    })),
 
   // 下一题
   nextQuestion: () =>
@@ -112,7 +110,7 @@ export const useQuizStore = create<QuizStore>()((set, get) => ({
     set({
       questions: [],
       currentQuestionIndex: 0,
-      userAnswers: new Map(),
+      userAnswers: {},
       isCompleted: false,
       result: null,
       startTime: null,
@@ -132,6 +130,6 @@ export const useQuizStore = create<QuizStore>()((set, get) => ({
   // 获取已完成题目数
   getCompletedCount: () => {
     const state = get();
-    return state.userAnswers.size;
+    return Object.keys(state.userAnswers).length;
   },
 }));
