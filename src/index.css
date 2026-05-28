@@ -10,33 +10,33 @@
   --font-serif: 'Noto Serif JP', 'Yu Mincho', serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --bg: #14100C;
-  --bg-warm: #1A1511;
-  --surface: #231D18;
-  --surface-hover: #2A231D;
-  --surface-dim: #322A23;
-  --ink: #E8DDD0;
-  --ink-soft: #C4B8A8;
-  --ink-mute: #8C8275;
-  --ink-faint: #554C40;
-  --accent: #D96040;
-  --accent-soft: #4A2A1A;
-  --accent-pale: #3A1F10;
-  --accent-hover: #E87050;
-  --amber: #D4A85E;
-  --amber-light: #E0C080;
-  --amber-pale: #3A3020;
-  --border: #322A23;
-  --border-light: #2A231D;
-  --border-strong: #403830;
-  --pine: #6D9A7C;
-  --pine-light: #8AB89A;
-  --pine-pale: #2A3A2A;
+  --bg: #FFFFFF;
+  --bg-warm: #F0F5FF;
+  --surface: #F5F7FA;
+  --surface-hover: #EBF0FF;
+  --surface-dim: #E5E7EB;
+  --ink: #1A1A2E;
+  --ink-soft: #6B7394;
+  --ink-mute: #9CA3AF;
+  --ink-faint: #D1D5DB;
+  --accent: #58CC02;
+  --accent-soft: #B8E6B8;
+  --accent-pale: #D6F0D6;
+  --accent-hover: #46A302;
+  --amber: #FF9500;
+  --amber-light: #FFB84D;
+  --amber-pale: #FFF4E6;
+  --border: #E5E7EB;
+  --border-light: #F3F4F6;
+  --border-strong: #D1D5DB;
+  --pine: #1CB0F6;
+  --pine-light: #6DD5FA;
+  --pine-pale: #F0F5FF;
 
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
-  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
-  --shadow-elevated: 0 8px 30px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-sm: 0 1px 2px rgba(26,26,46,0.06);
+  --shadow-card: 0 1px 3px rgba(26,26,46,0.08), 0 1px 2px rgba(26,26,46,0.04);
+  --shadow-card-hover: 0 4px 12px rgba(26,26,46,0.1), 0 2px 4px rgba(26,26,46,0.06);
+  --shadow-elevated: 0 8px 30px rgba(26,26,46,0.12), 0 2px 8px rgba(26,26,46,0.08);
 
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -233,8 +233,8 @@ p { color: var(--ink-soft); line-height: 1.8; }
 
 /* Grammar highlight in study card */
 mark.grammar-highlight {
-  background: rgba(217, 96, 64, 0.2);
-  color: #E89070;
+  background: rgba(88, 204, 2, 0.15);
+  color: #3D8C01;
   padding: 1px 4px;
   border-radius: 3px;
   font-weight: 500;
