@@ -44,11 +44,11 @@ export const QuestionCard = memo(function QuestionCard({
     }
 
     if (option === question.correctAnswer) {
-      return baseClasses + 'border-pine bg-pine-pale text-ink';
+      return baseClasses + 'border-accent bg-accent-pale text-ink';
     }
 
     if (option === userAnswer && !isCorrect) {
-      return baseClasses + 'border-accent bg-accent-pale text-ink';
+      return baseClasses + 'border-amber bg-amber-pale text-ink';
     }
 
     return baseClasses + 'border-border bg-surface-dim text-ink-mute';
@@ -61,12 +61,12 @@ export const QuestionCard = memo(function QuestionCard({
         {isSubmitted && (
           <div className="flex items-center gap-2">
             {isCorrect ? (
-              <span className="flex items-center gap-1 text-pine font-medium">
+              <span className="flex items-center gap-1 text-success font-medium">
                 <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
                 正确
               </span>
             ) : (
-              <span className="flex items-center gap-1 text-accent font-medium">
+              <span className="flex items-center gap-1 text-error font-medium">
                 <XCircle className="w-5 h-5" aria-hidden="true" />
                 错误
               </span>
@@ -112,10 +112,10 @@ export const QuestionCard = memo(function QuestionCard({
                 </span>
                 <span className="text-lg">{option}</span>
                 {isSubmitted && isCorrectOption && (
-                  <CheckCircle2 className="w-6 h-6 text-pine ml-auto" aria-hidden="true" />
+                  <CheckCircle2 className="w-6 h-6 text-success ml-auto" aria-hidden="true" />
                 )}
                 {isSubmitted && isWrongSelected && (
-                  <XCircle className="w-6 h-6 text-accent ml-auto" aria-hidden="true" />
+                  <XCircle className="w-6 h-6 text-error ml-auto" aria-hidden="true" />
                 )}
               </div>
             </button>
@@ -126,7 +126,7 @@ export const QuestionCard = memo(function QuestionCard({
       {isSubmitted && (
         <div
           className={`border-l-4 p-4 rounded-lg mb-4 ${
-            isCorrect ? 'border-pine bg-pine-pale' : 'border-accent bg-accent-pale'
+            isCorrect ? 'border-success bg-accent-pale' : 'border-error bg-amber-pale'
           }`}
           role="alert"
           aria-live="polite"

@@ -27,9 +27,9 @@ const sizeStyles = {
 } as const;
 
 const variantStyles = {
-  primary: 'bg-primary',
-  success: 'bg-success',
-  warning: 'bg-warning',
+  primary: 'bg-accent',
+  success: 'bg-pine',
+  warning: 'bg-amber',
   error: 'bg-error',
 } as const;
 

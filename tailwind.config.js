@@ -7,17 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Noren palette — warm Japanese study aesthetic
-        // Inspired by sigure.tw's cozy warmth + traditional stationery feel
-        // Noren dark — warm ink-black background, cream text
-        bg: { DEFAULT: '#14100C', warm: '#1A1511' },
-        surface: { DEFAULT: '#231D18', hover: '#2A231D', dim: '#322A23' },
-        ink: { DEFAULT: '#E8DDD0', soft: '#C4B8A8', mute: '#8C8275', faint: '#554C40' },
-        accent: { DEFAULT: '#D96040', soft: '#4A2A1A', pale: '#3A1F10', hover: '#E87050' },
-        amber: { DEFAULT: '#D4A85E', light: '#E0C080', pale: '#3A3020' },
-        border: { DEFAULT: '#322A23', light: '#2A231D', strong: '#403830' },
-        pine: { DEFAULT: '#6D9A7C', light: '#8AB89A', pale: '#2A3A2A' },
-        success: '#6D9A7C', warning: '#D4A85E', error: '#D96040', info: '#8C8275',
+        // Design C — Duolingo-inspired bright, playful theme
+        bg: { DEFAULT: '#FFFFFF', warm: '#F0F5FF' },
+        surface: { DEFAULT: '#F5F7FA', hover: '#EBF0FF', dim: '#E5E7EB' },
+        ink: { DEFAULT: '#1A1A2E', soft: '#6B7394', mute: '#9CA3AF', faint: '#D1D5DB' },
+        accent: { DEFAULT: '#58CC02', soft: '#B8E6B8', pale: '#D6F0D6', hover: '#46A302' },
+        amber: { DEFAULT: '#FF9500', light: '#FFB84D', pale: '#FFF4E6' },
+        border: { DEFAULT: '#E5E7EB', light: '#F3F4F6', strong: '#D1D5DB' },
+        pine: { DEFAULT: '#1CB0F6', light: '#6DD5FA', pale: '#F0F5FF' },
+        success: '#58CC02', warning: '#FF9500', error: '#FF6B35', info: '#1CB0F6',
       },
       fontFamily: {
         sans: ['Noto Sans JP', 'Inter', 'sans-serif'],
@@ -47,12 +45,12 @@ export default {
         'sm': '6px', 'md': '10px', 'lg': '14px', 'xl': '18px', '2xl': '24px',
       },
       boxShadow: {
-        'sm': '0 1px 2px rgba(0,0,0,0.3)',
-        'card': '0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2)',
-        'card-hover': '0 4px 12px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3)',
-        'md': '0 4px 6px rgba(0,0,0,0.35)',
-        'lg': '0 10px 25px rgba(0,0,0,0.4)',
-        'elevated': '0 8px 30px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3)',
+        'sm': '0 1px 2px rgba(26,26,46,0.06)',
+        'card': '0 1px 3px rgba(26,26,46,0.08), 0 1px 2px rgba(26,26,46,0.04)',
+        'card-hover': '0 4px 12px rgba(26,26,46,0.1), 0 2px 4px rgba(26,26,46,0.06)',
+        'md': '0 4px 6px rgba(26,26,46,0.07)',
+        'lg': '0 10px 25px rgba(26,26,46,0.1)',
+        'elevated': '0 8px 30px rgba(26,26,46,0.12), 0 2px 8px rgba(26,26,46,0.08)',
       },
       maxWidth: {
         '8xl': '88rem',

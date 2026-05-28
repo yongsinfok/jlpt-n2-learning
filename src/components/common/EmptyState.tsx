@@ -24,7 +24,7 @@ export interface EmptyStateProps {
  * Default empty state icon
  */
 const DefaultIcon = () => (
-  <Inbox className="w-24 h-24 text-neutral-dark" />
+  <Inbox className="w-24 h-24 text-ink-faint" />
 );
 
 /**
@@ -41,8 +41,8 @@ export function EmptyState({
   return (
     <div className={`flex flex-col items-center justify-center p-12 text-center ${className} animate-fade-in-up`}>
       <div className="mb-6 animate-scale-in">{icon}</div>
-      <h3 className="text-3xl font-bold text-primary mb-3">{title}</h3>
-      {description && <p className="text-lg text-neutral-dark mb-8 max-w-md">{description}</p>}
+      <h3 className="text-3xl font-bold text-ink mb-3">{title}</h3>
+      {description && <p className="text-lg text-ink-soft mb-8 max-w-md">{description}</p>}
       {actionText && onAction && (
         <Button onClick={onAction} variant="primary" size="lg">
           {actionText}
