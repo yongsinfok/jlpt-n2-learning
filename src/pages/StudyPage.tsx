@@ -11,7 +11,7 @@ import {
   getUserProgress,
   unlockNextLesson,
   getLessonById,
-} from '@/db/operations';
+} from '@/services/studyService';
 import type { Sentence, GrammarPoint, Lesson } from '@/types';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 

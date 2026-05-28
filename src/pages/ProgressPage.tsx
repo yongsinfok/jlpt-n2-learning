@@ -5,7 +5,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/stores/userStore';
-import { getRecentExerciseRecords } from '@/db/operations';
+import { getRecentExerciseRecords } from '@/services/progressService';
 import { getWeekDates } from '@/utils/dateHelper';
 import { ProgressDashboard } from '@/components/progress/ProgressDashboard';
 import { WeeklyChart } from '@/components/progress/WeeklyChart';

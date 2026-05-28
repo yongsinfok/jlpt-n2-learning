@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useUserStore } from '@/stores/userStore';
-import { getUserProgress, getTodayGoal } from '@/db/operations';
+import { getUserProgress, getTodayGoal } from '@/services/progressService';
 import { getDueReviews } from '@/utils/reviewAlgorithm';
 import { ROUTES } from '@/utils/constants';
 

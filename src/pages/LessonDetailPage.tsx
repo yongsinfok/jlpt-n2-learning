@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, BookOpen, FileText, CheckCircle2 } from 'lucide-react';
-import { getLessonById, getGrammarPointsByLesson, getUserProgress } from '@/db/operations';
+import { getLessonById, getGrammarPointsByLesson, getUserProgress } from '@/services/lessonService';
 import type { Lesson, GrammarPoint, UserProgress } from '@/types';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 

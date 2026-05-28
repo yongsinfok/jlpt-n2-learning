@@ -5,7 +5,7 @@ import { GrammarIntro } from '@/components/study';
 import {
   getGrammarPointById,
   getSentencesByGrammarPoint,
-} from '@/db/operations';
+} from '@/services/studyService';
 import type { GrammarPoint, Sentence } from '@/types';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 

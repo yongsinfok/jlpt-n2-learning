@@ -5,7 +5,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/stores/userStore';
-import { getUserProgress, getSentencesByGrammarPoint } from '@/db/operations';
+import { getUserProgress, getSentencesByGrammarPoint } from '@/services/reviewService';
 import { getDueReviews, calculateNextReview } from '@/utils/reviewAlgorithm';
 import { CheckCircle2, BookOpen, Brain, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/common/Button';

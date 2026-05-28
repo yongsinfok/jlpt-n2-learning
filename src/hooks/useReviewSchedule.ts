@@ -5,7 +5,7 @@
 import { useCallback } from 'react';
 import { useUserStore } from '@/stores/userStore';
 import { getDueReviews } from '@/utils/reviewAlgorithm';
-import { getUnresolvedWrongAnswers } from '@/db/operations';
+import { getUnresolvedWrongAnswers } from '@/services/reviewService';
 
 /**
  * 复习计划 Hook

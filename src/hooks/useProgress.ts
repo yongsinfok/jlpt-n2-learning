@@ -8,7 +8,7 @@ import {
   addLearnedSentence,
   addCompletedLesson,
   getUserProgress,
-} from '@/db/operations';
+} from '@/services/studyService';
 
 /**
  * 学习进度 Hook
