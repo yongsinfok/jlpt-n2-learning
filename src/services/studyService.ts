@@ -10,6 +10,9 @@ import {
   addLearnedSentence,
   addCompletedLesson,
   getLessonById,
+  getAllLessons,
+  getGrammarPointsByLesson,
+  updateLessonStatus,
 } from '@/db/operations';
 
 export async function startStudySession(grammarId: string) {
@@ -42,6 +45,9 @@ export {
   addLearnedSentence,
   addCompletedLesson,
   getLessonById,
+  getAllLessons,
+  getGrammarPointsByLesson,
+  updateLessonStatus,
   markSentenceAsLearned,
   markGrammarAsLearned,
   unlockNextLesson,

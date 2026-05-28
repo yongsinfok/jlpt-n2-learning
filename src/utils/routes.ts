@@ -1,15 +1,7 @@
 export const ROUTES = {
   HOME: '/',
-  ONBOARDING: '/onboarding',
-  LESSONS: '/lessons',
-  LESSON_DETAIL: '/lesson/:id',
-  STUDY: '/study',
-  GRAMMAR_DETAIL: '/grammar/:id',
+  LEARN: '/learn',
   PRACTICE: '/practice',
-  QUIZ: '/quiz',
-  REVIEW: '/review',
-  PROGRESS: '/progress',
-  WRONG_ANSWERS: '/wrong-answers',
   ACHIEVEMENTS: '/achievements',
   SETTINGS: '/settings',
 } as const;
