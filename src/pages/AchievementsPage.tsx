@@ -3,7 +3,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { getAllAchievements } from '@/db/operations';
+import { getAllAchievements } from '@/services/achievementService';
 import { AchievementBadge } from '@/components/progress/AchievementBadge';
 import { Award, Filter } from 'lucide-react';
 

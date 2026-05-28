@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { LessonCard } from '@/components/study';
-import { getAllLessons } from '@/db/operations';
+import { getAllLessons } from '@/services/lessonService';
 import type { Lesson } from '@/types';
 import { Flame, Target, BookOpen, Brain, Zap } from 'lucide-react';
 
