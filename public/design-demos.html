@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JLPT N2 — 3 Bright UI Directions</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', -apple-system, sans-serif;
+    background: #E8E4E0;
+    display: flex; gap: 32px; padding: 40px;
+    overflow-x: auto;
+  }
+  .variant {
+    flex-shrink: 0;
+    width: 375px;
+  }
+  .variant-label {
+    font-size: 14px; font-weight: 700; margin-bottom: 12px;
+    letter-spacing: 0.04em;
+  }
+  .variant-label span { font-weight: 400; color: #666; }
+  .phone {
+    width: 375px; height: 812px;
+    border-radius: 44px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.08);
+    position: relative;
+    display: flex; flex-direction: column;
+  }
+  .status-bar {
+    height: 54px; display: flex; align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 28px 8px;
+    font-size: 14px; font-weight: 600;
+  }
+  .content { flex: 1; overflow-y: auto; padding: 20px 20px 100px; }
+  .bottom-tab {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 80px; display: flex; align-items: center; justify-content: space-around;
+    padding-bottom: 16px;
+    font-size: 10px;
+  }
+  .tab-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .tab-icon { width: 24px; height: 24px; border-radius: 6px; }
+  .tab-active .tab-icon { }
+  .tab-active span { font-weight: 700; }
+
+  /* Card styles */
+  .card {
+    border-radius: 16px; padding: 16px; margin-bottom: 12px;
+  }
+  .card-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .card-sub { font-size: 11px; }
+  .progress-bar { height: 6px; border-radius: 3px; margin-top: 8px; }
+  .progress-fill { height: 100%; border-radius: 3px; }
+  .stat-row { display: flex; gap: 8px; }
+  .stat-box { flex: 1; border-radius: 12px; padding: 12px; text-align: center; }
+  .stat-num { font-size: 20px; font-weight: 800; }
+  .stat-label { font-size: 9px; }
+  .btn { border: none; padding: 10px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; }
+  .badge-icon { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+  .goal-row { display: flex; gap: 12px; }
+  .goal-item { flex: 1; }
+  .goal-header { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 4px; }
+  .goal-bar { height: 4px; border-radius: 2px; }
+  .goal-fill { height: 100%; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ============ VARIANT A: 暖白和纸风 ============ -->
+<div class="variant">
+  <div class="variant-label">A. 暖白和纸风 <span>— Kenya Hara · 温润文雅</span></div>
+  <div class="phone" style="background: #F7F3EE; color: #2C1810;">
+    <div class="status-bar" style="color: #2C1810;">
+      <span>9:41</span>
+      <span style="font-size:12px;">■ ▸ ●</span>
+    </div>
+    <div class="content">
+      <!-- Streak -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div class="badge" style="color:#C04A1A;">
+          <span class="badge-icon" style="background:#F5E6D8; color:#C04A1A;">🔥</span>
+          <span>5 天连续</span>
+        </div>
+        <span style="font-size:11px; color:#8C7A6A;">5月28日 · 水曜日</span>
+      </div>
+
+      <!-- Continue CTA -->
+      <div class="card" style="background:#FFFFFF; border:1px solid #E8DDD0; box-shadow:0 1px 4px rgba(44,24,16,0.04);">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <div style="width:40px;height:40px;border-radius:12px;background:#F5E6D8;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:18px;">📖</span>
+          </div>
+          <div style="flex:1;">
+            <div class="card-title" style="color:#2C1810;">继续学习</div>
+            <div class="card-sub" style="color:#8C7A6A;">Lesson 3 · 语法点 2/5</div>
+          </div>
+          <span style="color:#C04A1A; font-size:18px;">→</span>
+        </div>
+        <div class="progress-bar" style="background:#E8DDD0;">
+          <div class="progress-fill" style="width:40%; background:#C04A1A;"></div>
+        </div>
+        <div style="text-align:right; font-size:10px; color:#8C7A6A; margin-top:4px;">40%</div>
+      </div>
+
+      <!-- Review prompt -->
+      <div class="card" style="background:#FFFBF5; border:1px solid #E8DDD0;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:32px;height:32px;border-radius:8px;background:#F5E6D8;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:14px;">📝</span>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:12px; font-weight:600; color:#2C1810;">3 个语法点待复习</div>
+            <div style="font-size:10px; color:#8C7A6A;">点击开始复习</div>
+          </div>
+          <span style="color:#D4A040; font-size:14px;">→</span>
+        </div>
+      </div>
+
+      <!-- Today's Goal -->
+      <div class="card" style="background:#FFFFFF; border:1px solid #E8DDD0;">
+        <div style="font-size:11px; font-weight:700; color:#2C1810; margin-bottom:10px;">🎯 今日目标</div>
+        <div class="goal-row">
+          <div class="goal-item">
+            <div class="goal-header"><span style="color:#8C7A6A;">例句</span><span style="color:#2C1810;">5/10</span></div>
+            <div class="goal-bar" style="background:#E8DDD0;"><div class="goal-fill" style="width:50%;background:#C04A1A;"></div></div>
+          </div>
+          <div class="goal-item">
+            <div class="goal-header"><span style="color:#8C7A6A;">语法点</span><span style="color:#2C1810;">1/2</span></div>
+            <div class="goal-bar" style="background:#E8DDD0;"><div class="goal-fill" style="width:50%;background:#6D8A5E;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-row">
+        <div class="stat-box" style="background:#FFFFFF; border:1px solid #E8DDD0;">
+          <div class="stat-num" style="color:#2C1810;">2</div>
+          <div class="stat-label" style="color:#8C7A6A;">已完成</div>
+        </div>
+        <div class="stat-box" style="background:#FFFFFF; border:1px solid #E8DDD0;">
+          <div class="stat-num" style="color:#2C1810;">45</div>
+          <div class="stat-label" style="color:#8C7A6A;">例句</div>
+        </div>
+        <div class="stat-box" style="background:#FFFFFF; border:1px solid #E8DDD0;">
+          <div class="stat-num" style="color:#C04A1A;">4%</div>
+          <div class="stat-label" style="color:#8C7A6A;">总进度</div>
+        </div>
+      </div>
+    </div>
+    <!-- Bottom Tab -->
+    <div class="bottom-tab" style="background:#F7F3EE; border-top:1px solid #E8DDD0;">
+      <div class="tab-item tab-active" style="color:#C04A1A;"><div class="tab-icon" style="background:#F5E6D8;"></div><span>今日</span></div>
+      <div class="tab-item" style="color:#8C7A6A;"><div class="tab-icon" style="background:#E8DDD0;"></div><span>学习</span></div>
+      <div class="tab-item" style="color:#8C7A6A;"><div class="tab-icon" style="background:#E8DDD0;"></div><span>练习</span></div>
+      <div class="tab-item" style="color:#8C7A6A;"><div class="tab-icon" style="background:#E8DDD0;"></div><span>更多</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VARIANT B: 清新学院风 ============ -->
+<div class="variant">
+  <div class="variant-label">B. 清新学院风 <span>— Pentagram · 干净专业</span></div>
+  <div class="phone" style="background: #FFFFFF; color: #1A1A2E;">
+    <div class="status-bar" style="color: #1A1A2E;">
+      <span>9:41</span>
+      <span style="font-size:12px;">■ ▸ ●</span>
+    </div>
+    <div class="content">
+      <!-- Streak -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div class="badge" style="color:#3366FF;">
+          <span class="badge-icon" style="background:#EBF0FF; color:#3366FF;">🔥</span>
+          <span style="font-weight:700;">5 天</span>
+        </div>
+        <span style="font-size:11px; color:#8890A4;">Wed, May 28</span>
+      </div>
+
+      <!-- Continue CTA -->
+      <div class="card" style="background:#F5F7FA; border:none;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <div style="width:44px;height:44px;border-radius:14px;background:#3366FF;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:20px; color:#fff;">▶</span>
+          </div>
+          <div style="flex:1;">
+            <div class="card-title" style="color:#1A1A2E; font-size:15px;">Lesson 3</div>
+            <div class="card-sub" style="color:#6B7394;">语法点 2/5 · 继续</div>
+          </div>
+          <div style="font-size:12px; font-weight:800; color:#3366FF;">40%</div>
+        </div>
+        <div class="progress-bar" style="background:#E0E5EE;">
+          <div class="progress-fill" style="width:40%; background:#3366FF;"></div>
+        </div>
+      </div>
+
+      <!-- Review prompt -->
+      <div class="card" style="background:#FFF8EB; border:1px solid #FFE4B8;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:16px;">📝</span>
+          <div style="flex:1;">
+            <div style="font-size:12px; font-weight:700; color:#1A1A2E;">3 个待复习</div>
+            <div style="font-size:10px; color:#6B7394;">点击开始</div>
+          </div>
+          <span style="font-size:12px; font-weight:700; color:#FF9500;">复习 →</span>
+        </div>
+      </div>
+
+      <!-- Today's Goal -->
+      <div class="card" style="background:#F5F7FA; border:none;">
+        <div style="font-size:11px; font-weight:800; color:#1A1A2E; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;">Today's Goals</div>
+        <div class="goal-row">
+          <div class="goal-item">
+            <div class="goal-header"><span style="color:#6B7394;">例句</span><span style="color:#1A1A2E; font-weight:700;">5/10</span></div>
+            <div class="goal-bar" style="background:#E0E5EE;"><div class="goal-fill" style="width:50%;background:#3366FF;"></div></div>
+          </div>
+          <div class="goal-item">
+            <div class="goal-header"><span style="color:#6B7394;">语法点</span><span style="color:#1A1A2E; font-weight:700;">1/2</span></div>
+            <div class="goal-bar" style="background:#E0E5EE;"><div class="goal-fill" style="width:50%;background:#34C759;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-row">
+        <div class="stat-box" style="background:#F5F7FA;">
+          <div class="stat-num" style="color:#1A1A2E;">2</div>
+          <div class="stat-label" style="color:#6B7394; text-transform:uppercase;">Done</div>
+        </div>
+        <div class="stat-box" style="background:#F5F7FA;">
+          <div class="stat-num" style="color:#1A1A2E;">45</div>
+          <div class="stat-label" style="color:#6B7394; text-transform:uppercase;">例句</div>
+        </div>
+        <div class="stat-box" style="background:#F5F7FA;">
+          <div class="stat-num" style="color:#3366FF;">4%</div>
+          <div class="stat-label" style="color:#6B7394; text-transform:uppercase;">Progress</div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-tab" style="background:#FFFFFF; border-top:1px solid #E8ECF0;">
+      <div class="tab-item tab-active" style="color:#3366FF;"><div class="tab-icon" style="background:#3366FF;"></div><span style="font-weight:700;">今日</span></div>
+      <div class="tab-item" style="color:#8890A4;"><div class="tab-icon" style="background:#E0E5EE;"></div><span>学习</span></div>
+      <div class="tab-item" style="color:#8890A4;"><div class="tab-icon" style="background:#E0E5EE;"></div><span>练习</span></div>
+      <div class="tab-item" style="color:#8890A4;"><div class="tab-icon" style="background:#E0E5EE;"></div><span>更多</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VARIANT C: 活力友好风 ============ -->
+<div class="variant">
+  <div class="variant-label">C. 活力友好风 <span>— Duolingo · 明亮圆润</span></div>
+  <div class="phone" style="background: #FFFFFF; color: #1A1A2E;">
+    <div class="status-bar" style="color: #1A1A2E;">
+      <span>9:41</span>
+      <span style="font-size:12px;">■ ▸ ●</span>
+    </div>
+    <div class="content">
+      <!-- Streak -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div style="display:flex; align-items:center; gap:6px; background:#FFF4E6; padding:6px 12px; border-radius:20px;">
+          <span style="font-size:16px;">🔥</span>
+          <span style="font-size:14px; font-weight:800; color:#FF6B35;">5</span>
+        </div>
+        <span style="font-size:12px; color:#9CA3AF; font-weight:500;">5月28日</span>
+      </div>
+
+      <!-- Continue CTA -->
+      <button class="btn" style="background: linear-gradient(135deg, #58CC02, #46A302); color:#fff; padding:20px 16px; border-radius:16px; margin-bottom:12px; display:flex; flex-direction:column; align-items:center; gap:6px; box-shadow:0 4px 0 #46A302;">
+        <span style="font-size:18px; font-weight:900;">继续学习</span>
+        <span style="font-size:12px; opacity:0.9;">Lesson 3 · 语法点 2/5</span>
+        <div style="width:80%; height:8px; background:rgba(0,0,0,0.15); border-radius:4px; margin-top:4px;">
+          <div style="width:40%; height:100%; background:#fff; border-radius:4px;"></div>
+        </div>
+      </button>
+
+      <!-- Review prompt -->
+      <div class="card" style="background:#FFF4E6; border:2px solid #FFD699;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:#FF9500;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:16px;">📝</span>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:13px; font-weight:800; color:#1A1A2E;">3 个语法点待复习</div>
+          </div>
+          <button style="background:#FF9500; color:#fff; border:none; padding:8px 14px; border-radius:12px; font-size:12px; font-weight:800;">开始!</button>
+        </div>
+      </div>
+
+      <!-- Today's Goal -->
+      <div class="card" style="background:#F0F5FF; border:none;">
+        <div style="font-size:12px; font-weight:800; color:#1CB0F6; margin-bottom:10px;">🎯 今日目标</div>
+        <div class="goal-row">
+          <div class="goal-item">
+            <div style="font-size:24px; font-weight:900; color:#1CB0F6;">5<span style="font-size:12px; color:#9CA3AF; font-weight:500;">/10</span></div>
+            <div style="font-size:10px; color:#6B7394;">例句</div>
+            <div class="goal-bar" style="background:#D6E8FF; margin-top:4px;"><div class="goal-fill" style="width:50%;background:#1CB0F6;"></div></div>
+          </div>
+          <div class="goal-item">
+            <div style="font-size:24px; font-weight:900; color:#58CC02;">1<span style="font-size:12px; color:#9CA3AF; font-weight:500;">/2</span></div>
+            <div style="font-size:10px; color:#6B7394;">语法点</div>
+            <div class="goal-bar" style="background:#D6F0D6; margin-top:4px;"><div class="goal-fill" style="width:50%;background:#58CC02;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-row">
+        <div class="stat-box" style="background:#FFF4E6;">
+          <div class="stat-num" style="color:#FF6B35;">2</div>
+          <div class="stat-label" style="color:#9CA3AF;">✅</div>
+        </div>
+        <div class="stat-box" style="background:#F0F5FF;">
+          <div class="stat-num" style="color:#1CB0F6;">45</div>
+          <div class="stat-label" style="color:#9CA3AF;">📖</div>
+        </div>
+        <div class="stat-box" style="background:#D6F0D6;">
+          <div class="stat-num" style="color:#58CC02;">4%</div>
+          <div class="stat-label" style="color:#9CA3AF;">📊</div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-tab" style="background:#FFFFFF; border-top:2px solid #E5E7EB;">
+      <div class="tab-item tab-active" style="color:#58CC02;"><div class="tab-icon" style="background:#D6F0D6;"></div><span style="font-weight:800;">今日</span></div>
+      <div class="tab-item" style="color:#9CA3AF;"><div class="tab-icon" style="background:#E5E7EB;"></div><span>学习</span></div>
+      <div class="tab-item" style="color:#9CA3AF;"><div class="tab-icon" style="background:#E5E7EB;"></div><span>练习</span></div>
+      <div class="tab-item" style="color:#9CA3AF;"><div class="tab-icon" style="background:#E5E7EB;"></div><span>更多</span></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
