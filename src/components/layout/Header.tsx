@@ -1,20 +1,17 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { useState, useEffect, useRef, useCallback, memo } from 'react';
-import { Settings, Trophy, HelpCircle, AlertTriangle, ChevronDown } from 'lucide-react';
+import { useState, useEffect, useRef, memo } from 'react';
+import { Settings, Trophy, ChevronDown } from 'lucide-react';
 import { ROUTES } from '@/utils/constants';
 
 const NAV_LINKS = [
   { to: ROUTES.HOME,     label: '今日' },
-  { to: ROUTES.LESSONS,  label: 'レッスン' },
-  { to: ROUTES.PRACTICE, label: '練習' },
-  { to: ROUTES.REVIEW,   label: '復習' },
-  { to: ROUTES.PROGRESS, label: '進度' },
+  { to: ROUTES.LEARN,    label: '学习' },
+  { to: ROUTES.PRACTICE, label: '练习' },
 ];
 
 const MENU_ITEMS = [
-  { to: ROUTES.SETTINGS,     label: '系统设置', icon: Settings },
-  { to: ROUTES.ACHIEVEMENTS, label: '我的成就', icon: Trophy },
-  { to: ROUTES.ONBOARDING,   label: '新手引导', icon: HelpCircle },
+  { to: ROUTES.ACHIEVEMENTS, label: '成就', icon: Trophy },
+  { to: ROUTES.SETTINGS,     label: '设置', icon: Settings },
 ];
 
 export const Header = memo(function Header() {
@@ -32,24 +29,11 @@ export const Header = memo(function Header() {
 
   useEffect(() => { setOpen(false); }, [location.pathname]);
 
-  const onResetData = useCallback(() => {
-    if (confirm('确定要重置所有学习数据吗？此操作不可撤销。')) {
-      localStorage.clear();
-      indexedDB.deleteDatabase('JLPTN2DB');
-      window.location.reload();
-    }
-    setOpen(false);
-  }, []);
-
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-surface/80 backdrop-blur-xl pad-safe-top pad-safe-x">
       <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
         <div className="flex items-center justify-between h-14 sm:h-16">
-          <Link
-            to={ROUTES.HOME}
-            className="flex items-baseline gap-3 group"
-            aria-label="JLPT N2 — 返回首页"
-          >
+          <Link to={ROUTES.HOME} className="flex items-baseline gap-3 group" aria-label="JLPT N2 — 返回首页">
             <span className="font-serif text-[20px] sm:text-[22px] font-medium tracking-[-0.01em] text-ink">
               JLPT N2
             </span>
@@ -66,9 +50,7 @@ export const Header = memo(function Header() {
                 end={link.to === ROUTES.HOME}
                 className={({ isActive }) =>
                   `font-mincho text-[15px] pb-1 transition-colors ${
-                    isActive
-                      ? 'text-ink border-b border-accent'
-                      : 'text-ink-soft hover:text-ink'
+                    isActive ? 'text-ink border-b border-accent' : 'text-ink-soft hover:text-ink'
                   }`
                 }
               >
@@ -81,22 +63,16 @@ export const Header = memo(function Header() {
             <button
               onClick={() => setOpen((v) => !v)}
               className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-ink-soft hover:text-ink hover:bg-surface-hover transition-colors"
-              aria-label="设置菜单"
+              aria-label="菜单"
               aria-expanded={open}
               aria-haspopup="true"
             >
               <Settings size={18} strokeWidth={1.6} />
-              <ChevronDown
-                size={14}
-                className={`transition-transform ${open ? 'rotate-180' : ''}`}
-              />
+              <ChevronDown size={14} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
             </button>
 
             {open && (
-              <div
-                className="absolute right-0 mt-2 w-56 noren-card py-2 shadow-elevated animate-fade-in z-50"
-                role="menu"
-              >
+              <div className="absolute right-0 mt-2 w-48 noren-card py-2 shadow-elevated animate-fade-in z-50" role="menu">
                 {MENU_ITEMS.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -112,15 +88,6 @@ export const Header = memo(function Header() {
                     </Link>
                   );
                 })}
-                <div className="h-px bg-border my-1.5" role="separator" />
-                <button
-                  onClick={onResetData}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-accent hover:bg-accent/10 transition-colors"
-                  role="menuitem"
-                >
-                  <AlertTriangle size={16} strokeWidth={1.6} />
-                  <span>重置数据</span>
-                </button>
               </div>
             )}
           </div>

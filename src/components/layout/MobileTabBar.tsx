@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { Home, BookOpen, Brain, TrendingUp } from 'lucide-react';
+import { Home, BookOpen, Brain, MoreHorizontal } from 'lucide-react';
 import { ROUTES } from '@/utils/constants';
 
 const TABS = [
-  { to: ROUTES.HOME,     label: '今日',       Icon: Home },
-  { to: ROUTES.LESSONS,  label: 'レッスン',   Icon: BookOpen },
-  { to: ROUTES.PRACTICE, label: '練習',       Icon: Brain },
-  { to: ROUTES.PROGRESS, label: '進度',       Icon: TrendingUp },
+  { to: ROUTES.HOME,     label: '今日',   Icon: Home },
+  { to: ROUTES.LEARN,    label: '学习',   Icon: BookOpen },
+  { to: ROUTES.PRACTICE, label: '练习',   Icon: Brain },
+  { to: ROUTES.SETTINGS, label: '更多',   Icon: MoreHorizontal },
 ];
 
 export function MobileTabBar() {
