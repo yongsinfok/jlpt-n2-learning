@@ -189,6 +189,14 @@ p { color: var(--ink-soft); line-height: 1.8; }
   .show-mobile { display: none !important; }
 }
 
+/* ===== Safe area padding (iOS notch) ===== */
+.pad-safe-top { padding-top: var(--safe-top); }
+.pad-safe-bottom { padding-bottom: var(--safe-bottom); }
+.pad-safe-x {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
 /* ===== Utility ===== */
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
